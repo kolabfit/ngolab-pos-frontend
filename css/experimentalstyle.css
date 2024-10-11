@@ -1,0 +1,28 @@
+/* Full height layout for the container */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh; /* Make the container fill the full viewport height */
+}
+
+/* dashboard iframe: occupies full height and 30% width */
+.iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.iframe iframe {
+    width: 100%;
+    height: 100%;
+}
+/* Hide the scrollbar */
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
