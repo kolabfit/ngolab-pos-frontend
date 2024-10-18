@@ -6,8 +6,8 @@
 
     <title>Register</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Style for Background Animation -->
     <style>
@@ -21,71 +21,74 @@
             50% { background-position: 100% 100%; }
             100% { background-position: 0% 0%; }
         }
+        .no-underline {
+            text-decoration: none;
+        }
+        .nav-link {
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            border-color: #ff7700;
+            color: #ff7700 !important;
+        }
     </style>
 </head>
-<body class="animated-bg text-white min-h-screen flex flex-col">
+<body class="animated-bg text-white min-vh-100 d-flex flex-column">
 
     <!-- Navigation -->
-    <nav class="bg-gray-900 py-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="login.html" class="text-2xl font-bold">
-                My App
+    <nav class="bg-dark py-3 shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="login.html" class="fs-4 fw-bold text-white no-underline">
+                POS Ngolab
             </a>
-            <div>
-                <ul class="flex space-x-4">
-                    <li>
-                        <a href="login.html" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
-                            Login
-                        </a>
-                    </li>
-                    <li>
-                        <a href="register.html" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
-                            Register
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link px-3 text-white">
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="register.html" class="nav-link px-3 text-white">
+                        Register
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow flex justify-center items-center">
-        <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-center text-3xl font-bold mb-6">Register</h2>
+    <main class="flex-grow d-flex pt-5 justify-content-center align-items-center">
+        <div class="bg-dark p-4 rounded shadow-lg" style="max-width: 40%; width: 100%;">
+            <h2 class="text-center fs-3 fw-bold mb-4">Register</h2>
 
             <form method="POST" action="login.html">
-                <div class="mb-4">
-                    <label for="name" class="block mb-1">Full Name</label>
-                    <input id="name" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="name" required autofocus>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input id="name" type="text" class="form-control bg-secondary text-white border-0" name="name" required autofocus>
                 </div>
 
-                <div class="mb-4">
-                    <label for="email" class="block mb-1">E-Mail Address</label>
-                    <input id="email" type="email" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="email" required>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Mail Address</label>
+                    <input id="email" type="email" class="form-control bg-secondary text-white border-0" name="email" required>
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="block mb-1">Password</label>
-                    <input id="password" type="password" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="password" required>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control bg-secondary text-white border-0" name="password" required>
                 </div>
 
-                <div class="mb-4">
-                    <label for="password-confirm" class="block mb-1">Confirm Password</label>
-                    <input id="password-confirm" type="password" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="password_confirmation" required>
+                <div class="mb-3">
+                    <label for="password-confirm" class="form-label">Confirm Password</label>
+                    <input id="password-confirm" type="password" class="form-control bg-secondary text-white border-0" name="password_confirmation" required>
                 </div>
 
-                <div>
-                    <button type="submit" class="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-md transition">
-                        Register
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-warning w-100">Register</button>
             </form>
         </div>
     </main>
 
-    <!-- Tailwind JS (optional for animations) -->
-    <script>
-        // Custom hover effects for buttons can be added via Tailwind's transition classes
-    </script>
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
