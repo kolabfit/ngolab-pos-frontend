@@ -207,7 +207,6 @@ let dataSet = [
 			
 		});
 		
-		
 	// dataRole
 	var table = $('#datarole').DataTable({
 		searching: false,

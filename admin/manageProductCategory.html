@@ -583,7 +583,7 @@
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
 							<div class="dashboard_bar">
-                                Kelola User & Role
+                                Kelola Kategori Produk
                             </div>
 							
                         </div>
@@ -794,9 +794,9 @@
         <div class="dlabnav">
             <div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
-					<li><a href="../admin/index.html" class="" aria-expanded="false">
+					<li><a href="index.html" class="" aria-expanded="false">
 							<i class="fas fa-home"></i>
-							<span class="nav-text">Dashboard / Home</span>
+							<span class="nav-text">Home</span>
 						</a>
 					</li>
 
@@ -814,7 +814,7 @@
 
 					<li><a href="../prediksi/pendapatan.html" class="" aria-expanded="false">
 							<i class="fas fa-money-bill-wave"></i>
-							<span class="nav-text">Prediksi pendapatan bulanan, tahunan, harian</span>
+							<span class="nav-text">Prediksi pendapatan</span>
 						</a>
 					</li>
 
@@ -824,51 +824,57 @@
 						</a>
 					</li>
 
-					<li class="mm-active"><a href="javascript:void()" class="mm-active" aria-expanded="false">
+					<li><a href="manageUser.html" class="" aria-expanded="false">
 							<i class="fas fa-user"></i>
 							<span class="nav-text">Kelola User & Role</span>
 						</a>
 					</li>
 
-					<li><a href="../produk/manage.html" class="" aria-expanded="false">
+					<li><a href="manageProductCategory.html" class="" aria-expanded="false">
+							<i class="fas fa-folder"></i>
+							<span class="nav-text">Kelola Kategori Produk</span>
+						</a>
+					</li>
+
+					<li><a href="manageProduct.html" class="" aria-expanded="false">
 							<i class="fas fa-box"></i>
-							<span class="nav-text">Kelola Produk & Kategori Produk (admin)</span>
+							<span class="nav-text">Kelola Produk</span>
 						</a>
 					</li>
 
 					<li><a href="../voucher/jenis.html" class="" aria-expanded="false">
 							<i class="fas fa-ticket-alt"></i>
-							<span class="nav-text">Kelola Jenis Voucher (admin)</span>
+							<span class="nav-text">Kelola Jenis Voucher</span>
 						</a>
 					</li>
 
 					<li><a href="../voucher/manage.html" class="" aria-expanded="false">
 							<i class="fas fa-ticket-alt"></i>
-							<span class="nav-text">Kelola Voucher (admin)</span>
+							<span class="nav-text">Kelola Voucher</span>
 						</a>
 					</li>
 
 					<li><a href="../parameter/manage.html" class="" aria-expanded="false">
 							<i class="fas fa-cogs"></i>
-							<span class="nav-text">Kelola Parameter (admin)</span>
+							<span class="nav-text">Kelola Parameter</span>
 						</a>
 					</li>
 
 					<li><a href="../transaksi/manage.html" class="" aria-expanded="false">
 							<i class="fas fa-credit-card"></i>
-							<span class="nav-text">Kelola Transaksi (kasir)</span>
+							<span class="nav-text">Kelola Transaksi</span>
 						</a>
 					</li>
 
 					<li><a href="../outlet/manage.html" class="" aria-expanded="false">
 							<i class="fas fa-store"></i>
-							<span class="nav-text">Kelola Outlet (admin)</span>
+							<span class="nav-text">Kelola Outlet</span>
 						</a>
 					</li>
 
 					<li><a href="../harga/manage.html" class="" aria-expanded="false">
 							<i class="fas fa-dollar-sign"></i>
-							<span class="nav-text">Kelola Harga (admin)</span>
+							<span class="nav-text">Kelola Harga</span>
 						</a>
 					</li>
                 </ul>
@@ -914,12 +920,9 @@
                 <div class="row">
 					<div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Kelola Role</h4>
-                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="datarole" class="display" style="min-width: 845px">
+                                    <table id="example5" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -928,7 +931,12 @@
 														<label class="form-check-label" for="checkAll"></label>
 													</div>
 												</th>
-                                                <th>Role</th>
+												<th>Nama</th>
+												<th>Harga</th>
+												<th>Deskripsi</th>
+												<th>Kategori</th>
+												<th>Gambar</th>
+												<th>Barcode</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -940,7 +948,12 @@
 														<label class="form-check-label" for="customCheckBox2"></label>
 													</div>
 												</td>
-                                                <td>Admin</td>
+												<td>Es Teh</td>
+												<td>Rp 5.000</td>
+												<td>Es teh manis</td>
+												<td>Minuman</td>
+												<td><img src="../images/product/1.jpg" alt="" width="50"></td>
+												<td>1234567890</td>
                                                 <td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
@@ -955,85 +968,12 @@
 														<label class="form-check-label" for="customCheckBox2"></label>
 													</div>
 												</td>
-                                                <td>Kasir</td>
-                                                <td>
-													<div class="d-flex">
-														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>		
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-														<label class="form-check-label" for="customCheckBox2"></label>
-													</div>
-												</td>
-                                                <td>Member</td>
-                                                <td>
-													<div class="d-flex">
-														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>		
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Kelola User</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="datauser" class="display" style="min-width: 845px">
-                                        <thead>
-                                            <tr>
-                                                <th>
-													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="checkAll" required="">
-														<label class="form-check-label" for="checkAll"></label>
-													</div>
-												</th>
-                                                <th>Nama Akun</th>
-                                                <th>Email Akun</th>
-                                                <th>Role Akun</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-														<label class="form-check-label" for="customCheckBox2"></label>
-													</div>
-												</td>
-                                                <td>Akun 1</td>
-                                                <td>akun1@gmail.com</td>
-                                                <td>Admin</td>
-                                                <td>
-													<div class="d-flex">
-														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>											
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-														<label class="form-check-label" for="customCheckBox2"></label>
-													</div>
-												</td>
-                                                <td>Akun 2</td>
-                                                <td>akun2@gmail.com</td>
-                                                <td>Kasir</td>
+												<td>Es Jeruk</td>
+												<td>Rp 5.000</td>
+												<td>Es jeruk manis</td>
+												<td>Minuman</td>
+												<td><img src="../images/product/2.jpg" alt="" width="50"></td>
+												<td>1234567890</td>
                                                 <td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
