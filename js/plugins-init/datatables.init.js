@@ -142,7 +142,6 @@ let dataSet = [
 			  previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>' 
 			}
 		  }
-		
 	}); 
 	
 	// dataTable6
@@ -209,6 +208,35 @@ let dataSet = [
 		});
 		
 		
+	// dataRole
+	var table = $('#datarole').DataTable({
+		searching: false,
+		paging: true,
+		select: false,
+		info: true,         
+		lengthChange: false,
+		language: {
+			paginate: {
+			  next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+			  previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>' 
+			}
+		  }
+	}); 
+
+	// dataUser
+	var table = $('#datauser').DataTable({
+		searching: false,
+		paging: true,
+		select: false,
+		info: true,         
+		lengthChange: false,
+		language: {
+			paginate: {
+			  next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+			  previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>' 
+			}
+		  }
+	}); 
 	
 	// table row
 	var table = $('#dataTable1, #dataTable2, #dataTable3, #dataTable4,  #example3, #example4 ').DataTable({
