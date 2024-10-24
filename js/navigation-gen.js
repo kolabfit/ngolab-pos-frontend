@@ -5,6 +5,7 @@ async function loadNavigation() {
         const navData = await response.json();
 
         const menu = document.getElementById('menu');
+
         const currentUrl = window.location.pathname; // Get the current page's URL path
 
         // Loop through each nav item
@@ -30,7 +31,7 @@ async function loadNavigation() {
             link.appendChild(span);
 
             // If the current URL matches the navigation item's URL, add mm-active class
-            if (currentUrl === new URL(link.href, window.location.origin).pathname) {
+            if (currentUrl === new URL(link.href, window.location.origin).pathname + ".html") {
                 li.classList.add('mm-active');
                 link.classList.add('mm-active');
             }
