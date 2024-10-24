@@ -31,8 +31,8 @@ async function loadNavigation() {
             link.appendChild(span);
 
             // If the current URL matches the navigation item's URL, add mm-active class
-            console.log(link.href);
-            console.log((window.location.origin).pathname);
+            console.log(currentUrl);
+            console.log(new URL(link.href, window.location.origin).pathname);
             if (currentUrl === new URL(link.href, window.location.origin).pathname + ".html") {
                 li.classList.add('mm-active');
                 link.classList.add('mm-active');
