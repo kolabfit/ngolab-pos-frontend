@@ -6,70 +6,69 @@
         "icon": "fa-home"
       },
       {
-        "label": "Jam - jam penjualan",
-        "url": "../penjualan/jam.html",
+        "label": "Jam Penjualan",
+        "url": "jamPenjualan.html",
         "icon": "fa-clock"
       },
       {
-        "label": "Prediksi menu sering dipesan dan kebosanan",
-        "url": "../prediksi/menu.html",
-        "icon": "fa-chart-bar"
+        "label": "Prediksi Menu",
+        "url": "prediksiMenu.html",
+        "icon": "fa-chart-line"
       },
       {
-        "label": "Prediksi pendapatan",
-        "url": "../prediksi/pendapatan.html",
-        "icon": "fa-money-bill-wave"
+        "label": "Prediksi Pendapatan",
+        "url": "prediksiPendapatan.html",
+        "icon": "fa-chart-pie"
       },
       {
-        "label": "Dashboard Sosial Media (TikTok, Instagram)",
-        "url": "../sosialmedia/index.html",
-        "icon": "fa-mobile-alt"
+        "label": "Dashboard Sosial Media",
+        "url": "sosialMedia.html",
+        "icon": "fa-hashtag"
       },
       {
         "label": "Kelola User & Role",
-        "url": "manageUser.html",
-        "icon": "fa-user"
+        "url": "manageUserRole.html",
+        "icon": "fa-users-cog"
       },
       {
         "label": "Kelola Kategori Produk",
         "url": "manageProductCategory.html",
-        "icon": "fa-folder"
+        "icon": "fa-folder-open"
       },
       {
         "label": "Kelola Produk",
         "url": "manageProduct.html",
-        "icon": "fa-box"
+        "icon": "fa-box-open"
       },
       {
         "label": "Kelola Jenis Voucher",
-        "url": "../voucher/jenis.html",
-        "icon": "fa-ticket-alt"
+        "url": "manageVoucherType.html",
+        "icon": "fa-tags"
       },
       {
         "label": "Kelola Voucher",
-        "url": "../voucher/manage.html",
+        "url": "manageVoucher.html",
         "icon": "fa-ticket-alt"
       },
       {
         "label": "Kelola Parameter",
-        "url": "../parameter/manage.html",
-        "icon": "fa-cogs"
+        "url": "manageParameter.html",
+        "icon": "fa-sliders-h"
       },
       {
         "label": "Kelola Transaksi",
-        "url": "../transaksi/manage.html",
-        "icon": "fa-credit-card"
+        "url": "manageTransaction.html",
+        "icon": "fa-receipt"
       },
       {
         "label": "Kelola Outlet",
-        "url": "../outlet/manage.html",
+        "url": "manageOutlet.html",
         "icon": "fa-store"
       },
       {
         "label": "Kelola Harga",
-        "url": "../harga/manage.html",
+        "url": "managePrice.html",
         "icon": "fa-dollar-sign"
       }
     ]
-  }
-  
+}
