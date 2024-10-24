@@ -32,6 +32,8 @@ async function loadNavigation() {
             const path = window.location.pathname;
             const fileName = path.substring(path.lastIndexOf('/') + 1);
             
+            console.log(item.url);
+            console.log(fileName);
             if (item.url === fileName) {
                 li.classList.add('mm-active');
                 link.classList.add('mm-active');
