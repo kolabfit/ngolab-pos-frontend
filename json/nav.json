@@ -1,0 +1,74 @@
+{
+    "items": [
+      {
+        "label": "Home",
+        "url": "index.html",
+        "icon": "fa-home"
+      },
+      {
+        "label": "Jam Penjualan",
+        "url": "jamPenjualan.html",
+        "icon": "fa-clock"
+      },
+      {
+        "label": "Prediksi Menu",
+        "url": "prediksiMenu.html",
+        "icon": "fa-chart-line"
+      },
+      {
+        "label": "Prediksi Pendapatan",
+        "url": "prediksiPendapatan.html",
+        "icon": "fa-chart-pie"
+      },
+      {
+        "label": "Dashboard Sosial Media",
+        "url": "sosialMedia.html",
+        "icon": "fa-hashtag"
+      },
+      {
+        "label": "Kelola User & Role",
+        "url": "manageUserRole.html",
+        "icon": "fa-users-cog"
+      },
+      {
+        "label": "Kelola Kategori Produk",
+        "url": "manageProductCategory.html",
+        "icon": "fa-folder-open"
+      },
+      {
+        "label": "Kelola Produk",
+        "url": "manageProduct.html",
+        "icon": "fa-box-open"
+      },
+      {
+        "label": "Kelola Jenis Voucher",
+        "url": "manageVoucherType.html",
+        "icon": "fa-tags"
+      },
+      {
+        "label": "Kelola Voucher",
+        "url": "manageVoucher.html",
+        "icon": "fa-ticket-alt"
+      },
+      {
+        "label": "Kelola Parameter",
+        "url": "manageParameter.html",
+        "icon": "fa-sliders-h"
+      },
+      {
+        "label": "Kelola Transaksi",
+        "url": "manageTransaction.html",
+        "icon": "fa-receipt"
+      },
+      {
+        "label": "Kelola Outlet",
+        "url": "manageOutlet.html",
+        "icon": "fa-store"
+      },
+      {
+        "label": "Kelola Harga",
+        "url": "managePrice.html",
+        "icon": "fa-dollar-sign"
+      }
+    ]
+}
