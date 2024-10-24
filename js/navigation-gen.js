@@ -29,12 +29,9 @@ async function loadNavigation() {
             link.appendChild(span);
 
             // If the current URL matches the navigation item's URL, add mm-active class
-            const path = window.location.pathname;
-            const fileName = path.substring(path.lastIndexOf('/') + 1);
-            
+            const path = document.body.getAttribute('data-page')
             console.log(item.url);
-            console.log(fileName);
-            if (item.url === fileName) {
+            if (item.url === path) {
                 li.classList.add('mm-active');
                 link.classList.add('mm-active');
             }
