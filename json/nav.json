@@ -1,0 +1,75 @@
+{
+    "items": [
+      {
+        "label": "Home",
+        "url": "index.html",
+        "icon": "fa-home"
+      },
+      {
+        "label": "Jam - jam penjualan",
+        "url": "../penjualan/jam.html",
+        "icon": "fa-clock"
+      },
+      {
+        "label": "Prediksi menu sering dipesan dan kebosanan",
+        "url": "../prediksi/menu.html",
+        "icon": "fa-chart-bar"
+      },
+      {
+        "label": "Prediksi pendapatan",
+        "url": "../prediksi/pendapatan.html",
+        "icon": "fa-money-bill-wave"
+      },
+      {
+        "label": "Dashboard Sosial Media (TikTok, Instagram)",
+        "url": "../sosialmedia/index.html",
+        "icon": "fa-mobile-alt"
+      },
+      {
+        "label": "Kelola User & Role",
+        "url": "manageUser.html",
+        "icon": "fa-user"
+      },
+      {
+        "label": "Kelola Kategori Produk",
+        "url": "manageProductCategory.html",
+        "icon": "fa-folder"
+      },
+      {
+        "label": "Kelola Produk",
+        "url": "manageProduct.html",
+        "icon": "fa-box"
+      },
+      {
+        "label": "Kelola Jenis Voucher",
+        "url": "../voucher/jenis.html",
+        "icon": "fa-ticket-alt"
+      },
+      {
+        "label": "Kelola Voucher",
+        "url": "../voucher/manage.html",
+        "icon": "fa-ticket-alt"
+      },
+      {
+        "label": "Kelola Parameter",
+        "url": "../parameter/manage.html",
+        "icon": "fa-cogs"
+      },
+      {
+        "label": "Kelola Transaksi",
+        "url": "../transaksi/manage.html",
+        "icon": "fa-credit-card"
+      },
+      {
+        "label": "Kelola Outlet",
+        "url": "../outlet/manage.html",
+        "icon": "fa-store"
+      },
+      {
+        "label": "Kelola Harga",
+        "url": "../harga/manage.html",
+        "icon": "fa-dollar-sign"
+      }
+    ]
+  }
+  
