@@ -30,7 +30,6 @@ async function loadNavigation() {
 
             // If the current URL matches the navigation item's URL, add mm-active class
             const path = document.body.getAttribute('data-page')
-            console.log(item.url);
             if (item.url === path) {
                 li.classList.add('mm-active');
                 link.classList.add('mm-active');

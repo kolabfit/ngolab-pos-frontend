@@ -51,11 +51,6 @@
         "icon": "fa-ticket-alt"
       },
       {
-        "label": "Kelola Parameter",
-        "url": "manageParameter.html",
-        "icon": "fa-sliders-h"
-      },
-      {
         "label": "Kelola Transaksi",
         "url": "manageTransaction.html",
         "icon": "fa-receipt"
@@ -64,11 +59,6 @@
         "label": "Kelola Outlet",
         "url": "manageOutlet.html",
         "icon": "fa-store"
-      },
-      {
-        "label": "Kelola Harga",
-        "url": "managePrice.html",
-        "icon": "fa-dollar-sign"
       }
     ]
 }
