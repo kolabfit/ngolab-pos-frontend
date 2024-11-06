@@ -36,23 +36,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = json_decode($response, true);
 
     // Cek apakah login berhasil
-    if ($result['success'] && isset($result['data']['token'])) {
+    if (isset($result['success']) && $result['success'] && isset($result['data']['token'])) {
         // Simpan token ke dalam cookie (berlaku 1 jam)
         $token = $result['data']['token'];
         setcookie('auth_token', $token, time() + 3600, '/');
 
-        // Cek role user, jika role_id null anggap member
-        $role = isset($result['data']['user']['role_id']);
+        // Ambil role_id dari user
+        $role_id = $result['data']['user']['role_id'];
 
         // Arahkan pengguna sesuai role
-        if ($role = 1) {
+        if ($role_id == 1) {
+            // Jika role_id adalah 1 (Admin)
             header('Location: ../../admin/index.html');
+        } elseif ($role_id == 2) {
+            // Jika role_id adalah 2 (Cashier)
+            header('Location: ../../coba.html');
         } else {
-            header('Location: member/dashboard.php');
+            // Jika role_id tidak diketahui
+            header('Location: ../../coba.html');
         }
         exit;
     } else {
-        // Login gagal
+        // Login gagal, tampilkan pesan kesalahan
         echo "Login gagal: " . $result['message'];
     }
 }
