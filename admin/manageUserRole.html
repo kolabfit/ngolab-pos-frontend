@@ -21,36 +21,36 @@
 	<link rel="stylesheet" href="../vendor/chartist/css/chartist.min.css">
 	<link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
 
-    <!-- Datatable -->
-    <link rel="stylesheet" href="../vendor/datatables/css/jquery.dataTables.min.css">
+	<!-- Datatable -->
+	<link rel="stylesheet" href="../vendor/datatables/css/jquery.dataTables.min.css">
 
-    <!-- Custom Stylesheet -->
+	<!-- Custom Stylesheet -->
 	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
 
 	<!-- Style css -->
 	<link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body>
+<body data-page="manageUserRole.html">
 
-    <!--*******************
+	<!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+	<div id="preloader">
 		<div class="lds-ripple">
 			<div></div>
 			<div></div>
 		</div>
-    </div>
-    <!--*******************
+	</div>
+	<!--*******************
         Preloader end
     ********************-->
 
-    <!--**********************************
+	<!--**********************************
         Main wrapper start
     ***********************************-->
-    <div id="main-wrapper" class="show menu-toggle">
-        <!--**********************************
+	<div id="main-wrapper" class="show menu-toggle">
+		<!--**********************************
             Nav header start
         ***********************************-->
 		<div class="nav-header">
@@ -66,10 +66,10 @@
 				</div>
 			</div>
 		</div>
-        <!--**********************************
+		<!--**********************************
             Nav header end
         ***********************************-->
-		
+
 		<!--**********************************
             Chat box start
         ***********************************-->
@@ -620,8 +620,8 @@
 		<!--**********************************
             Chat box End
         ***********************************-->
-		
-        <!--**********************************
+
+		<!--**********************************
             Header start
         ***********************************-->
 		<div class="header border-bottom">
@@ -821,211 +821,220 @@
 				</nav>
 			</div>
 		</div>
-        <!--**********************************
+		<!--**********************************
             Header end
         ***********************************-->
 
-        <!--**********************************
+		<!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="dlabnav">
-            <div class="dlabnav-scroll">
+		<div class="dlabnav">
+			<div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
 					<!-- Will be generated -->
-                </ul>
+				</ul>
 			</div>
-        </div>
-        <!--**********************************
+		</div>
+		<!--**********************************
             Sidebar end
         ***********************************-->
 
-        <!--**********************************
+		<!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-            <div class="container-fluid">
-                <div class="row">
+		<div class="content-body">
+			<div class="container-fluid">
+				<div class="row">
 					<div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Kelola Role</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="datarole" class="display" style="min-width: 845px">
-                                        <thead>
-                                            <tr>
-                                                <th>
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Kelola Role</h4>
+							</div>
+							<div class="card-body">
+								<div class="d-flex">
+									<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+									<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+								</div>
+								<div class="table-responsive">
+									<table id="datarole" class="display" style="min-width: 845px">
+										<thead>
+											<tr>
+												<th>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="checkAll" required="">
 														<label class="form-check-label" for="checkAll"></label>
 													</div>
 												</th>
-                                                <th>Role</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
+												<th>Role</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
 														<label class="form-check-label" for="customCheckBox2"></label>
 													</div>
 												</td>
-                                                <td>Admin</td>
-                                                <td>
+												<td>Admin</td>
+												<td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
 														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>											
-                                            </tr>
-                                            <tr>
-                                                <td>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
 														<label class="form-check-label" for="customCheckBox2"></label>
 													</div>
 												</td>
-                                                <td>Kasir</td>
-                                                <td>
+												<td>Kasir</td>
+												<td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
 														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>		
-                                            </tr>
-                                            <tr>
-                                                <td>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
 														<label class="form-check-label" for="customCheckBox2"></label>
 													</div>
 												</td>
-                                                <td>Member</td>
-                                                <td>
+												<td>Member</td>
+												<td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
 														<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-													</div>												
-												</td>		
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Kelola User</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="datauser" class="display" style="min-width: 845px">
-                                        <thead>
-                                            <tr>
-                                                <th>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Kelola User</h4>
+							</div>
+							<div class="card-body">
+								<div class="d-flex">
+									<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+									<a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+								</div>
+								<div class="table-responsive">
+									<table id="datauser" class="display" style="min-width: 845px">
+										<thead>
+											<tr>
+												<th>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="checkAll" required="">
 														<label class="form-check-label" for="checkAll"></label>
 													</div>
 												</th>
-                                                <th>Nama Akun</th>
-                                                <th>Email Akun</th>
-                                                <th>Role Akun</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
+												<th>Nama Akun</th>
+												<th>Email Akun</th>
+												<th>Role Akun</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="customCheckBox1" required="">
 														<label class="form-check-label" for="customCheckBox1"></label>
 													</div>
 												</td>
-                                                <td>Akun 1</td>
-                                                <td>akun1@gmail.com</td>
-                                                <td>Admin</td>
-                                                <td>
+												<td>Akun 1</td>
+												<td>akun1@gmail.com</td>
+												<td>Admin</td>
+												<td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-													</div>												
-												</td>											
-                                            </tr>
-                                            <tr>
-                                                <td>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
 													<div class="form-check custom-checkbox ms-2">
 														<input type="checkbox" class="form-check-input" id="customCheckBox1" required="">
 														<label class="form-check-label" for="customCheckBox1"></label>
 													</div>
 												</td>
-                                                <td>Akun 2</td>
-                                                <td>akun2@gmail.com</td>
-                                                <td>Kasir</td>
-                                                <td>
+												<td>Akun 2</td>
+												<td>akun2@gmail.com</td>
+												<td>Kasir</td>
+												<td>
 													<div class="d-flex">
 														<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-													</div>												
-												</td>		
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-            </div>
-        </div>
-        <!--**********************************
+			</div>
+		</div>
+		<!--**********************************
             Content body end
         ***********************************-->
 
 
-        <!--**********************************
+		<!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021</p>
-            </div>
-        </div>
-        <!--**********************************
+		<div class="footer">
+			<div class="copyright">
+				<p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021</p>
+			</div>
+		</div>
+		<!--**********************************
             Footer end
         ***********************************-->
 
-        <!--**********************************
+		<!--**********************************
            Support ticket button start
         ***********************************-->
 
-        <!--**********************************
+		<!--**********************************
            Support ticket button end
         ***********************************-->
 
-        
-    </div>
-    <!--**********************************
+
+	</div>
+	<!--**********************************
         Main wrapper end
     ***********************************-->
 
-    <!--**********************************
+	<!--**********************************
         Scripts
     ***********************************-->
-    <!-- Required vendors -->
+	<!-- Required vendors -->
 	<script src="../js/navigation-gen.js"></script>
-    <script src="../vendor/global/global.min.js"></script>
-    <script src="../js/custom.min.js"></script>
+	<script src="../vendor/global/global.min.js"></script>
+	<script src="../js/custom.min.js"></script>
 	<script src="../js/dlabnav-init.js"></script>
 	<script src="../js/demo.js"></script>
-    <script src="../js/styleSwitcher.js"></script>
+	<script src="../js/styleSwitcher.js"></script>
 	<script src="../vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-	
-    <!-- Datatable -->
-    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="../js/plugins-init/datatables.init.js"></script>
+
+	<!-- Datatable -->
+	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../js/plugins-init/datatables.init.js"></script>
 </body>
+
 </html>
