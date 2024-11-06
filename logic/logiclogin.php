@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Arahkan pengguna sesuai role
         if ($role_id == 1) {
             // Jika role_id adalah 1 (Admin)
-            header('Location: ../../admin/index.html');
+            header('Location: ../admin/index.html');
         } elseif ($role_id == 2) {
             // Jika role_id adalah 2 (Cashier)
             header('Location: ../../coba.html');
