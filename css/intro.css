@@ -1,0 +1,28 @@
+.animated-bg {
+    background: linear-gradient(270deg, #1a1a2e, #090e1c, #ff7700, #000000);
+    background-size: 800% 800%;
+    animation: gradientBG 10s ease infinite;
+}
+@keyframes gradientBG {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+.no-underline {
+    text-decoration: none;
+}
+.nav-link {
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+.nav-link:hover {
+    border-color: #ff7700;
+    color: #ff7700 !important;
+}
+.middle-card {
+    position: absolute;
+    top: 25%;
+    bottom: 25%;
+    left: 5%;
+    right: 5%;
+}
