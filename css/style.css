@@ -25677,7 +25677,8 @@ table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.
     border: 1px solid #D7D7D7;
     border-radius: 14px;
     line-height: 68px;
-    text-align: center; }
+    text-align: center;
+  }
 
 .msg-bx {
   border-bottom: 0.0625rem solid var(--rgba-primary-1);

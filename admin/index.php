@@ -1,4 +1,79 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (isset($_COOKIE['auth_token']) == false) {
+	header('Location: ../logic/login.php');
+} else {
+	$url = 'http://127.0.0.1:8000/api/users';
+
+	// Inisiasi cURL
+	$ch = curl_init($url);
+
+	// Set opsi cURL untuk mengirim request POST dengan JSON
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	// Set header untuk memberitahu bahwa kita mengirimkan JSON
+	curl_setopt($ch, CURLOPT_HTTPHEADER, [
+		'Content-Type: application/json',
+		'Accept: application/json',
+		'Authorization: ' . $_COOKIE['auth_token']
+	]);
+
+	// Eksekusi cURL dan ambil respons dari API
+	$response = curl_exec($ch);
+	// Decode response dari JSON ke array PHP
+	$result = json_decode($response, true);
+	curl_close($ch);
+
+	if ($result['success'] != true) {
+		header('Location: ../logic/login.php');
+		exit;
+	}
+}
+
+$url = 'http://127.0.0.1:8000/api/transactions/best-categories';
+
+// Inisiasi cURL
+$ch = curl_init($url);
+
+// Set opsi cURL untuk mengirim request POST dengan JSON
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Set header untuk memberitahu bahwa kita mengirimkan JSON
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json',
+	'Accept: application/json',
+	'Authorization: ' . $_COOKIE['auth_token']
+]);
+
+// Eksekusi cURL dan ambil respons dari API
+$response = curl_exec($ch);
+// Decode response dari JSON ke array PHP
+$kategoriTerlaris = json_decode($response, true);
+curl_close($ch);
+
+$url = 'http://127.0.0.1:8000/api/transactions/best-products';
+
+// Inisiasi cURL
+$ch = curl_init($url);
+
+// Set opsi cURL untuk mengirim request POST dengan JSON
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Set header untuk memberitahu bahwa kita mengirimkan JSON
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json',
+	'Accept: application/json',
+	'Authorization: ' . $_COOKIE['auth_token']
+]);
+
+// Eksekusi cURL dan ambil respons dari API
+$response = curl_exec($ch);
+// Decode response dari JSON ke array PHP
+$produkterlaris = json_decode($response, true);
+curl_close($ch);
+
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,8 +103,8 @@
 <body data-page="index.html">
 
 	<!--*******************
-        Preloader start
-    ********************-->
+		Preloader start
+	********************-->
 	<div id="preloader">
 		<div class="lds-ripple">
 			<div></div>
@@ -37,17 +112,17 @@
 		</div>
 	</div>
 	<!--*******************
-        Preloader end
-    ********************-->
+		Preloader end
+	********************-->
 
 	<!--**********************************
-        Main wrapper start
-    ***********************************-->
+		Main wrapper start
+	***********************************-->
 	<div id="main-wrapper" class="show menu-toggle">
 
 		<!--**********************************
-            Nav header start
-        ***********************************-->
+			Nav header start
+		***********************************-->
 		<div class="nav-header">
 			<a href="index.html" class="brand-logo">
 				<img src="../images/KoLab.png" width="100vw" class="rounded-circle">
@@ -62,12 +137,12 @@
 			</div>
 		</div>
 		<!--**********************************
-            Nav header end
-        ***********************************-->
+			Nav header end
+		***********************************-->
 
 		<!--**********************************
-            Chat box start
-        ***********************************-->
+			Chat box start
+		***********************************-->
 		<div class="chatbox">
 			<div class="chatbox-close"></div>
 			<div class="custom-tab-1">
@@ -86,17 +161,23 @@
 					<div class="tab-pane fade active show" id="chat" role="tabpanel">
 						<div class="card mb-sm-3 mb-md-0 contacts_card dlab-chat-user-box">
 							<div class="card-header chat-list-header text-center">
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
-											<rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"></rect>
+											<rect fill="#000000" opacity="0.3"
+												transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+												x="4" y="11" width="16" height="2" rx="1"></rect>
 										</g>
 									</svg></a>
 								<div>
 									<h6 class="mb-1">Chat List</h6>
 									<p class="mb-0">Show All</p>
 								</div>
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect x="0" y="0" width="24" height="24"></rect>
 											<circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -111,7 +192,8 @@
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -123,7 +205,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -135,7 +218,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -147,7 +231,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -160,7 +245,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -172,7 +258,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -184,7 +271,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -197,7 +285,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -209,7 +298,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -222,7 +312,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -234,7 +325,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -246,7 +338,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -258,7 +351,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -271,7 +365,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -283,7 +378,8 @@
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -298,11 +394,18 @@
 						<div class="card chat dlab-chat-history-box d-none">
 							<div class="card-header chat-list-header text-center">
 								<a href="javascript:void(0);" class="dlab-chat-history-back">
-									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+										width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<polygon points="0 0 24 0 24 24 0 24"></polygon>
-											<rect fill="#000000" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) " x="14" y="7" width="2" height="10" rx="1"></rect>
-											<path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) "></path>
+											<rect fill="#000000" opacity="0.3"
+												transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) "
+												x="14" y="7" width="2" height="10" rx="1"></rect>
+											<path
+												d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z"
+												fill="#000000" fill-rule="nonzero"
+												transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) ">
+											</path>
 										</g>
 									</svg>
 								</a>
@@ -311,7 +414,10 @@
 									<p class="mb-0 text-success">Online</p>
 								</div>
 								<div class="dropdown">
-									<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+									<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false"><svg
+											xmlns="http://www.w3.org/2000/svg"
+											xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+											viewbox="0 0 24 24" version="1.1">
 											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 												<rect x="0" y="0" width="24" height="24"></rect>
 												<circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -320,9 +426,12 @@
 											</g>
 										</svg></a>
 									<ul class="dropdown-menu dropdown-menu-end">
-										<li class="dropdown-item"><i class="fa fa-user-circle text-primary me-2"></i> View profile</li>
-										<li class="dropdown-item"><i class="fa fa-users text-primary me-2"></i> Add to btn-close friends</li>
-										<li class="dropdown-item"><i class="fa fa-plus text-primary me-2"></i> Add to group</li>
+										<li class="dropdown-item"><i class="fa fa-user-circle text-primary me-2"></i>
+											View profile</li>
+										<li class="dropdown-item"><i class="fa fa-users text-primary me-2"></i> Add to
+											btn-close friends</li>
+										<li class="dropdown-item"><i class="fa fa-plus text-primary me-2"></i> Add to
+											group</li>
 										<li class="dropdown-item"><i class="fa fa-ban text-primary me-2"></i> Block</li>
 									</ul>
 								</div>
@@ -459,7 +568,8 @@
 								<div class="input-group">
 									<textarea class="form-control" placeholder="Type your message..."></textarea>
 									<div class="input-group-append">
-										<button type="button" class="btn btn-primary"><i class="fa fa-location-arrow"></i></button>
+										<button type="button" class="btn btn-primary"><i
+												class="fa fa-location-arrow"></i></button>
 									</div>
 								</div>
 							</div>
@@ -468,7 +578,9 @@
 					<div class="tab-pane fade" id="alerts" role="tabpanel">
 						<div class="card mb-sm-3 mb-md-0 contacts_card">
 							<div class="card-header chat-list-header text-center">
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect x="0" y="0" width="24" height="24"></rect>
 											<circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -480,11 +592,17 @@
 									<h6 class="mb-1">Notications</h6>
 									<p class="mb-0">Show All</p>
 								</div>
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect x="0" y="0" width="24" height="24"></rect>
-											<path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-											<path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+											<path
+												d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+												fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+											<path
+												d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+												fill="#000000" fill-rule="nonzero"></path>
 										</g>
 									</svg></a>
 							</div>
@@ -537,21 +655,31 @@
 					<div class="tab-pane fade" id="notes">
 						<div class="card mb-sm-3 mb-md-0 note_card">
 							<div class="card-header chat-list-header text-center">
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
-											<rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"></rect>
+											<rect fill="#000000" opacity="0.3"
+												transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+												x="4" y="11" width="16" height="2" rx="1"></rect>
 										</g>
 									</svg></a>
 								<div>
 									<h6 class="mb-1">Notes</h6>
 									<p class="mb-0">Add New Nots</p>
 								</div>
-								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+										viewbox="0 0 24 24" version="1.1">
 										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 											<rect x="0" y="0" width="24" height="24"></rect>
-											<path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-											<path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+											<path
+												d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+												fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+											<path
+												d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+												fill="#000000" fill-rule="nonzero"></path>
 										</g>
 									</svg></a>
 							</div>
@@ -564,8 +692,11 @@
 												<p>10 Aug 2020</p>
 											</div>
 											<div class="ms-auto">
-												<a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+												<a href="javascript:void(0);"
+													class="btn btn-primary btn-xs sharp me-1"><i
+														class="fas fa-pencil-alt"></i></a>
+												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+														class="fa fa-trash"></i></a>
 											</div>
 										</div>
 									</li>
@@ -576,8 +707,11 @@
 												<p>10 Aug 2020</p>
 											</div>
 											<div class="ms-auto">
-												<a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+												<a href="javascript:void(0);"
+													class="btn btn-primary btn-xs sharp me-1"><i
+														class="fas fa-pencil-alt"></i></a>
+												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+														class="fa fa-trash"></i></a>
 											</div>
 										</div>
 									</li>
@@ -588,8 +722,11 @@
 												<p>10 Aug 2020</p>
 											</div>
 											<div class="ms-auto">
-												<a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+												<a href="javascript:void(0);"
+													class="btn btn-primary btn-xs sharp me-1"><i
+														class="fas fa-pencil-alt"></i></a>
+												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+														class="fa fa-trash"></i></a>
 											</div>
 										</div>
 									</li>
@@ -600,8 +737,11 @@
 												<p>10 Aug 2020</p>
 											</div>
 											<div class="ms-auto">
-												<a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+												<a href="javascript:void(0);"
+													class="btn btn-primary btn-xs sharp me-1"><i
+														class="fas fa-pencil-alt"></i></a>
+												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+														class="fa fa-trash"></i></a>
 											</div>
 										</div>
 									</li>
@@ -613,12 +753,12 @@
 			</div>
 		</div>
 		<!--**********************************
-            Chat box End
-        ***********************************-->
+			Chat box End
+		***********************************-->
 
 		<!--**********************************
-            Header start
-        ***********************************-->
+			Header start
+		***********************************-->
 		<div class="header border-bottom">
 			<div class="header-content">
 				<nav class="navbar navbar-expand">
@@ -632,19 +772,26 @@
 							<li class="nav-item d-flex align-items-center">
 								<div class="input-group search-area">
 									<input type="text" class="form-control" placeholder="Search here...">
-									<span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+									<span class="input-group-text"><a href="javascript:void(0)"><i
+												class="flaticon-381-search-2"></i></a></span>
 								</div>
 							</li>
 							<li class="nav-item dropdown notification_dropdown">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M23.3333 19.8333H23.1187C23.2568 19.4597 23.3295 19.065 23.3333 18.6666V12.8333C23.3294 10.7663 22.6402 8.75902 21.3735 7.12565C20.1068 5.49228 18.3343 4.32508 16.3333 3.80679V3.49996C16.3333 2.88112 16.0875 2.28763 15.6499 1.85004C15.2123 1.41246 14.6188 1.16663 14 1.16663C13.3812 1.16663 12.7877 1.41246 12.3501 1.85004C11.9125 2.28763 11.6667 2.88112 11.6667 3.49996V3.80679C9.66574 4.32508 7.89317 5.49228 6.6265 7.12565C5.35983 8.75902 4.67058 10.7663 4.66667 12.8333V18.6666C4.67053 19.065 4.74316 19.4597 4.88133 19.8333H4.66667C4.35725 19.8333 4.0605 19.9562 3.84171 20.175C3.62292 20.3938 3.5 20.6905 3.5 21C3.5 21.3094 3.62292 21.6061 3.84171 21.8249C4.0605 22.0437 4.35725 22.1666 4.66667 22.1666H23.3333C23.6428 22.1666 23.9395 22.0437 24.1583 21.8249C24.3771 21.6061 24.5 21.3094 24.5 21C24.5 20.6905 24.3771 20.3938 24.1583 20.175C23.9395 19.9562 23.6428 19.8333 23.3333 19.8333Z" fill="#717579"></path>
-										<path d="M9.9819 24.5C10.3863 25.2088 10.971 25.7981 11.6766 26.2079C12.3823 26.6178 13.1838 26.8337 13.9999 26.8337C14.816 26.8337 15.6175 26.6178 16.3232 26.2079C17.0288 25.7981 17.6135 25.2088 18.0179 24.5H9.9819Z" fill="#717579"></path>
+									<svg width="28" height="28" viewbox="0 0 28 28" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M23.3333 19.8333H23.1187C23.2568 19.4597 23.3295 19.065 23.3333 18.6666V12.8333C23.3294 10.7663 22.6402 8.75902 21.3735 7.12565C20.1068 5.49228 18.3343 4.32508 16.3333 3.80679V3.49996C16.3333 2.88112 16.0875 2.28763 15.6499 1.85004C15.2123 1.41246 14.6188 1.16663 14 1.16663C13.3812 1.16663 12.7877 1.41246 12.3501 1.85004C11.9125 2.28763 11.6667 2.88112 11.6667 3.49996V3.80679C9.66574 4.32508 7.89317 5.49228 6.6265 7.12565C5.35983 8.75902 4.67058 10.7663 4.66667 12.8333V18.6666C4.67053 19.065 4.74316 19.4597 4.88133 19.8333H4.66667C4.35725 19.8333 4.0605 19.9562 3.84171 20.175C3.62292 20.3938 3.5 20.6905 3.5 21C3.5 21.3094 3.62292 21.6061 3.84171 21.8249C4.0605 22.0437 4.35725 22.1666 4.66667 22.1666H23.3333C23.6428 22.1666 23.9395 22.0437 24.1583 21.8249C24.3771 21.6061 24.5 21.3094 24.5 21C24.5 20.6905 24.3771 20.3938 24.1583 20.175C23.9395 19.9562 23.6428 19.8333 23.3333 19.8333Z"
+											fill="#717579"></path>
+										<path
+											d="M9.9819 24.5C10.3863 25.2088 10.971 25.7981 11.6766 26.2079C12.3823 26.6178 13.1838 26.8337 13.9999 26.8337C14.816 26.8337 15.6175 26.6178 16.3232 26.2079C17.0288 25.7981 17.6135 25.2088 18.0179 24.5H9.9819Z"
+											fill="#717579"></path>
 									</svg>
 									<span class="badge light text-white bg-warning rounded-circle">12</span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<div id="DZ_W_Notification1" class="widget-media dlab-scroll p-3" style="height:380px;">
+									<div id="DZ_W_Notification1" class="widget-media dlab-scroll p-3"
+										style="height:380px;">
 										<ul class="timeline">
 											<li>
 												<div class="timeline-panel">
@@ -714,26 +861,34 @@
 											</li>
 										</ul>
 									</div>
-									<a class="all-notification" href="javascript:void(0);">See all notifications <i class="ti-arrow-end"></i></a>
+									<a class="all-notification" href="javascript:void(0);">See all notifications <i
+											class="ti-arrow-end"></i></a>
 								</div>
 							</li>
 
 							<li class="nav-item dropdown notification_dropdown">
 								<a class="nav-link " href="javascript:void(0);" data-bs-toggle="dropdown">
-									<svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M22.1666 5.83331H20.9999V3.49998C20.9999 3.19056 20.877 2.89381 20.6582 2.67502C20.4394 2.45623 20.1427 2.33331 19.8333 2.33331C19.5238 2.33331 19.2271 2.45623 19.0083 2.67502C18.7895 2.89381 18.6666 3.19056 18.6666 3.49998V5.83331H9.33325V3.49998C9.33325 3.19056 9.21034 2.89381 8.99154 2.67502C8.77275 2.45623 8.47601 2.33331 8.16659 2.33331C7.85717 2.33331 7.56042 2.45623 7.34163 2.67502C7.12284 2.89381 6.99992 3.19056 6.99992 3.49998V5.83331H5.83325C4.90499 5.83331 4.01476 6.20206 3.35838 6.85844C2.702 7.51482 2.33325 8.40506 2.33325 9.33331V10.5H25.6666V9.33331C25.6666 8.40506 25.2978 7.51482 24.6415 6.85844C23.9851 6.20206 23.0948 5.83331 22.1666 5.83331Z" fill="#717579"></path>
-										<path d="M2.33325 22.1666C2.33325 23.0949 2.702 23.9851 3.35838 24.6415C4.01476 25.2979 4.90499 25.6666 5.83325 25.6666H22.1666C23.0948 25.6666 23.9851 25.2979 24.6415 24.6415C25.2978 23.9851 25.6666 23.0949 25.6666 22.1666V12.8333H2.33325V22.1666Z" fill="#717579"></path>
+									<svg width="28" height="28" viewbox="0 0 28 28" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M22.1666 5.83331H20.9999V3.49998C20.9999 3.19056 20.877 2.89381 20.6582 2.67502C20.4394 2.45623 20.1427 2.33331 19.8333 2.33331C19.5238 2.33331 19.2271 2.45623 19.0083 2.67502C18.7895 2.89381 18.6666 3.19056 18.6666 3.49998V5.83331H9.33325V3.49998C9.33325 3.19056 9.21034 2.89381 8.99154 2.67502C8.77275 2.45623 8.47601 2.33331 8.16659 2.33331C7.85717 2.33331 7.56042 2.45623 7.34163 2.67502C7.12284 2.89381 6.99992 3.19056 6.99992 3.49998V5.83331H5.83325C4.90499 5.83331 4.01476 6.20206 3.35838 6.85844C2.702 7.51482 2.33325 8.40506 2.33325 9.33331V10.5H25.6666V9.33331C25.6666 8.40506 25.2978 7.51482 24.6415 6.85844C23.9851 6.20206 23.0948 5.83331 22.1666 5.83331Z"
+											fill="#717579"></path>
+										<path
+											d="M2.33325 22.1666C2.33325 23.0949 2.702 23.9851 3.35838 24.6415C4.01476 25.2979 4.90499 25.6666 5.83325 25.6666H22.1666C23.0948 25.6666 23.9851 25.2979 24.6415 24.6415C25.2978 23.9851 25.6666 23.0949 25.6666 22.1666V12.8333H2.33325V22.1666Z"
+											fill="#717579"></path>
 									</svg>
 									<span class="badge light text-white bg-success rounded-circle">!</span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<div id="DZ_W_TimeLine02" class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
+									<div id="DZ_W_TimeLine02"
+										class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
 										<ul class="timeline">
 											<li>
 												<div class="timeline-badge primary"></div>
 												<a class="timeline-panel text-muted" href="javascript:void(0);">
 													<span>10 minutes ago</span>
-													<h6 class="mb-0">Youtube, a video-sharing website, goes live <strong class="text-primary">$500</strong>.</h6>
+													<h6 class="mb-0">Youtube, a video-sharing website, goes live <strong
+															class="text-primary">$500</strong>.</h6>
 												</a>
 											</li>
 											<li>
@@ -741,8 +896,10 @@
 												</div>
 												<a class="timeline-panel text-muted" href="javascript:void(0);">
 													<span>20 minutes ago</span>
-													<h6 class="mb-0">New order placed <strong class="text-info">#XF-2356.</strong></h6>
-													<p class="mb-0">Quisque a consequat ante Sit amet magna at volutapt...</p>
+													<h6 class="mb-0">New order placed <strong
+															class="text-info">#XF-2356.</strong></h6>
+													<p class="mb-0">Quisque a consequat ante Sit amet magna at
+														volutapt...</p>
 												</a>
 											</li>
 											<li>
@@ -750,7 +907,8 @@
 												</div>
 												<a class="timeline-panel text-muted" href="javascript:void(0);">
 													<span>30 minutes ago</span>
-													<h6 class="mb-0">john just buy your product <strong class="text-warning">Sell $250</strong></h6>
+													<h6 class="mb-0">john just buy your product <strong
+															class="text-warning">Sell $250</strong></h6>
 												</a>
 											</li>
 											<li>
@@ -788,21 +946,29 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<a href="../app-profile.html" class="dropdown-item ai-icon">
-										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
+											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 											<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
 											<circle cx="12" cy="7" r="4"></circle>
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
 									<a href="../email-inbox.html" class="dropdown-item ai-icon">
-										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-											<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
+											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<path
+												d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+											</path>
 											<polyline points="22,6 12,13 2,6"></polyline>
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="../page-error-404.html" class="dropdown-item ai-icon">
-										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<a href="../logic/logout.php" class="dropdown-item ai-icon">
+										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 											<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
 											<polyline points="16 17 21 12 16 7"></polyline>
 											<line x1="21" y1="12" x2="9" y2="12"></line>
@@ -817,26 +983,26 @@
 			</div>
 		</div>
 		<!--**********************************
-            Header end
-        ***********************************-->
+			Header end
+		***********************************-->
 
 		<!--**********************************
-            Sidebar start
-        ***********************************-->
+			Sidebar start
+		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
 					<!-- Will be generated -->
-                </ul>
+				</ul>
 			</div>
 		</div>
 		<!--**********************************
-            Sidebar end
-        ***********************************-->
+			Sidebar end
+		***********************************-->
 
 		<!--**********************************
-            Content body start
-        ***********************************-->
+			Content body start
+		***********************************-->
 		<div class="content-body">
 			<!-- row -->
 			<div class="container-fluid">
@@ -849,7 +1015,8 @@
 										<h4 class="card-title">Total Overview</h4>
 									</div>
 									<div class="card-body">
-										<div id="simple-line-chart" class="ct-chart ct-golden-section chartlist-chart"></div>
+										<div id="simple-line-chart" class="ct-chart ct-golden-section chartlist-chart">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -883,36 +1050,47 @@
 													<div class="card-tabs mt-3 mt-sm-0 mb-3 ">
 														<ul class="nav nav-tabs" role="tablist">
 															<li class="nav-item">
-																<a class="nav-link active" data-bs-toggle="tab" href="../#monthly" role="tab">Monthly</a>
+																<a class="nav-link active" data-bs-toggle="tab"
+																	href="../#monthly" role="tab">Monthly</a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab" href="../#Weekly" role="tab">Weekly</a>
+																<a class="nav-link" data-bs-toggle="tab"
+																	href="../#Weekly" role="tab">Weekly</a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab" href="../#Today" role="tab">Today</a>
+																<a class="nav-link" data-bs-toggle="tab"
+																	href="../#Today" role="tab">Today</a>
 															</li>
 														</ul>
 													</div>
 													<div class="dropdown ms-2">
 														<div class="btn-link" data-bs-toggle="dropdown">
-															<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5"></circle>
-																<circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5"></circle>
-																<circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5"></circle>
+															<svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+																xmlns="http://www.w3.org/2000/svg">
+																<circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5">
+																</circle>
+																<circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5">
+																</circle>
+																<circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5">
+																</circle>
 															</svg>
 														</div>
 														<div class="dropdown-menu dropdown-menu-right">
-															<a class="dropdown-item" href="javascript:void(0)">Delete</a>
+															<a class="dropdown-item"
+																href="javascript:void(0)">Delete</a>
 															<a class="dropdown-item" href="javascript:void(0)">Edit</a>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="card-body">
-												<div class="d-flex justify-content-between align-items-center flex-wrap">
+												<div
+													class="d-flex justify-content-between align-items-center flex-wrap">
 													<div class="d-flex">
-														<div class="d-inline-block position-relative donut-chart-sale mb-3">
-															<span class="donut1" data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"],   "innerRadius": 20, "radius": 15}'>5/8</span>
+														<div
+															class="d-inline-block position-relative donut-chart-sale mb-3">
+															<span class="donut1"
+																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"],   "innerRadius": 20, "radius": 15}'>5/8</span>
 														</div>
 														<div class="ms-3">
 															<h4 class="fs-24 font-w700 ">246</h4>
@@ -922,8 +1100,10 @@
 													<div class="d-flex">
 														<div class="d-flex me-5">
 															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF"></circle>
+																<svg width="13" height="13" viewbox="0 0 13 13"
+																	fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF">
+																	</circle>
 																</svg>
 															</div>
 															<div class="ms-3">
@@ -933,8 +1113,10 @@
 														</div>
 														<div class="d-flex me-5">
 															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFCF6D"></circle>
+																<svg width="13" height="13" viewbox="0 0 13 13"
+																	fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFCF6D">
+																	</circle>
 																</svg>
 															</div>
 															<div class="ms-3">
@@ -944,8 +1126,10 @@
 														</div>
 														<div class="d-flex">
 															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFA7D7"></circle>
+																<svg width="13" height="13" viewbox="0 0 13 13"
+																	fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFA7D7">
+																	</circle>
 																</svg>
 
 															</div>
@@ -968,14 +1152,18 @@
 													</div>
 												</div>
 												<div class="d-flex align-items-center">
-													<label class="form-check-label font-w400 fs-16 mb-0" for="flexSwitchCheckChecked1">Number</label>
+													<label class="form-check-label font-w400 fs-16 mb-0"
+														for="flexSwitchCheckChecked1">Number</label>
 													<div class="form-check form-switch toggle-switch">
-														<input class="form-check-input custome" type="checkbox" id="flexSwitchCheckChecked1" checked="">
+														<input class="form-check-input custome" type="checkbox"
+															id="flexSwitchCheckChecked1" checked="">
 
 													</div>
-													<label class="form-check-label font-w400 fs-16 mb-0 ms-3" for="flexSwitchCheckChecked2">Analytics</label>
+													<label class="form-check-label font-w400 fs-16 mb-0 ms-3"
+														for="flexSwitchCheckChecked2">Analytics</label>
 													<div class="form-check form-switch toggle-switch">
-														<input class="form-check-input custome" type="checkbox" id="flexSwitchCheckChecked2" checked="">
+														<input class="form-check-input custome" type="checkbox"
+															id="flexSwitchCheckChecked2" checked="">
 													</div>
 												</div>
 											</div>
@@ -992,65 +1180,89 @@
 													<div class="card-header border-0">
 														<div>
 															<h4 class="fs-20 font-w700">Kategori Terlaris</h4>
-															<span class="fs-14 font-w400 d-block">Lorem ipsum dolor sit amet</span>
+															<span class="fs-14 font-w400 d-block">Berikut merupakan
+																penjualan kategori terlaris</span>
 														</div>
 													</div>
 													<div class="card-body">
-														<div id="emailchart"> </div>
+														<div id="kategoriterlarischart"> </div>
 														<div class="mb-3 mt-4">
-															<h4 class="fs-18 font-w600">Legend</h4>
+															<h4 class="fs-18 font-w600">Detail</h4>
 														</div>
-														<div>
-															<div class="d-flex align-items-center justify-content-between mb-4">
+														<!-- Tambahkan container untuk legend dinamis -->
+														<div id="legendContainer"></div>
+														<!-- <div>
+															<div
+																class="d-flex align-items-center justify-content-between mb-4">
 																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6" fill="#886CC0"></rect>
+																	<svg class="me-3" width="20" height="20"
+																		viewbox="0 0 20 20" fill="none"
+																		xmlns="http://www.w3.org/2000/svg">
+																		<rect width="20" height="20" rx="6"
+																			fill="#886CC0"></rect>
 																	</svg>
 																	Primary (27%)
 																</span>
 																<span class="fs-18 font-w600">763</span>
 															</div>
-															<div class="d-flex align-items-center justify-content-between  mb-4">
+															<div
+																class="d-flex align-items-center justify-content-between  mb-4">
 																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6" fill="#26E023"></rect>
+																	<svg class="me-3" width="20" height="20"
+																		viewbox="0 0 20 20" fill="none"
+																		xmlns="http://www.w3.org/2000/svg">
+																		<rect width="20" height="20" rx="6"
+																			fill="#26E023"></rect>
 																	</svg>
 																	Promotion (11%)
 																</span>
 																<span class="fs-18 font-w600">321</span>
 															</div>
-															<div class="d-flex align-items-center justify-content-between  mb-4">
+															<div
+																class="d-flex align-items-center justify-content-between  mb-4">
 																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6" fill="#61CFF1"></rect>
+																	<svg class="me-3" width="20" height="20"
+																		viewbox="0 0 20 20" fill="none"
+																		xmlns="http://www.w3.org/2000/svg">
+																		<rect width="20" height="20" rx="6"
+																			fill="#61CFF1"></rect>
 																	</svg>
 																	Forum (22%)
 																</span>
 																<span class="fs-18 font-w600">69</span>
 															</div>
-															<div class="d-flex align-items-center justify-content-between  mb-4">
+															<div
+																class="d-flex align-items-center justify-content-between  mb-4">
 																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6" fill="#FFDA7C"></rect>
+																	<svg class="me-3" width="20" height="20"
+																		viewbox="0 0 20 20" fill="none"
+																		xmlns="http://www.w3.org/2000/svg">
+																		<rect width="20" height="20" rx="6"
+																			fill="#FFDA7C"></rect>
 																	</svg>
 																	Socials (15%)
 																</span>
 																<span class="fs-18 font-w600">154</span>
 															</div>
-															<div class="d-flex align-items-center justify-content-between  mb-4">
+															<div
+																class="d-flex align-items-center justify-content-between  mb-4">
 																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6" fill="#FF86B1"></rect>
+																	<svg class="me-3" width="20" height="20"
+																		viewbox="0 0 20 20" fill="none"
+																		xmlns="http://www.w3.org/2000/svg">
+																		<rect width="20" height="20" rx="6"
+																			fill="#FF86B1"></rect>
 																	</svg>
 																	Spam (25%)
 																</span>
 																<span class="fs-18 font-w600">696</span>
 															</div>
-														</div>
-
+														</div> -->
 													</div>
 													<div class="card-footer border-0 pt-0">
-														<a href="javascript:void(0);" class="btn btn-outline-primary d-block btn-rounded">Update Progress</a>
+														<a href="javascript:void(0);"
+															class="btn btn-outline-primary d-block btn-rounded">Update
+															Progress</a>
 
 													</div>
 												</div>
@@ -1064,94 +1276,46 @@
 													<h4 class="fs-20 font-w700">Produk Populer</h4>
 												</div>
 											</div>
-											<div class="card-body pb-0">
-												<div class="project-details">
-													<div class="d-flex align-items-center justify-content-between">
-														<div class="d-flex align-items-center">
-															<span class="big-wind">
-																<img src="../images/big-wind.png" alt="">
-															</span>
-															<div class="ms-3">
-																<h4>Big Wind</h4>
-																<span class="fs-14 font-w400">Creative Agency</span>
+											<div class="card-body pb-0" id="productContainer">
+												<?php foreach ($produkterlaris['data'] as $product): ?>
+													<div class="project-details">
+														<div class="d-flex align-items-center justify-content-between">
+															<div class="d-flex align-items-center">
+																<span class="big-wind" style="overflow:hidden; box-sizing: border-box; margin:0;">
+																	<img src="<?php echo $product['product']['image']?>" alt="" style="width:100%; height:100%; " class="img-fluid">
+																</span>
+																<div class="ms-3">
+																	<h4><?php echo $product['product']['name']; ?></h4>
+																	<span class="fs-14 font-w400">Total Terjual: <strong><?php echo $product["total_quantity"]; ?> <strong>Item</span>
+																</div>
 															</div>
-														</div>
-														<div class="dropdown">
-															<div class="btn-link" data-bs-toggle="dropdown">
-																<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5"></circle>
-																</svg>
-															</div>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="javascript:void(0)">Delete</a>
-																<a class="dropdown-item" href="javascript:void(0)">Edit</a>
-															</div>
-														</div>
-													</div>
-													<h4 class="fs-16 font-w600 mt-4">Optimization Dashboard Page for indexing in Google</h4>
-													<div class="projects">
-														<span class="badge bgl-warning text-warning font-w700 me-3">SEO</span>
-														<span class="badge bgl-danger text-danger font-w700">MARKETING</span>
-													</div>
-													<div class="mt-3">
-														<div class="progress default-progress">
-															<div class="progress-bar bg-gradient1 progress-animated" style="width: 45%; height:10px;" role="progressbar">
-																<span class="sr-only">45% Complete</span>
-															</div>
-														</div>
-														<div class="d-flex align-items-end mt-3 pb-3 justify-content-between">
-															<span class="fs-14 font-w400"><small class="font-w700 me-2">12</small>Task Done</span>
-															<span class="fs-14 font-w400">Due date: 12/05/2020</span>
-														</div>
-													</div>
-												</div>
-												<div class="project-details">
-													<div class="d-flex align-items-center justify-content-between">
-														<div class="d-flex align-items-center">
-															<span class="big-wind">
-																<img src="../images/circle-hunt.png" alt="">
-															</span>
-															<div class="ms-3">
-																<h4>Circle Hunt</h4>
-																<span class="fs-14 font-w400">Creative Agency</span>
-															</div>
-														</div>
-														<div class="dropdown">
-															<div class="btn-link" data-bs-toggle="dropdown">
-																<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5"></circle>
-																</svg>
-															</div>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="javascript:void(0)">Delete</a>
-																<a class="dropdown-item" href="javascript:void(0)">Edit</a>
+															<div class="dropdown">
+																<div class="btn-link" data-bs-toggle="dropdown">
+																	<svg width="24" height="24" viewbox="0 0 24 24"
+																		fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<circle cx="12.4999" cy="3.5" r="2.5"
+																			fill="#A5A5A5"></circle>
+																		<circle cx="12.4999" cy="11.5" r="2.5"
+																			fill="#A5A5A5"></circle>
+																		<circle cx="12.4999" cy="19.5" r="2.5"
+																			fill="#A5A5A5"></circle>
+																	</svg>
+																</div>
+																<div class="dropdown-menu dropdown-menu-right">
+																	<a class="dropdown-item"
+																		href="javascript:void(0)">Delete</a>
+																	<a class="dropdown-item"
+																		href="javascript:void(0)">Edit</a>
+																</div>
 															</div>
 														</div>
 													</div>
-													<h4 class="fs-16 font-w600 mt-4">Redesign Landing Page Website for Company Profile</h4>
-													<div class="projects">
-														<span class="badge bgl-primary text-primary font-w700 me-3">UI/UX</span>
-														<span class="badge bgl-danger text-danger font-w700">WEBSITE</span>
-													</div>
-													<div class="mt-3">
-														<div class="progress default-progress">
-															<div class="progress-bar bg-gradient1 progress-animated" style="width: 45%; height:10px;" role="progressbar">
-																<span class="sr-only">45% Complete</span>
-															</div>
-														</div>
-														<div class="d-flex align-items-end mt-3 pb-3 justify-content-between">
-															<span class="fs-14 font-w400"><small class="font-w700 me-2">12</small>Task Done</span>
-															<span class="fs-14 font-w400">Due date: 12/05/2020</span>
-														</div>
-													</div>
-												</div>
+												<?php endforeach; ?>
 											</div>
 											<div class="card-footer pt-0 border-0">
-												<a href="javascript:void(0);" class="btn btn-outline-primary d-block btn-rounded">Pin other projects</a>
+												<a href="javascript:void(0);"
+													class="btn btn-outline-primary d-block btn-rounded">Pin other
+													projects</a>
 											</div>
 										</div>
 									</div>
@@ -1163,29 +1327,29 @@
 			</div>
 		</div>
 		<!--**********************************
-            Content body end
-        ***********************************-->
+			Content body end
+		***********************************-->
 
 		<!--**********************************
-            Footer start
-        ***********************************-->
+			Footer start
+		***********************************-->
 		<div class="footer">
 			<div class="copyright">
 				<p>Copyright © Designed &amp; Developed by DexignLab 2021</p>
 			</div>
 		</div>
 		<!--**********************************
-            Footer end
-        ***********************************-->
+			Footer end
+		***********************************-->
 
 	</div>
 	<!--**********************************
-        Main wrapper end
-    ***********************************-->
+		Main wrapper end
+	***********************************-->
 
 	<!--**********************************
-        Scripts
-    ***********************************-->
+		Scripts
+	***********************************-->
 
 	<!-- Required vendors -->
 	<script src="../js/navigation-gen.js"></script>
@@ -1218,6 +1382,240 @@
 	<script src="../js/plugins-init/chartist-init.js"></script>
 
 	<!-- Local Written Script -->
+	<!-- <script>
+		var screenWidth = $(window).width();
+		let draw = Chart.controllers.line.__super__.draw; //draw shadow
+		var ChartKategoryTerlaris = function () {
+			var options = {
+				series: [1, 2, 3, 4, 50],
+				chart: {
+					type: 'donut',
+					height: 300
+				},
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					width: 0,
+				},
+				colors: ['var(--primary)', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'],
+				legend: {
+					position: 'bottom',
+					show: false
+				},
+				responsive: [{
+					breakpoint: 1800,
+					options: {
+						chart: {
+							height: 200
+						},
+					}
+				},
+				{
+					breakpoint: 1800,
+					options: {
+						chart: {
+							height: 200
+						},
+					}
+				}
+				]
+			};
+
+			var chart = new ApexCharts(document.querySelector("#kategoriterlarischart"), options);
+			chart.render();
+
+		}
+
+		jQuery(window).on('load', function () {
+			setTimeout(function () {
+				ChartKategoryTerlaris();
+			}, 1000);
+
+		});
+	</script> -->
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			async function fetchAndRenderChart() {
+				try {
+					// Panggil API dan parsing hasilnya sebagai JSON
+					const response = await fetch('http://127.0.0.1:8000/api/transactions/best-categories');
+					const result = await response.json();
+					const data = result.data;
+
+					// Ambil nama kategori dan jumlah total dari setiap kategori
+					const categories = data.map(item => item.category.name);
+					const quantities = data.map(item => parseInt(item.total_quantity));
+
+					// Warna yang sesuai untuk setiap kategori
+					const colors = ['#886CC0', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'];
+
+					// Buat konfigurasi grafik dengan ApexCharts
+					const options = {
+						series: quantities,
+						chart: {
+							type: 'donut',
+							height: 300
+						},
+						labels: categories,
+						colors: colors,
+						dataLabels: {
+							enabled: false
+						},
+						stroke: {
+							width: 0,
+						},
+						legend: {
+							show: false  // Sembunyikan legend bawaan ApexCharts
+						},
+						responsive: [{
+							breakpoint: 1800,
+							options: {
+								chart: {
+									height: 200
+								},
+							}
+						}]
+					};
+
+					// Render grafik di container dengan id #kategoriterlarischart
+					const chart = new ApexCharts(document.querySelector("#kategoriterlarischart"), options);
+					chart.render();
+
+					// Generate legend dinamis
+					const legendContainer = document.getElementById("legendContainer");
+					legendContainer.innerHTML = '';  // Kosongkan legend sebelum mengisinya
+
+					data.forEach((item, index) => {
+						// Buat elemen HTML untuk setiap kategori
+						const legendItem = document.createElement("div");
+						legendItem.classList.add("d-flex", "align-items-center", "justify-content-between", "mb-4");
+
+						legendItem.innerHTML = `
+					<span class="fs-18 font-w500">
+						<svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
+						</svg>
+						${item.category.name} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
+					</span>
+					<span class="fs-18 font-w600">${quantities[index]}</span>
+				`;
+
+						legendContainer.appendChild(legendItem);
+					});
+				} catch (error) {
+					console.error("Gagal mengambil data dari API:", error);
+				}
+			}
+
+			// Panggil fungsi untuk mengambil data dan menampilkan grafik
+			fetchAndRenderChart();
+		});
+	</script>
+
+	<!-- <script>
+		document.addEventListener("DOMContentLoaded", function () {
+			async function fetchAndDisplayProducts() {
+				try {
+					const response = await fetch('http://127.0.0.1:8000/api/transactions/best-products');
+					const result = await response.json();
+					const products = result.data;
+
+					// Pilih kontainer untuk produk terlaris
+					const productContainer = document.getElementById("productContainer");
+					productContainer.innerHTML = '';  // Kosongkan kontainer sebelum menambahkan produk baru
+
+					products.forEach((item) => {
+						// Buat elemen HTML untuk setiap produk
+						const productElement = document.createElement("div");
+						productElement.classList.add("project-details");
+
+						productElement.innerHTML = `
+						<div class="project-details">
+													<div class="d-flex align-items-center justify-content-between">
+														<div class="d-flex align-items-center">
+															<span class="big-wind">
+																<img src="${item.product.image}" alt="${item.product.image}">
+															</span>
+															<div class="ms-3">
+																<h4>${item.product.name}</h4>
+																<span class="fs-14 font-w400">Rp${item.product.price.toLocaleString()}</span>
+															</div>
+														</div>
+														<div class="dropdown">
+															<div class="btn-link" data-bs-toggle="dropdown">
+																<svg width="24" height="24" viewbox="0 0 24 24"
+																	fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="12.4999" cy="3.5" r="2.5"
+																		fill="#A5A5A5"></circle>
+																	<circle cx="12.4999" cy="11.5" r="2.5"
+																		fill="#A5A5A5"></circle>
+																	<circle cx="12.4999" cy="19.5" r="2.5"
+																		fill="#A5A5A5"></circle>
+																</svg>
+															</div>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a class="dropdown-item"
+																	href="javascript:void(0)">Delete</a>
+																<a class="dropdown-item"
+																	href="javascript:void(0)">Edit</a>
+															</div>
+														</div>
+													</div>
+													<h4 class="fs-16 font-w600 mt-4">${item.product.description}</h4>
+													<div class="projects">
+														<span
+															class="badge bgl-warning text-warning font-w700 me-3">SEO</span>
+														<span
+															class="badge bgl-danger text-danger font-w700">MARKETING</span>
+													</div>
+													<div class="mt-3">
+														<div class="progress default-progress">
+															<div class="progress-bar bg-gradient1 progress-animated"
+																style="width: 45%; height:10px;" role="progressbar">
+																<span class="sr-only">45% Complete</span>
+															</div>
+														</div>
+														<div
+															class="d-flex align-items-end mt-3 pb-3 justify-content-between">
+															<span class="fs-14 font-w400"><small
+																	class="font-w700 me-2">12</small>Task Done</span>
+															<span class="fs-14 font-w400">Due date: 12/05/2020</span>
+														</div>
+														<div class="projects">
+						<span class="badge bgl-warning text-warning font-w700 me-3">Category ID: ${item.product.category_id}</span>
+						<span class="badge bgl-primary text-primary font-w700">Best Seller</span>
+					</div>
+					<div class="mt-3">
+						<div class="progress default-progress">
+							<div class="progress-bar bg-gradient1 progress-animated" style="width: ${item.total_quantity}%; height:10px;" role="progressbar">
+								<span class="sr-only">${item.total_quantity}% Complete</span>
+							</div>
+						</div>
+						<div class="d-flex align-items-end mt-3 pb-3 justify-content-between">
+							<span class="fs-14 font-w400"><small class="font-w700 me-2">${item.total_quantity}</small>Units Sold</span>
+							<span class="fs-14 font-w400">Product ID: ${item.product.id}</span>
+						</div>
+					</div>
+													</div>
+												</div>
+
+				`;
+
+						// Tambahkan elemen produk ke kontainer
+						productContainer.appendChild(productElement);
+					});
+				} catch (error) {
+					console.error("Error fetching data:", error);
+				}
+			}
+
+			// Panggil fungsi untuk mengambil data dan menampilkan produk
+			fetchAndDisplayProducts();
+		});
+	</script> -->
+
 	<script>
 		new Morris.Line({
 			// ID of the element in which to draw the chart.
@@ -1225,25 +1623,25 @@
 			// Chart data records -- each entry in this array corresponds to a point on
 			// the chart.
 			data: [{
-					year: '2008',
-					value: 20
-				},
-				{
-					year: '2009',
-					value: 10
-				},
-				{
-					year: '2010',
-					value: 5
-				},
-				{
-					year: '2011',
-					value: 5
-				},
-				{
-					year: '2012',
-					value: 20
-				}
+				year: '2008',
+				value: 20
+			},
+			{
+				year: '2009',
+				value: 10
+			},
+			{
+				year: '2010',
+				value: 5
+			},
+			{
+				year: '2011',
+				value: 5
+			},
+			{
+				year: '2012',
+				value: 20
+			}
 			],
 			// The name of the data record attribute that contains x-values.
 			xkey: 'year',
@@ -1292,8 +1690,8 @@
 			})
 		}
 
-		jQuery(window).on('load', function() {
-			setTimeout(function() {
+		jQuery(window).on('load', function () {
+			setTimeout(function () {
 				cardsCenter();
 			}, 1000);
 		});
@@ -1302,41 +1700,41 @@
 		Morris.Area({
 			element: 'jam_penjualan',
 			data: [{
-					period: '2001',
-					smartphone: 0,
-					windows: 0,
-					mac: 0
-				}, {
-					period: '2002',
-					smartphone: 90,
-					windows: 60,
-					mac: 25
-				}, {
-					period: '2003',
-					smartphone: 40,
-					windows: 80,
-					mac: 35
-				}, {
-					period: '2004',
-					smartphone: 30,
-					windows: 47,
-					mac: 17
-				}, {
-					period: '2005',
-					smartphone: 150,
-					windows: 40,
-					mac: 120
-				}, {
-					period: '2006',
-					smartphone: 25,
-					windows: 80,
-					mac: 40
-				}, {
-					period: '2007',
-					smartphone: 10,
-					windows: 10,
-					mac: 10
-				}
+				period: '2001',
+				smartphone: 0,
+				windows: 0,
+				mac: 0
+			}, {
+				period: '2002',
+				smartphone: 90,
+				windows: 60,
+				mac: 25
+			}, {
+				period: '2003',
+				smartphone: 40,
+				windows: 80,
+				mac: 35
+			}, {
+				period: '2004',
+				smartphone: 30,
+				windows: 47,
+				mac: 17
+			}, {
+				period: '2005',
+				smartphone: 150,
+				windows: 40,
+				mac: 120
+			}, {
+				period: '2006',
+				smartphone: 25,
+				windows: 80,
+				mac: 40
+			}, {
+				period: '2007',
+				smartphone: 10,
+				windows: 10,
+				mac: 10
+			}
 
 
 			],
