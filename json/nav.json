@@ -21,11 +21,6 @@
         "icon": "fa-chart-pie"
       },
       {
-        "label": "Dashboard Sosial Media",
-        "url": "sosialMedia.html",
-        "icon": "fa-hashtag"
-      },
-      {
         "label": "Kelola User & Role",
         "url": "manageUserRole.html",
         "icon": "fa-users-cog"
