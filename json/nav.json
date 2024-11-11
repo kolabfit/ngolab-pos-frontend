@@ -27,7 +27,7 @@
       },
       {
         "label": "Kelola User & Role",
-        "url": "manageUserRole.html",
+        "url": "manageUserRole.php",
         "icon": "fa-users-cog"
       },
       {

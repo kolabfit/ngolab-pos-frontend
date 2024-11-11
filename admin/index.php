@@ -71,7 +71,6 @@ $response = curl_exec($ch);
 $produkterlaris = json_decode($response, true);
 curl_close($ch);
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +99,7 @@ curl_close($ch);
 	<link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body data-page="index.html">
+<body data-page="index.php">
 
 	<!--*******************
 		Preloader start
@@ -124,7 +123,7 @@ curl_close($ch);
 			Nav header start
 		***********************************-->
 		<div class="nav-header">
-			<a href="index.html" class="brand-logo">
+			<a href="index.php" class="brand-logo">
 				<img src="../images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
@@ -1063,24 +1062,6 @@ curl_close($ch);
 															</li>
 														</ul>
 													</div>
-													<div class="dropdown ms-2">
-														<div class="btn-link" data-bs-toggle="dropdown">
-															<svg width="24" height="24" viewbox="0 0 24 24" fill="none"
-																xmlns="http://www.w3.org/2000/svg">
-																<circle cx="12.4999" cy="3.5" r="2.5" fill="#A5A5A5">
-																</circle>
-																<circle cx="12.4999" cy="11.5" r="2.5" fill="#A5A5A5">
-																</circle>
-																<circle cx="12.4999" cy="19.5" r="2.5" fill="#A5A5A5">
-																</circle>
-															</svg>
-														</div>
-														<div class="dropdown-menu dropdown-menu-right">
-															<a class="dropdown-item"
-																href="javascript:void(0)">Delete</a>
-															<a class="dropdown-item" href="javascript:void(0)">Edit</a>
-														</div>
-													</div>
 												</div>
 											</div>
 											<div class="card-body">
@@ -1090,11 +1071,12 @@ curl_close($ch);
 														<div
 															class="d-inline-block position-relative donut-chart-sale mb-3">
 															<span class="donut1"
-																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"],   "innerRadius": 20, "radius": 15}'>5/8</span>
+																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"], "innerRadius": 20, "radius": 15}'>5/8</span>
 														</div>
 														<div class="ms-3">
-															<h4 class="fs-24 font-w700 ">246</h4>
-															<span class="fs-16 font-w400 d-block">Total Projects</span>
+															<h4 id="totalProjects" class="fs-24 font-w700 ">0</h4>
+															<span class="fs-16 font-w400 d-block">Total Projects
+																Today</span>
 														</div>
 													</div>
 													<div class="d-flex">
@@ -1107,7 +1089,7 @@ curl_close($ch);
 																</svg>
 															</div>
 															<div class="ms-3">
-																<h4 class="fs-24 font-w700 ">246</h4>
+																<h4 id="kortailQuantity" class="fs-24 font-w700">0</h4>
 																<span class="fs-16 font-w400 d-block">Kortail</span>
 															</div>
 														</div>
@@ -1120,7 +1102,7 @@ curl_close($ch);
 																</svg>
 															</div>
 															<div class="ms-3">
-																<h4 class="fs-24 font-w700 ">246</h4>
+																<h4 id="coWorkQuantity" class="fs-24 font-w700">0</h4>
 																<span class="fs-16 font-w400 d-block">CoWork</span>
 															</div>
 														</div>
@@ -1131,18 +1113,18 @@ curl_close($ch);
 																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFA7D7">
 																	</circle>
 																</svg>
-
 															</div>
 															<div class="ms-3">
-																<h4 class="fs-24 font-w700 ">28</h4>
+																<h4 id="expressQuantity" class="fs-24 font-w700">0</h4>
 																<span class="fs-16 font-w400 d-block">Express</span>
 															</div>
 														</div>
 													</div>
+
 												</div>
 												<div class="tab-content">
 													<div class="tab-pane fade active show" id="monthly">
-														<div id="chartBar" class="chartBar"></div>
+														<div id="chartBarMonthly" class="chartBar"></div>
 													</div>
 													<div class="tab-pane fade" id="Weekly">
 														<div id="chartBar1" class="chartBar"></div>
@@ -1151,7 +1133,7 @@ curl_close($ch);
 														<div id="chartBar2" class="chartBar"></div>
 													</div>
 												</div>
-												<div class="d-flex align-items-center">
+												<!-- <div class="d-flex align-items-center">
 													<label class="form-check-label font-w400 fs-16 mb-0"
 														for="flexSwitchCheckChecked1">Number</label>
 													<div class="form-check form-switch toggle-switch">
@@ -1165,7 +1147,7 @@ curl_close($ch);
 														<input class="form-check-input custome" type="checkbox"
 															id="flexSwitchCheckChecked2" checked="">
 													</div>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>
@@ -1281,12 +1263,17 @@ curl_close($ch);
 													<div class="project-details">
 														<div class="d-flex align-items-center justify-content-between">
 															<div class="d-flex align-items-center">
-																<span class="big-wind" style="overflow:hidden; box-sizing: border-box; margin:0;">
-																	<img src="<?php echo $product['product']['image']?>" alt="" style="width:100%; height:100%; " class="img-fluid">
+																<span class="big-wind"
+																	style="overflow:hidden; box-sizing: border-box; margin:0;">
+																	<img src="<?php echo $product['product']['image'] ?>"
+																		alt="" style="width:100%; height:100%; "
+																		class="img-fluid">
 																</span>
 																<div class="ms-3">
 																	<h4><?php echo $product['product']['name']; ?></h4>
-																	<span class="fs-14 font-w400">Total Terjual: <strong><?php echo $product["total_quantity"]; ?> <strong>Item</span>
+																	<span class="fs-14 font-w400">Total Terjual:
+																		<strong><?php echo $product["total_quantity"]; ?>
+																			<strong>Item</span>
 																</div>
 															</div>
 															<div class="dropdown">
@@ -1513,6 +1500,188 @@ curl_close($ch);
 			fetchAndRenderChart();
 		});
 	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var options = {
+				series: [
+					{
+						name: 'Kortail',
+						data: [50, 18, 70, 40, 90, 70, 20],
+						//radius: 12,	
+					}, 
+					{
+					name: 'CoWork',
+					data: [80, 40, 55, 20, 45, 30, 80]
+					}, 
+					{
+					name: 'Express',
+					data: [20, 100, 80, 95, 45, 50, 70]
+					}, 
+					
+				],
+					chart: {
+					type: 'bar',
+					height: 400,
+					
+					toolbar: {
+						show: false,
+					},
+					
+				},
+				plotOptions: {
+				bar: {
+					horizontal: false,
+					columnWidth: '57%',
+					endingShape: "rounded",
+					borderRadius: 12,
+				},
+				
+				},
+				states: {
+				hover: {
+					filter: 'none',
+				}
+				},
+				colors:['#42FFFF', '#FFCF6D', '#FFA7D7'],
+				dataLabels: {
+				enabled: false,
+				},
+				markers: {
+			shape: "circle",
+			},
+			legend: {
+				show: false,
+				fontSize: '12px',
+				labels: {
+					colors: '#000000',
+					
+					},
+				markers: {
+				width: 18,
+				height: 18,
+				strokeWidth: 10,
+				strokeColor: '#fff',
+				fillColors: undefined,
+				radius: 12,	
+				}
+			},
+			stroke: {
+			  show: true,
+			  width: 4,
+			  curve: 'smooth',
+			  lineCap: 'round',
+			  colors: ['transparent']
+			},
+			grid: {
+				borderColor: '#eee',
+			},
+			xaxis: {
+				 position: 'bottom',
+			  categories: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+			  labels: {
+			   style: {
+				  colors: '#787878',
+				  fontSize: '13px',
+				  fontFamily: 'poppins',
+				  fontWeight: 100,
+				  cssClass: 'apexcharts-xaxis-label',
+				},
+			  },
+			  crosshairs: {
+			  show: false,
+			  }
+			},
+			yaxis: {
+				labels: {
+					offsetX:-16,
+				   style: {
+					  colors: '#787878',
+					  fontSize: '13px',
+					   fontFamily: 'poppins',
+					  fontWeight: 100,
+					  cssClass: 'apexcharts-xaxis-label',
+				  },
+			  },
+			},
+			fill: {
+				type: 'gradient',
+				gradient: {
+					shade: 'white',
+					type: "vertical",
+					shadeIntensity: 0.2,
+					gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+					inverseColors: true,
+					opacityFrom: 1,
+					opacityTo: 1,
+					stops: [0, 50, 50],
+					colorStops: []
+				}
+			}, 
+			tooltip: {
+			  y: {
+				formatter: function (val) {
+				  return "$ " + val + " thousands"
+				}
+			  }
+			},
+			};
+
+			var chartBar1 = new ApexCharts(document.querySelector("#chartBarMonthly"), options);
+			chartBar1.render();
+		});
+	</script>
+
+	<script>
+		// Fungsi untuk mendapatkan data dari API dan memperbarui elemen HTML
+		async function fetchSalesData() {
+			try {
+				// Mem-fetch data dari API
+				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const data = await response.json();
+
+				// Memastikan respon dari API memiliki data
+				if (data && data.data && data.data.length > 0) {
+					// Misalnya kita ambil data dari hari terakhir (data terbaru)
+					const latestSalesData = data.data[data.data.length - 1];
+
+					// Update nilai total quantity di elemen HTML
+					document.getElementById('totalProjects').innerText = latestSalesData.total_quantity;
+					document.getElementById('totalSales').innerText = latestSalesData.total_sales;
+				}
+			} catch (error) {
+				console.error('Error fetching sales data:', error);
+			}
+		}
+
+		// Panggil fungsi saat halaman dimuat
+		window.onload = fetchSalesData;
+	</script>
+
+	<script>
+		async function fetchAndDisplayData() {
+			try {
+				// Fetch data dari API
+				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const jsonData = await response.json();
+
+				// Ambil data terbaru dari array "data"
+				const latestData = jsonData.data[jsonData.data.length - 1];
+
+				// Update elemen HTML dengan data terbaru
+				document.getElementById('kortailQuantity').innerText = latestData.total_quantity;
+				document.getElementById('coWorkQuantity').innerText = latestData.total_quantity;
+				document.getElementById('expressQuantity').innerText = latestData.total_quantity;
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		}
+
+		// Panggil fungsi ketika halaman dimuat
+		window.onload = fetchAndDisplayData;
+	</script>
+
+
 
 	<!-- <script>
 		document.addEventListener("DOMContentLoaded", function () {
