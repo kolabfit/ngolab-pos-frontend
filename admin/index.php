@@ -1282,7 +1282,7 @@ curl_close($ch);
 														<div class="d-flex align-items-center justify-content-between">
 															<div class="d-flex align-items-center">
 																<span class="big-wind" style="overflow:hidden; box-sizing: border-box; margin:0;">
-																	<img src="<?php echo $product['product']['image']?>" alt="" style="width:100%; height:100%; " class="img-fluid">
+																	<img src="<?php echo $product['product']['image'] ?>" alt="" style="width:100%; height:100%; " class="img-fluid">
 																</span>
 																<div class="ms-3">
 																	<h4><?php echo $product['product']['name']; ?></h4>
@@ -1436,7 +1436,7 @@ curl_close($ch);
 	</script> -->
 
 	<script>
-		document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function() {
 			async function fetchAndRenderChart() {
 				try {
 					// Panggil API dan parsing hasilnya sebagai JSON
@@ -1467,7 +1467,7 @@ curl_close($ch);
 							width: 0,
 						},
 						legend: {
-							show: false  // Sembunyikan legend bawaan ApexCharts
+							show: false // Sembunyikan legend bawaan ApexCharts
 						},
 						responsive: [{
 							breakpoint: 1800,
@@ -1485,7 +1485,7 @@ curl_close($ch);
 
 					// Generate legend dinamis
 					const legendContainer = document.getElementById("legendContainer");
-					legendContainer.innerHTML = '';  // Kosongkan legend sebelum mengisinya
+					legendContainer.innerHTML = ''; // Kosongkan legend sebelum mengisinya
 
 					data.forEach((item, index) => {
 						// Buat elemen HTML untuk setiap kategori
@@ -1623,25 +1623,25 @@ curl_close($ch);
 			// Chart data records -- each entry in this array corresponds to a point on
 			// the chart.
 			data: [{
-				year: '2008',
-				value: 20
-			},
-			{
-				year: '2009',
-				value: 10
-			},
-			{
-				year: '2010',
-				value: 5
-			},
-			{
-				year: '2011',
-				value: 5
-			},
-			{
-				year: '2012',
-				value: 20
-			}
+					year: '2008',
+					value: 20
+				},
+				{
+					year: '2009',
+					value: 10
+				},
+				{
+					year: '2010',
+					value: 5
+				},
+				{
+					year: '2011',
+					value: 5
+				},
+				{
+					year: '2012',
+					value: 20
+				}
 			],
 			// The name of the data record attribute that contains x-values.
 			xkey: 'year',
@@ -1690,66 +1690,75 @@ curl_close($ch);
 			})
 		}
 
-		jQuery(window).on('load', function () {
-			setTimeout(function () {
+		jQuery(window).on('load', function() {
+			setTimeout(function() {
 				cardsCenter();
 			}, 1000);
 		});
 	</script>
 	<script>
-		Morris.Area({
-			element: 'jam_penjualan',
-			data: [{
-				period: '2001',
-				smartphone: 0,
-				windows: 0,
-				mac: 0
-			}, {
-				period: '2002',
-				smartphone: 90,
-				windows: 60,
-				mac: 25
-			}, {
-				period: '2003',
-				smartphone: 40,
-				windows: 80,
-				mac: 35
-			}, {
-				period: '2004',
-				smartphone: 30,
-				windows: 47,
-				mac: 17
-			}, {
-				period: '2005',
-				smartphone: 150,
-				windows: 40,
-				mac: 120
-			}, {
-				period: '2006',
-				smartphone: 25,
-				windows: 80,
-				mac: 40
-			}, {
-				period: '2007',
-				smartphone: 10,
-				windows: 10,
-				mac: 10
+		// Fungsi untuk menampilkan chart Morris dengan data dari API
+		function renderMorrisChart(data) {
+			new Morris.Area({
+				element: 'jam_penjualan',
+				data: data, // Data dari fetch API dimasukkan di sini
+				lineColors: ['#123456', '#123444'], // Sesuaikan dengan warna yang diinginkan']
+				xkey: 'hour',
+				ykeys: ['Ngolab Cowork', 'Ngolab Retail', 'Ngolab Express'], // Sesuaikan dengan nama outlet
+				labels: ['Ngolab Cowork', 'Ngolab Retail', 'Ngolab Express'], // Sesuaikan dengan nama outlet
+				pointSize: 0,
+				lineWidth: 0,
+				resize: true,
+				fillOpacity: 1,
+				behaveLikeLine: true,
+				gridLineColor: 'transparent',
+				hideHover: 'auto',
+
+				dateFormat: function(x) {
+					return x + ":00"; // Ini juga memastikan tampilan saat hover sesuai format jam
+				}
+			});
+		}
+
+		// Ambil data dari API dan masukkan ke chart Morris
+		async function fetchData() {
+			try {
+				const response = await fetch('http://127.0.0.1:8000/api/transactions/total/hour'); // Ganti dengan URL API Anda
+				const result = await response.json();
+
+				// Peta data dari respons API menjadi format Morris
+				const rawData = result.data;
+				const morrisData = [];
+
+				// Proses data per hour untuk mendapatkan data yang sesuai dengan format Morris
+				rawData.forEach(item => {
+					// Temukan atau buat entri untuk setiap hour
+					let hourEntry = morrisData.find(entry => entry.hour === item.hour);
+
+					if (!hourEntry) {
+						hourEntry = {
+							hour: item.hour
+						};
+						morrisData.push(hourEntry);
+					}
+
+					// Tambahkan data outlet untuk setiap hour
+					for (let [outlet, count] of Object.entries(item)) {
+						if (outlet !== 'hour') {
+							hourEntry[outlet] = count;
+						}
+					}
+				});
+
+				// Panggil fungsi untuk render chart
+				renderMorrisChart(morrisData);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
 			}
+		}
 
-
-			],
-			lineColors: ['#FFA7D7', 'rgb(16, 202, 147)', 'rgb(255, 92, 0)'],
-			xkey: 'period',
-			ykeys: ['smartphone', 'windows', 'mac'],
-			labels: ['Phone', 'Windows', 'Mac'],
-			pointSize: 0,
-			lineWidth: 0,
-			resize: true,
-			fillOpacity: 0.95,
-			behaveLikeLine: true,
-			gridLineColor: 'transparent',
-			hideHover: 'auto'
-		});
+		// Panggil fetchData untuk mengambil dan menampilkan data
+		fetchData();
 	</script>
 </body>
 
