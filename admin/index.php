@@ -71,6 +71,48 @@ $response = curl_exec($ch);
 $produkterlaris = json_decode($response, true);
 curl_close($ch);
 
+$url = 'http://127.0.0.1:8000/api/transactions/sales/day';
+
+// Inisiasi cURL
+$ch = curl_init($url);
+
+// Set opsi cURL untuk mengirim request POST dengan JSON
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Set header untuk memberitahu bahwa kita mengirimkan JSON
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json',
+	'Accept: application/json',
+	'Authorization: ' . $_COOKIE['auth_token']
+]);
+
+// Eksekusi cURL dan ambil respons dari API
+$response = curl_exec($ch);
+// Decode response dari JSON ke array PHP
+$salesInDay = json_decode($response, true);
+curl_close($ch);
+
+$url = 'http://127.0.0.1:8000/api/outlet/transactions/sales/day';
+
+// Inisiasi cURL
+$ch = curl_init($url);
+
+// Set opsi cURL untuk mengirim request POST dengan JSON
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Set header untuk memberitahu bahwa kita mengirimkan JSON
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json',
+	'Accept: application/json',
+	'Authorization: ' . $_COOKIE['auth_token']
+]);
+
+// Eksekusi cURL dan ambil respons dari API
+$response = curl_exec($ch);
+// Decode response dari JSON ke array PHP
+$salesInDayPerOutlet = json_decode($response, true);
+curl_close($ch);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1050,15 +1092,15 @@ curl_close($ch);
 														<ul class="nav nav-tabs" role="tablist">
 															<li class="nav-item">
 																<a class="nav-link active" data-bs-toggle="tab"
+																	href="../#weekly" role="tab">Weekly</a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link" data-bs-toggle="tab"
+																	href="../#daily" role="tab">Daily</a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link" data-bs-toggle="tab"
 																	href="../#monthly" role="tab">Monthly</a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab"
-																	href="../#Weekly" role="tab">Weekly</a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab"
-																	href="../#Today" role="tab">Today</a>
 															</li>
 														</ul>
 													</div>
@@ -1074,62 +1116,38 @@ curl_close($ch);
 																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"], "innerRadius": 20, "radius": 15}'>5/8</span>
 														</div>
 														<div class="ms-3">
-															<h4 id="totalProjects" class="fs-24 font-w700 ">0</h4>
-															<span class="fs-16 font-w400 d-block">Total Projects
+															<h4 id="totalProjects" class="fs-24 font-w700 ">Rp.<?= number_format($salesInDay['data']['total_sales'], 0, ',', '.') ?></h4>
+															<span class="fs-16 font-w400 d-block">Total Sales
 																Today</span>
 														</div>
 													</div>
 													<div class="d-flex">
-														<div class="d-flex me-5">
-															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13"
-																	fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF">
-																	</circle>
-																</svg>
+														<?php foreach ($salesInDayPerOutlet['data'] as $sales) : ?>
+															<div class="d-flex me-5">
+																<div class="mt-2">
+																	<svg width="13" height="13" viewbox="0 0 13 13"
+																		fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF">
+																		</circle>
+																	</svg>
+																</div>
+																<div class="ms-3">
+																	<h4 id="kortailQuantity" class="fs-24 font-w700"><?= number_format($sales['total_sales'], 0, ',', '.') ?></h4>
+																	<span class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
+																</div>
 															</div>
-															<div class="ms-3">
-																<h4 id="kortailQuantity" class="fs-24 font-w700">0</h4>
-																<span class="fs-16 font-w400 d-block">Kortail</span>
-															</div>
-														</div>
-														<div class="d-flex me-5">
-															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13"
-																	fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFCF6D">
-																	</circle>
-																</svg>
-															</div>
-															<div class="ms-3">
-																<h4 id="coWorkQuantity" class="fs-24 font-w700">0</h4>
-																<span class="fs-16 font-w400 d-block">CoWork</span>
-															</div>
-														</div>
-														<div class="d-flex">
-															<div class="mt-2">
-																<svg width="13" height="13" viewbox="0 0 13 13"
-																	fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="6.5" cy="6.5" r="6.5" fill="#FFA7D7">
-																	</circle>
-																</svg>
-															</div>
-															<div class="ms-3">
-																<h4 id="expressQuantity" class="fs-24 font-w700">0</h4>
-																<span class="fs-16 font-w400 d-block">Express</span>
-															</div>
-														</div>
+														<?php endforeach; ?>
 													</div>
 
 												</div>
 												<div class="tab-content">
-													<div class="tab-pane fade active show" id="monthly">
-														<div id="chartBarMonthly" class="chartBar"></div>
+													<div class="tab-pane fade active show" id="weekly">
+														<div id="chartBarWeekly" class="chartBar"></div>
 													</div>
-													<div class="tab-pane fade" id="Weekly">
+													<div class="tab-pane fade" id="daily">
 														<div id="chartBar1" class="chartBar"></div>
 													</div>
-													<div class="tab-pane fade" id="Today">
+													<div class="tab-pane fade" id="monthly">
 														<div id="chartBar2" class="chartBar"></div>
 													</div>
 												</div>
@@ -1502,31 +1520,58 @@ curl_close($ch);
 	</script>
 
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			var options = {
-				series: [{
-						name: 'Kortail',
-						data: [50, 18, 70, 40, 90, 70, 20],
-						//radius: 12,	
-					},
-					{
-						name: 'CoWork',
-						data: [80, 40, 55, 20, 45, 30, 80]
-					},
-					{
-						name: 'Express',
-						data: [20, 100, 80, 95, 45, 50, 70]
-					},
+		// URL API Anda
+		const apiUrl = 'http://127.0.0.1:8000/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
 
-				],
+		// Fungsi untuk mengambil data dari API dan memprosesnya
+		async function fetchDataAndRenderChart() {
+			try {
+				const response = await fetch(apiUrl);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+
+				const apiResponse = await response.json();
+				const formattedData = processData(apiResponse.data);
+
+				renderChart(formattedData);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		}
+
+		// Fungsi untuk memproses data API
+		const processData = (data) => {
+			const outletsData = {};
+
+			data.forEach(entry => {
+				for (const outlet in entry) {
+					if (outlet !== 'date') {
+						if (!outletsData[outlet]) {
+							outletsData[outlet] = [];
+						}
+						outletsData[outlet].push(parseInt(entry[outlet].total_sales, 10) || 0);
+					}
+				}
+			});
+
+			return Object.keys(outletsData).map(outlet => ({
+				name: outlet,
+				data: outletsData[outlet]
+			}));
+		};
+
+		// Fungsi untuk menampilkan grafik dengan ApexCharts
+		const renderChart = (formattedData) => {
+			var options = {
+				series: formattedData,
 				chart: {
 					type: 'bar',
 					height: 400,
-
 					toolbar: {
 						show: false,
 					},
-
 				},
 				plotOptions: {
 					bar: {
@@ -1535,100 +1580,48 @@ curl_close($ch);
 						endingShape: "rounded",
 						borderRadius: 12,
 					},
-
-				},
-				states: {
-					hover: {
-						filter: 'none',
-					}
 				},
 				colors: ['#42FFFF', '#FFCF6D', '#FFA7D7'],
 				dataLabels: {
 					enabled: false,
 				},
-				markers: {
-					shape: "circle",
-				},
 				legend: {
 					show: false,
-					fontSize: '12px',
-					labels: {
-						colors: '#000000',
-
-					},
-					markers: {
-						width: 18,
-						height: 18,
-						strokeWidth: 10,
-						strokeColor: '#fff',
-						fillColors: undefined,
-						radius: 12,
-					}
-				},
-				stroke: {
-					show: true,
-					width: 4,
-					curve: 'smooth',
-					lineCap: 'round',
-					colors: ['transparent']
-				},
-				grid: {
-					borderColor: '#eee',
 				},
 				xaxis: {
-					position: 'bottom',
-					categories: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+					categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
 					labels: {
 						style: {
 							colors: '#787878',
 							fontSize: '13px',
 							fontFamily: 'poppins',
-							fontWeight: 100,
-							cssClass: 'apexcharts-xaxis-label',
 						},
 					},
-					crosshairs: {
-						show: false,
-					}
 				},
 				yaxis: {
 					labels: {
-						offsetX: -16,
 						style: {
 							colors: '#787878',
 							fontSize: '13px',
 							fontFamily: 'poppins',
-							fontWeight: 100,
-							cssClass: 'apexcharts-xaxis-label',
 						},
 					},
-				},
-				fill: {
-					type: 'gradient',
-					gradient: {
-						shade: 'white',
-						type: "vertical",
-						shadeIntensity: 0.2,
-						gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
-						inverseColors: true,
-						opacityFrom: 1,
-						opacityTo: 1,
-						stops: [0, 50, 50],
-						colorStops: []
-					}
 				},
 				tooltip: {
 					y: {
 						formatter: function(val) {
-							return "$ " + val + " thousands"
+							return "Rp. " + val.toLocaleString();
 						}
 					}
 				},
 			};
 
-			var chartBar1 = new ApexCharts(document.querySelector("#chartBarMonthly"), options);
+			var chartBar1 = new ApexCharts(document.querySelector("#chartBarWeekly"), options);
 			chartBar1.render();
-		});
+		};
+
+		// Menjalankan fungsi untuk mengambil data dan menampilkan grafik saat halaman dimuat
+		document.addEventListener("DOMContentLoaded", fetchDataAndRenderChart);
 	</script>
 
 	<script>
@@ -1866,22 +1859,21 @@ curl_close($ch);
 	</script>
 	<script>
 		// Fungsi untuk menampilkan chart Morris dengan data dari API
-		function renderMorrisChart(data) {
+		function renderMorrisChart(data, outlet_name) {
 			new Morris.Area({
 				element: 'jam_penjualan',
 				data: data, // Data dari fetch API dimasukkan di sini
-				lineColors: ['#123456', '#123444'], // Sesuaikan dengan warna yang diinginkan']
+				lineColors: ['#123456', '#f5cf53'], // Sesuaikan dengan warna yang diinginkan']
 				xkey: 'hour',
-				ykeys: ['Ngolab Cowork', 'Ngolab Retail', 'Ngolab Express'], // Sesuaikan dengan nama outlet
-				labels: ['Ngolab Cowork', 'Ngolab Retail', 'Ngolab Express'], // Sesuaikan dengan nama outlet
+				ykeys: outlet_name, // Sesuaikan dengan nama outlet
+				labels: outlet_name, // Sesuaikan dengan nama outlet
 				pointSize: 0,
 				lineWidth: 0,
 				resize: true,
-				fillOpacity: 1,
+				fillOpacity: 0.9,
 				behaveLikeLine: true,
 				gridLineColor: 'transparent',
 				hideHover: 'auto',
-
 				dateFormat: function(x) {
 					return x + ":00"; // Ini juga memastikan tampilan saat hover sesuai format jam
 				}
@@ -1899,7 +1891,7 @@ curl_close($ch);
 				const morrisData = [];
 
 				// Proses data per hour untuk mendapatkan data yang sesuai dengan format Morris
-				rawData.forEach(item => {
+				rawData.transactions.forEach(item => {
 					// Temukan atau buat entri untuk setiap hour
 					let hourEntry = morrisData.find(entry => entry.hour === item.hour);
 
@@ -1919,7 +1911,7 @@ curl_close($ch);
 				});
 
 				// Panggil fungsi untuk render chart
-				renderMorrisChart(morrisData);
+				renderMorrisChart(morrisData, rawData.outlet_name);
 			} catch (error) {
 				console.error("Error fetching data: ", error);
 			}

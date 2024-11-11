@@ -1,8 +1,8 @@
 <?php
-if (isset ($_COOKIE['auth_token'])) {
+if (isset($_COOKIE['auth_token'])) {
     $url = 'http://127.0.0.1:8000/api/users';
 
-	// Inisiasi cURL
+    // Inisiasi cURL
     $ch = curl_init($url);
 
     // Set opsi cURL untuk mengirim request POST dengan JSON
@@ -12,24 +12,25 @@ if (isset ($_COOKIE['auth_token'])) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         'Accept: application/json',
-		'Authorization: ' . $_COOKIE['auth_token']
+        'Authorization: ' . $_COOKIE['auth_token']
     ]);
 
     // Eksekusi cURL dan ambil respons dari API
     $response = curl_exec($ch);
-	// Decode response dari JSON ke array PHP
+    // Decode response dari JSON ke array PHP
     $result = json_decode($response, true);
     curl_close($ch);
 
-	if ($result['success'] == true) {
-		header('Location: ../admin/index.php');
-		exit;
-	}
+    if ($result['success'] == true) {
+        header('Location: ../admin/index.php');
+        exit;
+    }
 }
 ?>
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,13 +47,23 @@ if (isset ($_COOKIE['auth_token'])) {
             background-size: 800% 800%;
             animation: gradientBG 10s ease infinite;
         }
+
         @keyframes gradientBG {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
         }
     </style>
 </head>
+
 <body class="animated-bg text-white min-h-screen flex flex-col">
 
     <!-- Navigation -->
@@ -115,4 +126,5 @@ if (isset ($_COOKIE['auth_token'])) {
         // Custom hover effects for buttons can be added via Tailwind's transition classes
     </script>
 </body>
+
 </html>
