@@ -1023,10 +1023,8 @@ $users = $data['data'] ?? [];
 														<td><?= htmlspecialchars($role['name']) ?></td>
 														<td>
 															<div class="d-flex">
-																<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-																		class="fas fa-pencil-alt"></i></a>
-																<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-																		class="fa fa-trash"></i></a>
+																<button href="#" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																		class="fas fa-pencil-alt"></i></button>
 															</div>
 														</td>
 													</tr>
@@ -1050,7 +1048,7 @@ $users = $data['data'] ?? [];
 							<div class="card-body">
 								<div class="d-flex mb-3">
 									<a href="#" class="btn btn-success shadow btn-xs sharp me-1"><i
-											class="fas fa-plus"></i> </a> 
+											class="fas fa-plus"></i> </a>
 								</div>
 								<div class="table-responsive">
 									<table id="datauser" class="display" style="min-width: 845px">
@@ -1090,10 +1088,9 @@ $users = $data['data'] ?? [];
 														<td><?= $user['staff']['position'] ?></td>
 														<td>
 															<div class="d-flex">
-																<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-																		class="fas fa-pencil-alt"></i></a>
-																<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-																		class="fa fa-trash"></i></a>
+																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
 															</div>
 														</td>
 													</tr>
@@ -1144,6 +1141,35 @@ $users = $data['data'] ?? [];
 		Main wrapper end
 	***********************************-->
 
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="role_id" class="col-form-label">Role:</label>
+							<select class="form-select" id="role_id">
+								<?php foreach ($roles as $role) : ?>
+									<option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal End -->
+
 	<!--**********************************
 		Scripts
 	***********************************-->
@@ -1159,6 +1185,54 @@ $users = $data['data'] ?? [];
 	<!-- Datatable -->
 	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
 	<script src="../js/plugins-init/datatables.init.js"></script>
+
+	<!-- Modal Script -->
+	<script type="module">
+		import {
+			callApi
+		} from '../js/logic/api.js';
+
+		// Tangkap elemen modal
+		var exampleModal = document.getElementById('exampleModal');
+		var userId = 0;
+
+		// Event ketika modal ditampilkan
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			userId = button.getAttribute('data-id');
+		});
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('updateButton').addEventListener('click', function() {
+			// Ambil data role_id dari form
+			var role_id = document.getElementById('role_id').value;
+
+			(async () => {
+				try {
+					const data = await callApi('/api/roles/assign', {
+						method: 'POST',
+						body: {
+							user_id: userId,
+							role_id: role_id
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+	</script>
+
 </body>
 
 </html>

@@ -963,11 +963,9 @@ if ($outlets['success']) {
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<div class="d-flex">
-									<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-											class="fas fa-pencil-alt"></i></a>
-									<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-											class="fa fa-trash"></i></a>
+								<div class="d-flex mb-3">
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
+											class="fas fa-plus"></i></button>
 								</div>
 								<div class="table-responsive">
 									<table id="example5" class="display" style="min-width: 845px">
@@ -1003,8 +1001,9 @@ if ($outlets['success']) {
 														<td><?= htmlspecialchars($outlet['phone']) ?></td>
 														<td>
 															<div class="d-flex">
-																<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-																		class="fas fa-pencil-alt"></i></a>
+																<button data-id="<?php echo $outlet['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
 																<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
 																		class="fa fa-trash"></i></a>
 															</div>
@@ -1057,6 +1056,73 @@ if ($outlets['success']) {
 		Main wrapper end
 	***********************************-->
 
+	<!-- Modul -->
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
+							<input type="text" class="form-control" id="name" name="name">
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
+							<input type="text" class="form-control" id="address" name="address">
+						</div>
+						<div class="mb-3">
+							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
+							<input type="text" class="form-control" id="phone" name="phone">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modul -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Outlet</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
+							<input type="text" class="form-control" id="outletName" name="outletName" required>
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
+							<input type="text" class="form-control" id="outletAddress" name="outletAddress" required>
+						</div>
+						<div class="mb-3">
+							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
+							<input type="text" class="form-control" id="outletPhone" name="outletPhone" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modul -->
+
 	<!--**********************************
 		Scripts
 	***********************************-->
@@ -1077,6 +1143,94 @@ if ($outlets['success']) {
 	<script src="../js/dlabnav-init.js"></script>
 	<script src="../js/demo.js"></script>
 	<script src="../js/styleSwitcher.js"></script>
+
+	<script type="module">
+		import {
+			callApi
+		} from '../js/logic/api.js';
+
+		// Tangkap elemen modal
+		var exampleModal = document.getElementById('exampleModal');
+		var outlet_id = 0;
+
+		// Event ketika modal ditampilkan
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			outlet_id = button.getAttribute('data-id');
+
+			(async () => {
+				try {
+					const data = await callApi('/api/outlets?id=' + outlet_id, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					document.getElementById('name').value = data.data.name;
+					document.getElementById('address').value = data.data.address;
+					document.getElementById('phone').value = data.data.phone;
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('updateButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/outlets/' + outlet_id, {
+						method: 'POST',
+						body: {
+							name: document.getElementById('name').value,
+							address: document.getElementById('address').value,
+							phone: document.getElementById('phone').value
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/outlets', {
+						method: 'POST',
+						body: {
+							name: document.getElementById('outletName').value,
+							address: document.getElementById('outletAddress').value,
+							phone: document.getElementById('outletPhone').value
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+	</script>
 </body>
 
 </html>

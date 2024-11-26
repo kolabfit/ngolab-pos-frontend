@@ -23,7 +23,7 @@ if (isset($_COOKIE['auth_token']) == false) {
 	$result = json_decode($response, true);
 	curl_close($ch);
 
-	if ($result['success'] != true) {
+	if ($result['success'] != true && $result['role_id'] == 1) {
 		header('Location: ../logic/login.php');
 		exit;
 	}
@@ -1050,37 +1050,6 @@ curl_close($ch);
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="row">
-							<div class="col-xl-6 col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Total Overview</h4>
-									</div>
-									<div class="card-body">
-										<div id="simple-line-chart" class="ct-chart ct-golden-section chartlist-chart">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-6 col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Income Overview</h4>
-									</div>
-									<div class="card-body">
-										<div id="default-data" class="ct-chart ct-golden-section chartlist-chart"></div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Jam Penjualan</h4>
-									</div>
-									<div class="card-body">
-										<div id="jam_penjualan"></div>
-									</div>
-								</div>
-							</div>
 							<div class="col-xl-12">
 								<div class="row">
 									<div class="col-xl-12">
@@ -1093,10 +1062,6 @@ curl_close($ch);
 															<li class="nav-item">
 																<a class="nav-link active" data-bs-toggle="tab"
 																	href="../#weekly" role="tab">Weekly</a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab"
-																	href="../#daily" role="tab">Daily</a>
 															</li>
 															<li class="nav-item">
 																<a class="nav-link" data-bs-toggle="tab"
@@ -1144,33 +1109,49 @@ curl_close($ch);
 													<div class="tab-pane fade active show" id="weekly">
 														<div id="chartBarWeekly" class="chartBar"></div>
 													</div>
-													<div class="tab-pane fade" id="daily">
-														<div id="chartBar1" class="chartBar"></div>
-													</div>
+
 													<div class="tab-pane fade" id="monthly">
-														<div id="chartBar2" class="chartBar"></div>
+														<div id="chartBarMonthly" class="chartBar"></div>
 													</div>
 												</div>
-												<!-- <div class="d-flex align-items-center">
-													<label class="form-check-label font-w400 fs-16 mb-0"
-														for="flexSwitchCheckChecked1">Number</label>
-													<div class="form-check form-switch toggle-switch">
-														<input class="form-check-input custome" type="checkbox"
-															id="flexSwitchCheckChecked1" checked="">
-
-													</div>
-													<label class="form-check-label font-w400 fs-16 mb-0 ms-3"
-														for="flexSwitchCheckChecked2">Analytics</label>
-													<div class="form-check form-switch toggle-switch">
-														<input class="form-check-input custome" type="checkbox"
-															id="flexSwitchCheckChecked2" checked="">
-													</div>
-												</div> -->
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							<div class="col-xl-6 col-lg-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">Total Overview</h4>
+									</div>
+									<div class="card-body">
+										<div id="simple-line-chart" class="ct-chart ct-golden-section chartlist-chart">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">Income Overview</h4>
+									</div>
+									<div class="card-body">
+										<div id="default-data" class="ct-chart ct-golden-section chartlist-chart"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">Jam Penjualan</h4>
+										<input type="checkbox" name="monthly" id="turnOnMonthly">
+									</div>
+									<div class="card-body">
+										<div id="jam_penjualan"></div>
+									</div>
+								</div>
+							</div>
+
 							<div class="col-xl-12">
 								<div class="row">
 									<div class="col-xl-6 col-lg-6">
@@ -1191,73 +1172,6 @@ curl_close($ch);
 														</div>
 														<!-- Tambahkan container untuk legend dinamis -->
 														<div id="legendContainer"></div>
-														<!-- <div>
-															<div
-																class="d-flex align-items-center justify-content-between mb-4">
-																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20"
-																		viewbox="0 0 20 20" fill="none"
-																		xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6"
-																			fill="#886CC0"></rect>
-																	</svg>
-																	Primary (27%)
-																</span>
-																<span class="fs-18 font-w600">763</span>
-															</div>
-															<div
-																class="d-flex align-items-center justify-content-between  mb-4">
-																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20"
-																		viewbox="0 0 20 20" fill="none"
-																		xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6"
-																			fill="#26E023"></rect>
-																	</svg>
-																	Promotion (11%)
-																</span>
-																<span class="fs-18 font-w600">321</span>
-															</div>
-															<div
-																class="d-flex align-items-center justify-content-between  mb-4">
-																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20"
-																		viewbox="0 0 20 20" fill="none"
-																		xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6"
-																			fill="#61CFF1"></rect>
-																	</svg>
-																	Forum (22%)
-																</span>
-																<span class="fs-18 font-w600">69</span>
-															</div>
-															<div
-																class="d-flex align-items-center justify-content-between  mb-4">
-																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20"
-																		viewbox="0 0 20 20" fill="none"
-																		xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6"
-																			fill="#FFDA7C"></rect>
-																	</svg>
-																	Socials (15%)
-																</span>
-																<span class="fs-18 font-w600">154</span>
-															</div>
-															<div
-																class="d-flex align-items-center justify-content-between  mb-4">
-																<span class="fs-18 font-w500">
-																	<svg class="me-3" width="20" height="20"
-																		viewbox="0 0 20 20" fill="none"
-																		xmlns="http://www.w3.org/2000/svg">
-																		<rect width="20" height="20" rx="6"
-																			fill="#FF86B1"></rect>
-																	</svg>
-																	Spam (25%)
-																</span>
-																<span class="fs-18 font-w600">696</span>
-															</div>
-														</div> -->
 													</div>
 													<div class="card-footer border-0 pt-0">
 														<a href="javascript:void(0);"
@@ -1385,61 +1299,6 @@ curl_close($ch);
 	<script src="../vendor/chartist/js/chartist.min.js"></script>
 	<script src="../vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 	<script src="../js/plugins-init/chartist-init.js"></script>
-
-	<!-- Local Written Script -->
-	<!-- <script>
-		var screenWidth = $(window).width();
-		let draw = Chart.controllers.line.__super__.draw; //draw shadow
-		var ChartKategoryTerlaris = function () {
-			var options = {
-				series: [1, 2, 3, 4, 50],
-				chart: {
-					type: 'donut',
-					height: 300
-				},
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					width: 0,
-				},
-				colors: ['var(--primary)', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'],
-				legend: {
-					position: 'bottom',
-					show: false
-				},
-				responsive: [{
-					breakpoint: 1800,
-					options: {
-						chart: {
-							height: 200
-						},
-					}
-				},
-				{
-					breakpoint: 1800,
-					options: {
-						chart: {
-							height: 200
-						},
-					}
-				}
-				]
-			};
-
-			var chart = new ApexCharts(document.querySelector("#kategoriterlarischart"), options);
-			chart.render();
-
-		}
-
-		jQuery(window).on('load', function () {
-			setTimeout(function () {
-				ChartKategoryTerlaris();
-			}, 1000);
-
-		});
-	</script> -->
-
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			async function fetchAndRenderChart() {
@@ -1673,110 +1532,6 @@ curl_close($ch);
 		window.onload = fetchAndDisplayData;
 	</script>
 
-
-
-	<!-- <script>
-		document.addEventListener("DOMContentLoaded", function () {
-			async function fetchAndDisplayProducts() {
-				try {
-					const response = await fetch('http://127.0.0.1:8000/api/transactions/best-products');
-					const result = await response.json();
-					const products = result.data;
-
-					// Pilih kontainer untuk produk terlaris
-					const productContainer = document.getElementById("productContainer");
-					productContainer.innerHTML = '';  // Kosongkan kontainer sebelum menambahkan produk baru
-
-					products.forEach((item) => {
-						// Buat elemen HTML untuk setiap produk
-						const productElement = document.createElement("div");
-						productElement.classList.add("project-details");
-
-						productElement.innerHTML = `
-						<div class="project-details">
-													<div class="d-flex align-items-center justify-content-between">
-														<div class="d-flex align-items-center">
-															<span class="big-wind">
-																<img src="${item.product.image}" alt="${item.product.image}">
-															</span>
-															<div class="ms-3">
-																<h4>${item.product.name}</h4>
-																<span class="fs-14 font-w400">Rp${item.product.price.toLocaleString()}</span>
-															</div>
-														</div>
-														<div class="dropdown">
-															<div class="btn-link" data-bs-toggle="dropdown">
-																<svg width="24" height="24" viewbox="0 0 24 24"
-																	fill="none" xmlns="http://www.w3.org/2000/svg">
-																	<circle cx="12.4999" cy="3.5" r="2.5"
-																		fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="11.5" r="2.5"
-																		fill="#A5A5A5"></circle>
-																	<circle cx="12.4999" cy="19.5" r="2.5"
-																		fill="#A5A5A5"></circle>
-																</svg>
-															</div>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item"
-																	href="javascript:void(0)">Delete</a>
-																<a class="dropdown-item"
-																	href="javascript:void(0)">Edit</a>
-															</div>
-														</div>
-													</div>
-													<h4 class="fs-16 font-w600 mt-4">${item.product.description}</h4>
-													<div class="projects">
-														<span
-															class="badge bgl-warning text-warning font-w700 me-3">SEO</span>
-														<span
-															class="badge bgl-danger text-danger font-w700">MARKETING</span>
-													</div>
-													<div class="mt-3">
-														<div class="progress default-progress">
-															<div class="progress-bar bg-gradient1 progress-animated"
-																style="width: 45%; height:10px;" role="progressbar">
-																<span class="sr-only">45% Complete</span>
-															</div>
-														</div>
-														<div
-															class="d-flex align-items-end mt-3 pb-3 justify-content-between">
-															<span class="fs-14 font-w400"><small
-																	class="font-w700 me-2">12</small>Task Done</span>
-															<span class="fs-14 font-w400">Due date: 12/05/2020</span>
-														</div>
-														<div class="projects">
-						<span class="badge bgl-warning text-warning font-w700 me-3">Category ID: ${item.product.category_id}</span>
-						<span class="badge bgl-primary text-primary font-w700">Best Seller</span>
-					</div>
-					<div class="mt-3">
-						<div class="progress default-progress">
-							<div class="progress-bar bg-gradient1 progress-animated" style="width: ${item.total_quantity}%; height:10px;" role="progressbar">
-								<span class="sr-only">${item.total_quantity}% Complete</span>
-							</div>
-						</div>
-						<div class="d-flex align-items-end mt-3 pb-3 justify-content-between">
-							<span class="fs-14 font-w400"><small class="font-w700 me-2">${item.total_quantity}</small>Units Sold</span>
-							<span class="fs-14 font-w400">Product ID: ${item.product.id}</span>
-						</div>
-					</div>
-													</div>
-												</div>
-
-				`;
-
-						// Tambahkan elemen produk ke kontainer
-						productContainer.appendChild(productElement);
-					});
-				} catch (error) {
-					console.error("Error fetching data:", error);
-				}
-			}
-
-			// Panggil fungsi untuk mengambil data dan menampilkan produk
-			fetchAndDisplayProducts();
-		});
-	</script> -->
-
 	<script>
 		new Morris.Line({
 			// ID of the element in which to draw the chart.
@@ -1814,11 +1569,6 @@ curl_close($ch);
 		});
 
 		function cardsCenter() {
-
-			/*  testimonial one function by = owl.carousel.js */
-
-
-
 			jQuery('.card-slider').owlCarousel({
 				loop: true,
 				margin: 0,
@@ -1863,7 +1613,7 @@ curl_close($ch);
 			new Morris.Area({
 				element: 'jam_penjualan',
 				data: data, // Data dari fetch API dimasukkan di sini
-				lineColors: ['#123456', '#f5cf53'], // Sesuaikan dengan warna yang diinginkan']
+				lineColors: ['#123456', '#f5cf53', '#ff5733'], // Sesuaikan dengan warna yang diinginkan
 				xkey: 'hour',
 				ykeys: outlet_name, // Sesuaikan dengan nama outlet
 				labels: outlet_name, // Sesuaikan dengan nama outlet
@@ -1881,9 +1631,9 @@ curl_close($ch);
 		}
 
 		// Ambil data dari API dan masukkan ke chart Morris
-		async function fetchData() {
+		async function fetchData(url) {
 			try {
-				const response = await fetch('http://127.0.0.1:8000/api/transactions/total/hour'); // Ganti dengan URL API Anda
+				const response = await fetch(url); // Ganti dengan URL API Anda
 				const result = await response.json();
 
 				// Peta data dari respons API menjadi format Morris
@@ -1918,7 +1668,20 @@ curl_close($ch);
 		}
 
 		// Panggil fetchData untuk mengambil dan menampilkan data
-		fetchData();
+		fetchData('http://127.0.0.1:8000/api/transactions/total/hour');
+
+
+		document.getElementById('turnOnMonthly').addEventListener('change', async function() {
+			let url;
+			if (this.checked) {
+				url = `http://127.0.0.1:8000/api/transactions/total/hour?monthly=true`;
+			} else {
+				url = `http://127.0.0.1:8000/api/transactions/total/hour`
+			}
+			document.getElementById('jam_penjualan').innerHTML = '';
+
+			fetchData(url);
+		});
 	</script>
 </body>
 
