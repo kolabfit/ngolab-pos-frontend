@@ -940,8 +940,8 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex">
-									<a href="#" class="btn btn-success shadow btn-xs sharp me-1"><i
-											class="fas fa-plus"></i></a>
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
+											class="fas fa-plus"></i></button>
 								</div>
 								<div class="table-responsive">
 									<table id="example5" class="display" style="min-width: 845px">
@@ -969,41 +969,32 @@
 
 											// Execute cURL request
 											$response = curl_exec($ch);
+											$dataCategory = json_decode($response, true);
 
-											// Check for cURL errors
-											if (curl_errno($ch)) {
-												echo "<tr><td colspan='3'>Failed to retrieve data: " . curl_error($ch) . "</td></tr>";
-											} else {
-												// Decode JSON response
-												$categories = json_decode($response, true);
-
-												// Check if data retrieval was successful
-												if ($categories && isset($categories['data'])) {
-													foreach ($categories['data'] as $category) {
-														echo "<tr>";
-														echo "<td>
-                                                <div class='form-check custom-checkbox ms-2'>
-                                                    <input type='checkbox' class='form-check-input' id='customCheckBox{$category['id']}'>
-                                                    <label class='form-check-label' for='customCheckBox{$category['id']}'></label>
-                                                </div>
-                                              </td>";
-														echo "<td>{$category['name']}</td>";
-														echo "<td>
-                                                <div class='d-flex'>
-                                                    <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
-                                                    <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
-                                                </div>
-                                              </td>";
-														echo "</tr>";
-													}
-												} else {
-													echo "<tr><td colspan='3'>No data found.</td></tr>";
-												}
-											}
-
-											// Close cURL session
-											curl_close($ch);
 											?>
+											<?php foreach ($dataCategory['data'] as $category): ?>
+												<tr>
+													<td>
+														<div class="form-check custom-checkbox ms-2">
+															<input type="checkbox" class="form-check-input"
+																id="customCheckBox<?= $category['id'] ?>" required="">
+															<label class="form-check-label"
+																for="customCheckBox<?= $category['id'] ?>"></label>
+														</div>
+													</td>
+													<td><?= htmlspecialchars($category['name']) ?></td>
+													<td>
+														<div class="d-flex">
+															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																	class="fas fa-pencil-alt"></i>
+															</button>
+															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-danger shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+																	class="fa fa-trash"></i>
+															</button>
+														</div>
+													</td>
+												</tr>
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
@@ -1017,6 +1008,76 @@
 		<!--**********************************
 			Content body end
 		***********************************-->
+
+		<!-- Modal -->
+		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kategori</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
+								<input type="text" class="form-control" id="categoryName" name="categoryName" required>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Kategori</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
+								<input type="text" class="form-control" id="name" name="name">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Apakah anda yakin untuk menghapus kategori ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+						<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
 
 
 		<!--**********************************
@@ -1065,7 +1126,120 @@
 	<script src="../js/custom.min.js"></script>
 	<script src="../js/dlabnav-init.js"></script>
 	<script src="../js/demo.js"></script>
-	<script src="../js/styleSwitcher.js"></script>
+	<script src="../js/styleSwitcher.js"></script>'
+
+	<script type="module">
+		import {
+			callApi
+		} from '../js/logic/api.js';
+
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/products/categories', {
+						method: 'POST',
+						body: {
+							name: document.getElementById('categoryName').value
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Tangkap elemen modal
+		var exampleModal = document.getElementById('exampleModal');
+		var deleteModal = document.getElementById('deleteModal');
+		var categoryId = 0;
+
+		// Event ketika modal ditampilkan
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			categoryId = button.getAttribute('data-id');
+
+			(async () => {
+				try {
+					const data = await callApi('/api/products/categories?id=' + categoryId, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					document.getElementById('name').value = data.data.name;
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Event ketika modal ditampilkan
+		deleteModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			categoryId = button.getAttribute('data-id');
+		});
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('updateButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/products/categories/' + categoryId, {
+						method: 'POST',
+						body: {
+							name: document.getElementById('name').value,
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('deleteButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/products/categories/' + categoryId, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+	</script>
 </body>
 
 </html>
