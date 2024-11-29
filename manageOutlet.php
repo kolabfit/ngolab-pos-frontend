@@ -1,6 +1,6 @@
 <?php
 require_once('./logic/loginvalidation.php');
-Validation::validateLoginAdmin($_COOKIE['auth_token']);
+Validation::validateLoginAdmin($_COOKIE['auth_token'], './logic/login.php');
 
 // Ambil data dari API
 $ch = curl_init();
@@ -1175,7 +1175,6 @@ if ($outlets['success']) {
 					});
 					console.log('Response:', data);
 
-					document.getElementById('name').value = data.data.name;
 					document.getElementById('address').value = data.data.address;
 					document.getElementById('phone').value = data.data.phone;
 				} catch (error) {
@@ -1191,7 +1190,7 @@ if ($outlets['success']) {
 					const data = await callApi('/api/outlets/' + outlet_id, {
 						method: 'POST',
 						body: {
-							name: document.getElementById('name').value,
+							name: document.getElementById('name').value !== "" ? document.getElementById('name').value : null,
 							address: document.getElementById('address').value,
 							phone: document.getElementById('phone').value
 						},
