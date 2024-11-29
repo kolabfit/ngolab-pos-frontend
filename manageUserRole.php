@@ -1,19 +1,53 @@
 <?php
-require_once('../logic/loginvalidation.php');
+require_once('logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
-// Initialize cURL session
-$url = "http://127.0.0.1:8000/api/products/categories";
-$ch = curl_init();
+// URL API Kelola Role
+$apiUrl = 'http://127.0.0.1:8000/api/roles';
 
-// Set cURL options
-curl_setopt($ch, CURLOPT_URL, $url);
+// Inisialisasi cURL
+$curl = curl_init($apiUrl);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json'
+]);
+
+// Eksekusi cURL dan ambil data
+$response = curl_exec($curl);
+curl_close($curl);
+
+// Memeriksa apakah cURL berhasil mengambil data
+if ($response === false) {
+	$roles = []; // Jika gagal, set roles sebagai array kosong untuk mencegah error
+} else {
+	// Decode data JSON ke array PHP
+	$data = json_decode($response, true);
+
+	// Memeriksa apakah data ada dan berhasil diambil
+	$roles = isset($data['data']) ? $data['data'] : [];
+}
+
+// Initialize cURL Kelola User
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/users/list");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-// Execute cURL request
+// Tambahkan header authorization
+$token = $_COOKIE['auth_token']; // Ganti dengan token yang valid
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization:' . $token,
+    'Content-Type: application/json'
+]);
+
+// Execute and decode the response
 $response = curl_exec($ch);
-$dataCategory = json_decode($response, true);
+curl_close($ch);
+$data = json_decode($response, true);
+
+$users = $data['data'] ?? [];
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,28 +60,28 @@ $dataCategory = json_decode($response, true);
 	<meta name="format-detection" content="telephone=no">
 
 	<!-- PAGE TITLE -->
-	<title>Kelola Kategori Produk</title>
+	<title>Kelola User & Role</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/png" href="../images/KoLab.png">
+	<link rel="icon" type="image/png" href="images/KoLab.png">
 
 	<!-- Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="../vendor/chartist/css/chartist.min.css">
-	<link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
 
 	<!-- Datatable -->
-	<link rel="stylesheet" href="../vendor/datatables/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="vendor/datatables/css/jquery.dataTables.min.css">
 
 	<!-- Custom Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
 
 	<!-- Style css -->
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
-<body data-page="manageProductCategory.html">
+<body data-page="manageUserRole.php">
 
 	<!--*******************
 		Preloader start
@@ -70,8 +104,8 @@ $dataCategory = json_decode($response, true);
 			Nav header start
 		***********************************-->
 		<div class="nav-header">
-			<a href="index.html" class="brand-logo">
-				<img src="../images/KoLab.png" width="100vw" class="rounded-circle">
+			<a href="index.php" class="brand-logo">
+				<img src="images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
 				</div>
@@ -94,13 +128,13 @@ $dataCategory = json_decode($response, true);
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#notes">Notes</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#alerts">Alerts</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Alerts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" data-bs-toggle="tab" href="../#chat">Chat</a>
+						<a class="nav-link active" data-bs-toggle="tab" href="#chat">Chat</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -138,7 +172,7 @@ $dataCategory = json_decode($response, true);
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -151,7 +185,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -164,7 +198,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -177,7 +211,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -191,7 +225,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -204,7 +238,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -217,7 +251,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -231,7 +265,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -244,7 +278,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -258,7 +292,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -271,7 +305,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -284,7 +318,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -297,7 +331,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -311,7 +345,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -324,7 +358,7 @@ $dataCategory = json_decode($response, true);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -385,7 +419,7 @@ $dataCategory = json_decode($response, true);
 							<div class="card-body msg_card_body dlab-scroll" id="DLAB_W_Contacts_Body3">
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -398,12 +432,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -416,12 +450,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -434,12 +468,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -448,7 +482,7 @@ $dataCategory = json_decode($response, true);
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -461,12 +495,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -479,12 +513,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -497,12 +531,12 @@ $dataCategory = json_decode($response, true);
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -711,7 +745,7 @@ $dataCategory = json_decode($response, true);
 					<div class="collapse navbar-collapse justify-content-between">
 						<div class="header-left">
 							<div class="dashboard_bar">
-								Kelola Kategori Produk
+								Kelola User & Role
 							</div>
 						</div>
 						<ul class="navbar-nav header-right">
@@ -742,7 +776,7 @@ $dataCategory = json_decode($response, true);
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -775,7 +809,7 @@ $dataCategory = json_decode($response, true);
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -888,10 +922,10 @@ $dataCategory = json_decode($response, true);
 
 							<li class="nav-item dropdown  header-profile">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<img src="../images/user.jpg" width="56" alt="">
+									<img src="images/user.jpg" width="56" alt="">
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a href="../app-profile.html" class="dropdown-item ai-icon">
+									<a href="app-profile.html" class="dropdown-item ai-icon">
 										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -900,7 +934,7 @@ $dataCategory = json_decode($response, true);
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
-									<a href="../email-inbox.html" class="dropdown-item ai-icon">
+									<a href="email-inbox.html" class="dropdown-item ai-icon">
 										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -911,7 +945,7 @@ $dataCategory = json_decode($response, true);
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="../page-error-404.html" class="dropdown-item ai-icon">
+									<a href="page-error-404.html" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -954,49 +988,123 @@ $dataCategory = json_decode($response, true);
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Kelola Role</h4>
+							</div>
 							<div class="card-body">
-								<div class="d-flex">
-									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
-											class="fas fa-plus"></i></button>
-								</div>
 								<div class="table-responsive">
-									<table id="example5" class="display" style="min-width: 845px">
+									<table id="datarole" class="display" style="min-width: 845px">
 										<thead>
 											<tr>
 												<th>
 													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="checkAll">
-														<label class="form-check-label" for="checkAll"></label>
+														<input type="checkbox" class="form-check-input"
+															id="checkAllRoles" required="">
+														<label class="form-check-label" for="checkAllRoles"></label>
 													</div>
 												</th>
-												<th>Nama Kategori</th>
+												<th>Nama Role</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($dataCategory['data'] as $category): ?>
+											<?php if (!empty($roles)): ?>
+												<?php foreach ($roles as $role): ?>
+													<tr>
+														<td>
+															<div class="form-check custom-checkbox ms-2">
+																<input type="checkbox" class="form-check-input"
+																	id="customCheckBox<?= $role['id'] ?>" required="">
+																<label class="form-check-label"
+																	for="customCheckBox<?= $role['id'] ?>"></label>
+															</div>
+														</td>
+														<td><?= htmlspecialchars($role['name']) ?></td>
+														<td>
+															<div class="d-flex">
+																<button href="#" data-id=<?= $role['id'] ?> class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i
+																		class="fas fa-pencil-alt"></i></button>
+															</div>
+														</td>
+													</tr>
+												<?php endforeach; ?>
+											<?php else: ?>
 												<tr>
-													<td>
-														<div class="form-check custom-checkbox ms-2">
-															<input type="checkbox" class="form-check-input"
-																id="customCheckBox<?= $category['id'] ?>" required="">
-															<label class="form-check-label"
-																for="customCheckBox<?= $category['id'] ?>"></label>
-														</div>
-													</td>
-													<td><?= htmlspecialchars($category['name']) ?></td>
-													<td>
-														<div class="d-flex">
-															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-																	class="fas fa-pencil-alt"></i>
-															</button>
-															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-danger shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#deleteModal"><i
-																	class="fa fa-trash"></i>
-															</button>
-														</div>
-													</td>
+													<td colspan="3">No roles found.</td>
 												</tr>
-											<?php endforeach; ?>
+											<?php endif; ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Kelola User</h4>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table id="datauser" class="display" style="min-width: 845px">
+										<thead>
+											<tr>
+												<th>
+													<div class="form-check custom-checkbox ms-2">
+														<input type="checkbox" class="form-check-input" id="checkAll"
+															required="">
+														<label class="form-check-label" for="checkAll"></label>
+													</div>
+												</th>
+												<th>Nama Akun</th>
+												<th>Email Akun</th>
+												<th>Role Akun</th>
+												<th>Employee ID</th>
+												<th>Position</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php if (!empty($users)): ?>
+												<?php foreach ($users as $user): ?>
+													<tr>
+														<td>
+															<div class="form-check custom-checkbox ms-2">
+																<input type="checkbox" class="form-check-input"
+																	id="customCheckBox<?= $user['id'] ?>" required="">
+																<label class="form-check-label"
+																	for="customCheckBox<?= $user['id'] ?>"></label>
+															</div>
+														</td>
+														<td><?= $user['name'] ?></td>
+														<td><?= $user['email'] ?></td>
+														<td><?= $user['role']['name'] ?></td>
+														<td><?= $user['staff']['employee_id'] ?></td>
+														<td><?= $user['staff']['position'] ?></td>
+														<?php if($user['role']['id'] != 1): ?>
+														<td>
+															<div class="d-flex">
+																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
+															</div>
+														</td>
+														<?php else: ?>
+														<td>
+															<div class="d-flex">
+																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
+															</div>
+														</td>
+														<?php endif; ?>
+													</tr>
+												<?php endforeach; ?>
+											<?php else: ?>
+												<tr>
+													<td colspan="7">No users found.</td>
+												</tr>
+											<?php endif; ?>
 										</tbody>
 									</table>
 								</div>
@@ -1004,82 +1112,11 @@ $dataCategory = json_decode($response, true);
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<!--**********************************
 			Content body end
 		***********************************-->
-
-		<!-- Modal -->
-		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kategori</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="mb-3">
-								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
-								<input type="text" class="form-control" id="categoryName" name="categoryName" required>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modul -->
-
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Kategori</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="mb-3">
-								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
-								<input type="text" class="form-control" id="name" name="name">
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modul -->
-
-		<!-- Modal -->
-		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						Apakah anda yakin untuk menghapus kategori ini?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-						<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modal -->
 
 
 		<!--**********************************
@@ -1087,7 +1124,7 @@ $dataCategory = json_decode($response, true);
 		***********************************-->
 		<div class="footer">
 			<div class="copyright">
-				<p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021
+				<p>Copyright © Designed &amp; Developed by <a href="index.htm" target="_blank">DexignLab</a> 2021
 				</p>
 			</div>
 		</div>
@@ -1109,60 +1146,86 @@ $dataCategory = json_decode($response, true);
 		Main wrapper end
 	***********************************-->
 
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="role_id" class="col-form-label">Role:</label>
+							<select class="form-select" id="role_id">
+								<?php foreach ($roles as $role) : ?>
+									<option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal End -->
+
+	<!-- Modal Edit Role -->
+	<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Role</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="role_name" class="col-form-label">Role:</label>
+							<input type="text" class="form-control" id="role_name" name="role_name" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal End -->
+
 	<!--**********************************
 		Scripts
 	***********************************-->
 	<!-- Required vendors -->
-	<script src="../js/navigation-gen.js"></script>
-	<script src="../vendor/global/global.min.js"></script>
-	<script src="../vendor/chart.js/Chart.bundle.min.js"></script>
-	<!-- Apex Chart -->
-	<script src="../vendor/apexchart/apexchart.js"></script>
+	<script src="js/navigation-gen.js"></script>
+	<script src="vendor/global/global.min.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/dlabnav-init.js"></script>
+	<script src="js/demo.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
 	<!-- Datatable -->
-	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="../js/plugins-init/datatables.init.js"></script>
+	<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="js/plugins-init/datatables.init.js"></script>
 
-	<script src="../vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-
-	<script src="../js/custom.min.js"></script>
-	<script src="../js/dlabnav-init.js"></script>
-	<script src="../js/demo.js"></script>
-	<script src="../js/styleSwitcher.js"></script>'
-
+	<!-- Modal Script -->
 	<script type="module">
 		import {
 			callApi
-		} from '../js/logic/api.js';
-
-
-		// Event ketika button editbutton submit ditekan
-		document.getElementById('createButton').addEventListener('click', function() {
-			(async () => {
-				try {
-					const data = await callApi('/api/products/categories', {
-						method: 'POST',
-						body: {
-							name: document.getElementById('categoryName').value
-						},
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
-
-					location.reload();
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			})();
-		});
+		} from 'js/logic/api.js';
 
 		// Tangkap elemen modal
 		var exampleModal = document.getElementById('exampleModal');
-		var deleteModal = document.getElementById('deleteModal');
-		var categoryId = 0;
+		var editRoleModal = document.getElementById('editRoleModal');
+		var userId = 0;
 
 		// Event ketika modal ditampilkan
 		exampleModal.addEventListener('show.bs.modal', function(event) {
@@ -1170,52 +1233,26 @@ $dataCategory = json_decode($response, true);
 			var button = event.relatedTarget;
 
 			// Ambil data-id dari tombol
-			categoryId = button.getAttribute('data-id');
-
-			(async () => {
-				try {
-					const data = await callApi('/api/products/categories?id=' + categoryId, {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
-
-					document.getElementById('name').value = data.data.name;
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			})();
+			userId = button.getAttribute('data-id');
 		});
 
-		// Event ketika modal ditampilkan
-		deleteModal.addEventListener('show.bs.modal', function(event) {
+		editRoleModal.addEventListener('show.bs.modal', function(event) {
 			// Tombol yang memicu modal
 			var button = event.relatedTarget;
 
 			// Ambil data-id dari tombol
-			categoryId = button.getAttribute('data-id');
-		});
+			userId = button.getAttribute('data-id');
 
-		// Event ketika button editbutton submit ditekan
-		document.getElementById('updateButton').addEventListener('click', function() {
 			(async () => {
 				try {
-					const data = await callApi('/api/products/categories/' + categoryId, {
-						method: 'POST',
-						body: {
-							name: document.getElementById('name').value,
-						},
+					const data = await callApi('/api/roles?id=' + userId, {
 						headers: {
-							'Content-Type': 'application/json',
 							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
 						}
 					});
 					console.log('Response:', data);
 
-					location.reload();
+					document.getElementById('role_name').value = data.data.name;
 				} catch (error) {
 					console.error('Error:', error);
 				}
@@ -1223,11 +1260,18 @@ $dataCategory = json_decode($response, true);
 		});
 
 		// Event ketika button editbutton submit ditekan
-		document.getElementById('deleteButton').addEventListener('click', function() {
+		document.getElementById('updateButton').addEventListener('click', function() {
+			// Ambil data role_id dari form
+			var role_id = document.getElementById('role_id').value;
+
 			(async () => {
 				try {
-					const data = await callApi('/api/products/categories/' + categoryId, {
-						method: 'DELETE',
+					const data = await callApi('/api/roles/assign', {
+						method: 'POST',
+						body: {
+							user_id: userId,
+							role_id: role_id
+						},
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
@@ -1242,6 +1286,7 @@ $dataCategory = json_decode($response, true);
 			})();
 		});
 	</script>
+
 </body>
 
 </html>

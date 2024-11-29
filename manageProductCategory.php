@@ -1,28 +1,19 @@
 <?php
-require_once('../logic/loginvalidation.php');
+require_once('logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
-// Ambil data dari API
+// Initialize cURL session
+$url = "http://127.0.0.1:8000/api/products/categories";
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/outlets");
+
+// Set cURL options
+curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-	'Authorization: Bearer your_token_here', // Ganti dengan token yang valid jika diperlukan
-	'Content-Type: application/json'
-]);
 
+// Execute cURL request
 $response = curl_exec($ch);
-curl_close($ch);
-$outlets = json_decode($response, true);
-
-// Cek apakah data berhasil diambil
-if ($outlets['success']) {
-	$data = $outlets['data'];
-} else {
-	$data = [];
-}
+$dataCategory = json_decode($response, true);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,28 +26,28 @@ if ($outlets['success']) {
 	<meta name="format-detection" content="telephone=no">
 
 	<!-- PAGE TITLE -->
-	<title>Kelola Outlet</title>
+	<title>Kelola Kategori Produk</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/png" href="../images/KoLab.png">
+	<link rel="icon" type="image/png" href="images/KoLab.png">
 
 	<!-- Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="../vendor/chartist/css/chartist.min.css">
-	<link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
 
 	<!-- Datatable -->
-	<link rel="stylesheet" href="../vendor/datatables/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="vendor/datatables/css/jquery.dataTables.min.css">
 
 	<!-- Custom Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
 
 	<!-- Style css -->
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
-<body data-page="manageOutlet.html">
+<body data-page="manageProductCategory.html">
 
 	<!--*******************
 		Preloader start
@@ -71,18 +62,16 @@ if ($outlets['success']) {
 		Preloader end
 	********************-->
 
-
 	<!--**********************************
 		Main wrapper start
 	***********************************-->
 	<div id="main-wrapper" class="show menu-toggle">
-
 		<!--**********************************
 			Nav header start
 		***********************************-->
 		<div class="nav-header">
 			<a href="index.html" class="brand-logo">
-				<img src="../images/KoLab.png" width="100vw" class="rounded-circle">
+				<img src="images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
 				</div>
@@ -105,13 +94,13 @@ if ($outlets['success']) {
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#notes">Notes</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#alerts">Alerts</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Alerts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" data-bs-toggle="tab" href="../#chat">Chat</a>
+						<a class="nav-link active" data-bs-toggle="tab" href="#chat">Chat</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -149,7 +138,7 @@ if ($outlets['success']) {
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -162,7 +151,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -175,7 +164,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -188,7 +177,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -202,7 +191,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -215,7 +204,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -228,7 +217,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -242,7 +231,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -255,7 +244,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -269,7 +258,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -282,7 +271,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -295,7 +284,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -308,7 +297,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -322,7 +311,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -335,7 +324,7 @@ if ($outlets['success']) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -396,7 +385,7 @@ if ($outlets['success']) {
 							<div class="card-body msg_card_body dlab-scroll" id="DLAB_W_Contacts_Body3">
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -409,12 +398,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -427,12 +416,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -445,12 +434,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -459,7 +448,7 @@ if ($outlets['success']) {
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -472,12 +461,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -490,12 +479,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -508,12 +497,12 @@ if ($outlets['success']) {
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -722,7 +711,7 @@ if ($outlets['success']) {
 					<div class="collapse navbar-collapse justify-content-between">
 						<div class="header-left">
 							<div class="dashboard_bar">
-								Kelola Outlet
+								Kelola Kategori Produk
 							</div>
 						</div>
 						<ul class="navbar-nav header-right">
@@ -753,7 +742,7 @@ if ($outlets['success']) {
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -786,7 +775,7 @@ if ($outlets['success']) {
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -899,10 +888,10 @@ if ($outlets['success']) {
 
 							<li class="nav-item dropdown  header-profile">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<img src="../images/user.jpg" width="56" alt="">
+									<img src="images/user.jpg" width="56" alt="">
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a href="../app-profile.html" class="dropdown-item ai-icon">
+									<a href="app-profile.html" class="dropdown-item ai-icon">
 										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -911,7 +900,7 @@ if ($outlets['success']) {
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
-									<a href="../email-inbox.html" class="dropdown-item ai-icon">
+									<a href="email-inbox.html" class="dropdown-item ai-icon">
 										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -922,7 +911,7 @@ if ($outlets['success']) {
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="../page-error-404.html" class="dropdown-item ai-icon">
+									<a href="page-error-404.html" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -966,7 +955,7 @@ if ($outlets['success']) {
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<div class="d-flex mb-3">
+								<div class="d-flex">
 									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
 											class="fas fa-plus"></i></button>
 								</div>
@@ -976,48 +965,38 @@ if ($outlets['success']) {
 											<tr>
 												<th>
 													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="checkAll"
-															required="">
+														<input type="checkbox" class="form-check-input" id="checkAll">
 														<label class="form-check-label" for="checkAll"></label>
 													</div>
 												</th>
-												<th>Nama Outlet</th>
-												<th>Alamat</th>
-												<th>Telpon</th>
+												<th>Nama Kategori</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php if (!empty($data)): ?>
-												<?php foreach ($data as $outlet): ?>
-													<tr>
-														<td>
-															<div class="form-check custom-checkbox ms-2">
-																<input type="checkbox" class="form-check-input"
-																	id="customCheckBox<?= $outlet['id'] ?>" required="">
-																<label class="form-check-label"
-																	for="customCheckBox<?= $outlet['id'] ?>"></label>
-															</div>
-														</td>
-														<td><?= htmlspecialchars($outlet['name']) ?></td>
-														<td><?= htmlspecialchars($outlet['address']) ?></td>
-														<td><?= htmlspecialchars($outlet['phone']) ?></td>
-														<td>
-															<div class="d-flex">
-																<button data-id="<?php echo $outlet['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-																		class="fas fa-pencil-alt"></i>
-																</button>
-																<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-																		class="fa fa-trash"></i></a>
-															</div>
-														</td>
-													</tr>
-												<?php endforeach; ?>
-											<?php else: ?>
+											<?php foreach ($dataCategory['data'] as $category): ?>
 												<tr>
-													<td colspan="5">No outlets found.</td>
+													<td>
+														<div class="form-check custom-checkbox ms-2">
+															<input type="checkbox" class="form-check-input"
+																id="customCheckBox<?= $category['id'] ?>" required="">
+															<label class="form-check-label"
+																for="customCheckBox<?= $category['id'] ?>"></label>
+														</div>
+													</td>
+													<td><?= htmlspecialchars($category['name']) ?></td>
+													<td>
+														<div class="d-flex">
+															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																	class="fas fa-pencil-alt"></i>
+															</button>
+															<button data-id="<?php echo $category['id'] ?>" type="button" class="btn btn-danger shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+																	class="fa fa-trash"></i>
+															</button>
+														</div>
+													</td>
 												</tr>
-											<?php endif; ?>
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
@@ -1025,11 +1004,82 @@ if ($outlets['success']) {
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 		<!--**********************************
 			Content body end
 		***********************************-->
+
+		<!-- Modal -->
+		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kategori</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
+								<input type="text" class="form-control" id="categoryName" name="categoryName" required>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Kategori</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="outlet_name" class="col-form-label">Nama Kategori:</label>
+								<input type="text" class="form-control" id="name" name="name">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Apakah anda yakin untuk menghapus kategori ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+						<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
 
 
 		<!--**********************************
@@ -1037,7 +1087,7 @@ if ($outlets['success']) {
 		***********************************-->
 		<div class="footer">
 			<div class="copyright">
-				<p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021
+				<p>Copyright © Designed &amp; Developed by <a href="index.htm" target="_blank">DexignLab</a> 2021
 				</p>
 			</div>
 		</div>
@@ -1059,102 +1109,60 @@ if ($outlets['success']) {
 		Main wrapper end
 	***********************************-->
 
-	<!-- Modul -->
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="mb-3">
-							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
-							<input type="text" class="form-control" id="name" name="name">
-						</div>
-						<div class="mb-3">
-							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
-							<input type="text" class="form-control" id="address" name="address">
-						</div>
-						<div class="mb-3">
-							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
-							<input type="text" class="form-control" id="phone" name="phone">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modul -->
-
-	<!-- Modal -->
-	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Outlet</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="mb-3">
-							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
-							<input type="text" class="form-control" id="outletName" name="outletName" required>
-						</div>
-						<div class="mb-3">
-							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
-							<input type="text" class="form-control" id="outletAddress" name="outletAddress" required>
-						</div>
-						<div class="mb-3">
-							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
-							<input type="text" class="form-control" id="outletPhone" name="outletPhone" required>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modul -->
-
 	<!--**********************************
 		Scripts
 	***********************************-->
 	<!-- Required vendors -->
-	<script src="../js/navigation-gen.js"></script>
-	<script src="../vendor/global/global.min.js"></script>
-	<script src="../vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="js/navigation-gen.js"></script>
+	<script src="vendor/global/global.min.js"></script>
+	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
 	<!-- Apex Chart -->
-	<script src="../vendor/apexchart/apexchart.js"></script>
+	<script src="vendor/apexchart/apexchart.js"></script>
 
 	<!-- Datatable -->
-	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="../js/plugins-init/datatables.init.js"></script>
+	<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="js/plugins-init/datatables.init.js"></script>
 
-	<script src="../vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
-	<script src="../js/custom.min.js"></script>
-	<script src="../js/dlabnav-init.js"></script>
-	<script src="../js/demo.js"></script>
-	<script src="../js/styleSwitcher.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/dlabnav-init.js"></script>
+	<script src="js/demo.js"></script>
+	<script src="js/styleSwitcher.js"></script>'
 
 	<script type="module">
 		import {
 			callApi
-		} from '../js/logic/api.js';
+		} from 'js/logic/api.js';
+
+
+		// Event ketika button editbutton submit ditekan
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					const data = await callApi('/api/products/categories', {
+						method: 'POST',
+						body: {
+							name: document.getElementById('categoryName').value
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
 
 		// Tangkap elemen modal
 		var exampleModal = document.getElementById('exampleModal');
-		var outlet_id = 0;
+		var deleteModal = document.getElementById('deleteModal');
+		var categoryId = 0;
 
 		// Event ketika modal ditampilkan
 		exampleModal.addEventListener('show.bs.modal', function(event) {
@@ -1162,11 +1170,11 @@ if ($outlets['success']) {
 			var button = event.relatedTarget;
 
 			// Ambil data-id dari tombol
-			outlet_id = button.getAttribute('data-id');
+			categoryId = button.getAttribute('data-id');
 
 			(async () => {
 				try {
-					const data = await callApi('/api/outlets?id=' + outlet_id, {
+					const data = await callApi('/api/products/categories?id=' + categoryId, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
@@ -1176,24 +1184,29 @@ if ($outlets['success']) {
 					console.log('Response:', data);
 
 					document.getElementById('name').value = data.data.name;
-					document.getElementById('address').value = data.data.address;
-					document.getElementById('phone').value = data.data.phone;
 				} catch (error) {
 					console.error('Error:', error);
 				}
 			})();
 		});
 
+		// Event ketika modal ditampilkan
+		deleteModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			categoryId = button.getAttribute('data-id');
+		});
+
 		// Event ketika button editbutton submit ditekan
 		document.getElementById('updateButton').addEventListener('click', function() {
 			(async () => {
 				try {
-					const data = await callApi('/api/outlets/' + outlet_id, {
+					const data = await callApi('/api/products/categories/' + categoryId, {
 						method: 'POST',
 						body: {
 							name: document.getElementById('name').value,
-							address: document.getElementById('address').value,
-							phone: document.getElementById('phone').value
 						},
 						headers: {
 							'Content-Type': 'application/json',
@@ -1210,16 +1223,11 @@ if ($outlets['success']) {
 		});
 
 		// Event ketika button editbutton submit ditekan
-		document.getElementById('createButton').addEventListener('click', function() {
+		document.getElementById('deleteButton').addEventListener('click', function() {
 			(async () => {
 				try {
-					const data = await callApi('/api/outlets', {
-						method: 'POST',
-						body: {
-							name: document.getElementById('outletName').value,
-							address: document.getElementById('outletAddress').value,
-							phone: document.getElementById('outletPhone').value
-						},
+					const data = await callApi('/api/products/categories/' + categoryId, {
+						method: 'DELETE',
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]

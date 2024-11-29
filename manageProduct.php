@@ -1,9 +1,9 @@
 <?php
-require_once('../logic/loginvalidation.php');
+require_once('logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
-// URL API Kelola Role
-$apiUrl = 'http://127.0.0.1:8000/api/roles';
+// URL API Kelola produk
+$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -18,33 +18,14 @@ curl_close($curl);
 
 // Memeriksa apakah cURL berhasil mengambil data
 if ($response === false) {
-	$roles = []; // Jika gagal, set roles sebagai array kosong untuk mencegah error
+	$categories = []; // Jika gagal, set categories sebagai array kosong untuk mencegah error
 } else {
 	// Decode data JSON ke array PHP
 	$data = json_decode($response, true);
 
 	// Memeriksa apakah data ada dan berhasil diambil
-	$roles = isset($data['data']) ? $data['data'] : [];
+	$categories = isset($data['data']) ? $data['data'] : [];
 }
-
-// Initialize cURL Kelola User
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/users/list");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Tambahkan header authorization
-$token = $_COOKIE['auth_token']; // Ganti dengan token yang valid
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Authorization:' . $token,
-    'Content-Type: application/json'
-]);
-
-// Execute and decode the response
-$response = curl_exec($ch);
-curl_close($ch);
-$data = json_decode($response, true);
-
-$users = $data['data'] ?? [];
 
 ?>
 
@@ -60,32 +41,32 @@ $users = $data['data'] ?? [];
 	<meta name="format-detection" content="telephone=no">
 
 	<!-- PAGE TITLE -->
-	<title>Kelola User & Role</title>
+	<title>Kelola Produk</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/png" href="../images/KoLab.png">
+	<link rel="icon" type="image/png" href="images/KoLab.png">
 
 	<!-- Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="../vendor/chartist/css/chartist.min.css">
-	<link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
 
 	<!-- Datatable -->
-	<link rel="stylesheet" href="../vendor/datatables/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="vendor/datatables/css/jquery.dataTables.min.css">
 
 	<!-- Custom Stylesheet -->
-	<link rel="stylesheet" href="../vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
 
 	<!-- Style css -->
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
-<body data-page="manageUserRole.php">
+<body data-page="manageProduct.html">
 
 	<!--*******************
-		Preloader start
-	********************-->
+        Preloader start
+    ********************-->
 	<div id="preloader">
 		<div class="lds-ripple">
 			<div></div>
@@ -93,19 +74,21 @@ $users = $data['data'] ?? [];
 		</div>
 	</div>
 	<!--*******************
-		Preloader end
-	********************-->
+        Preloader end
+    ********************-->
+
 
 	<!--**********************************
-		Main wrapper start
-	***********************************-->
+        Main wrapper start
+    ***********************************-->
 	<div id="main-wrapper" class="show menu-toggle">
+
 		<!--**********************************
-			Nav header start
-		***********************************-->
+            Nav header start
+        ***********************************-->
 		<div class="nav-header">
-			<a href="index.php" class="brand-logo">
-				<img src="../images/KoLab.png" width="100vw" class="rounded-circle">
+			<a href="index.html" class="brand-logo">
+				<img src="images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
 				</div>
@@ -117,24 +100,24 @@ $users = $data['data'] ?? [];
 			</div>
 		</div>
 		<!--**********************************
-			Nav header end
-		***********************************-->
+            Nav header end
+        ***********************************-->
 
 		<!--**********************************
-			Chat box start
-		***********************************-->
+            Chat box start
+        ***********************************-->
 		<div class="chatbox">
 			<div class="chatbox-close"></div>
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#notes">Notes</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="../#alerts">Alerts</a>
+						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Alerts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" data-bs-toggle="tab" href="../#chat">Chat</a>
+						<a class="nav-link active" data-bs-toggle="tab" href="#chat">Chat</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -172,7 +155,7 @@ $users = $data['data'] ?? [];
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -185,7 +168,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -198,7 +181,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -211,7 +194,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -225,7 +208,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -238,7 +221,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -251,7 +234,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -265,7 +248,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -278,7 +261,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -292,7 +275,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -305,7 +288,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -318,7 +301,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -331,7 +314,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -345,7 +328,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -358,7 +341,7 @@ $users = $data['data'] ?? [];
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -419,7 +402,7 @@ $users = $data['data'] ?? [];
 							<div class="card-body msg_card_body dlab-scroll" id="DLAB_W_Contacts_Body3">
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -432,12 +415,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -450,12 +433,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -468,12 +451,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -482,7 +465,7 @@ $users = $data['data'] ?? [];
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -495,12 +478,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -513,12 +496,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -531,12 +514,12 @@ $users = $data['data'] ?? [];
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="../images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="../images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -733,19 +716,19 @@ $users = $data['data'] ?? [];
 			</div>
 		</div>
 		<!--**********************************
-			Chat box End
-		***********************************-->
+            Chat box End
+        ***********************************-->
 
 		<!--**********************************
-			Header start
-		***********************************-->
+            Header start
+        ***********************************-->
 		<div class="header border-bottom">
 			<div class="header-content">
 				<nav class="navbar navbar-expand">
 					<div class="collapse navbar-collapse justify-content-between">
 						<div class="header-left">
 							<div class="dashboard_bar">
-								Kelola User & Role
+								Kelola Produk
 							</div>
 						</div>
 						<ul class="navbar-nav header-right">
@@ -776,7 +759,7 @@ $users = $data['data'] ?? [];
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -809,7 +792,7 @@ $users = $data['data'] ?? [];
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="../images/avatar/1.jpg">
+														<img alt="image" width="50" src="images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -922,10 +905,10 @@ $users = $data['data'] ?? [];
 
 							<li class="nav-item dropdown  header-profile">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<img src="../images/user.jpg" width="56" alt="">
+									<img src="images/user.jpg" width="56" alt="">
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a href="../app-profile.html" class="dropdown-item ai-icon">
+									<a href="app-profile.html" class="dropdown-item ai-icon">
 										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -934,7 +917,7 @@ $users = $data['data'] ?? [];
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
-									<a href="../email-inbox.html" class="dropdown-item ai-icon">
+									<a href="email-inbox.html" class="dropdown-item ai-icon">
 										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -945,7 +928,7 @@ $users = $data['data'] ?? [];
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="../page-error-404.html" class="dropdown-item ai-icon">
+									<a href="page-error-404.html" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -963,12 +946,12 @@ $users = $data['data'] ?? [];
 			</div>
 		</div>
 		<!--**********************************
-			Header end
-		***********************************-->
+            Header end
+        ***********************************-->
 
 		<!--**********************************
-			Sidebar start
-		***********************************-->
+            Sidebar start
+        ***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
@@ -977,133 +960,73 @@ $users = $data['data'] ?? [];
 			</div>
 		</div>
 		<!--**********************************
-			Sidebar end
-		***********************************-->
+            Sidebar end
+        ***********************************-->
 
 		<!--**********************************
-			Content body start
-		***********************************-->
+            Content body start
+        ***********************************-->
 		<div class="content-body">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Kelola Role</h4>
-							</div>
 							<div class="card-body">
-								<div class="table-responsive">
-									<table id="datarole" class="display" style="min-width: 845px">
-										<thead>
-											<tr>
-												<th>
-													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input"
-															id="checkAllRoles" required="">
-														<label class="form-check-label" for="checkAllRoles"></label>
-													</div>
-												</th>
-												<th>Nama Role</th>
-												<th>Action</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php if (!empty($roles)): ?>
-												<?php foreach ($roles as $role): ?>
-													<tr>
-														<td>
-															<div class="form-check custom-checkbox ms-2">
-																<input type="checkbox" class="form-check-input"
-																	id="customCheckBox<?= $role['id'] ?>" required="">
-																<label class="form-check-label"
-																	for="customCheckBox<?= $role['id'] ?>"></label>
-															</div>
-														</td>
-														<td><?= htmlspecialchars($role['name']) ?></td>
-														<td>
-															<div class="d-flex">
-																<button href="#" data-id=<?= $role['id'] ?> class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i
-																		class="fas fa-pencil-alt"></i></button>
-															</div>
-														</td>
-													</tr>
-												<?php endforeach; ?>
-											<?php else: ?>
-												<tr>
-													<td colspan="3">No roles found.</td>
-												</tr>
-											<?php endif; ?>
-										</tbody>
-									</table>
+								<div class="d-flex">
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
+											class="fas fa-plus"></i></button>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Kelola User</h4>
-							</div>
-							<div class="card-body">
 								<div class="table-responsive">
-									<table id="datauser" class="display" style="min-width: 845px">
+									<table id="example5" class="display" style="min-width: 845px">
 										<thead>
 											<tr>
 												<th>
 													<div class="form-check custom-checkbox ms-2">
-														<input type="checkbox" class="form-check-input" id="checkAll"
-															required="">
+														<input type="checkbox" class="form-check-input" id="checkAll">
 														<label class="form-check-label" for="checkAll"></label>
 													</div>
 												</th>
-												<th>Nama Akun</th>
-												<th>Email Akun</th>
-												<th>Role Akun</th>
-												<th>Employee ID</th>
-												<th>Position</th>
+												<th>Nama</th>
+												<th>Harga</th>
+												<th>Deskripsi</th>
+												<th>Kategori</th>
+												<th>Gambar</th>
+												<th>Barcode</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php if (!empty($users)): ?>
-												<?php foreach ($users as $user): ?>
+											<?php
+											// Fetch data from API
+											$url = "http://127.0.0.1:8000/api/products";
+											$response = file_get_contents($url);
+											$products = json_decode($response, true);
+											?>
+											<?php if ($products) : ?>
+												<?php foreach ($products['data'] as $product) : ?>
 													<tr>
 														<td>
-															<div class="form-check custom-checkbox ms-2">
-																<input type="checkbox" class="form-check-input"
-																	id="customCheckBox<?= $user['id'] ?>" required="">
-																<label class="form-check-label"
-																	for="customCheckBox<?= $user['id'] ?>"></label>
+															<div class='form-check custom-checkbox ms-2'>
+																<input type='checkbox' class='form-check-input' id='customCheckBox{<?= $product['id'] ?>'>
+																<label class='form-check-label' for='customCheckBox{<?= $product['id'] ?>'></label>
 															</div>
 														</td>
-														<td><?= $user['name'] ?></td>
-														<td><?= $user['email'] ?></td>
-														<td><?= $user['role']['name'] ?></td>
-														<td><?= $user['staff']['employee_id'] ?></td>
-														<td><?= $user['staff']['position'] ?></td>
-														<?php if($user['role']['id'] != 1): ?>
+														<td><?= $product['name'] ?></td>
+														<td><?= "Rp" . number_format($product['price'], 0, ',', '.') ?> </td>
+														<td><?= $product['description'] ?></td>
+														<td><?= $product['category']['name'] ?? 'Uncategorized' ?> </td>
+														<td><img src='<?= $product['image'] ?>' alt='<?= $product['name'] ?>' width='50'></td>
+														<td><?= $product['barcode'] ?></td>
 														<td>
-															<div class="d-flex">
-																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+															<div class='d-flex'>
+																<button data-id="<?php echo $product['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
 																		class="fas fa-pencil-alt"></i>
 																</button>
+																<a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
 															</div>
 														</td>
-														<?php else: ?>
-														<td>
-															<div class="d-flex">
-																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled><i
-																		class="fas fa-pencil-alt"></i>
-																</button>
-															</div>
-														</td>
-														<?php endif; ?>
 													</tr>
 												<?php endforeach; ?>
-											<?php else: ?>
-												<tr>
-													<td colspan="7">No users found.</td>
-												</tr>
 											<?php endif; ?>
 										</tbody>
 									</table>
@@ -1115,117 +1038,208 @@ $users = $data['data'] ?? [];
 			</div>
 		</div>
 		<!--**********************************
-			Content body end
-		***********************************-->
+            Content body end
+        ***********************************-->
 
 
 		<!--**********************************
-			Footer start
-		***********************************-->
+            Footer start
+        ***********************************-->
 		<div class="footer">
 			<div class="copyright">
-				<p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021
+				<p>Copyright © Designed &amp; Developed by <a href="index.htm" target="_blank">DexignLab</a> 2021
 				</p>
 			</div>
 		</div>
 		<!--**********************************
-			Footer end
-		***********************************-->
+            Footer end
+        ***********************************-->
 
 		<!--**********************************
-		   Support ticket button start
-		***********************************-->
+           Support ticket button start
+        ***********************************-->
 
 		<!--**********************************
-		   Support ticket button end
-		***********************************-->
-
-
+           Support ticket button end
+        ***********************************-->
 	</div>
 	<!--**********************************
-		Main wrapper end
-	***********************************-->
+        Main wrapper end
+    ***********************************-->
+
+	<!-- Modal -->
+	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Produk</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="outlet_name" class="col-form-label">Nama Produk:</label>
+							<input type="text" class="form-control" id="productName" name="productName" required>
+						</div>
+						<div class="mb-3">
+							<label for="category_id" class="col-form-label">Kategori Produk:</label>
+							<select class="form-select" id="category_id">
+								<?php foreach ($categories as $category) : ?>
+									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
+							<input type="text" class="form-control" id="productDescription" name="productDescription" required>
+						</div>
+						<div class="mb-3">
+							<label for="productPrice" class="col-form-label">Harga:</label>
+							<input type="number" class="form-control" id="productPrice" name="productPrice" required>
+						</div>
+						<div class="mb-3">
+							<label class="col-form-label" for="productImage">Upload Image: </label>
+							<input type="file" id="productImage">
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Barcode (Opsional):</label>
+							<input type="text" class="form-control" id="productDescription" name="productDescription">
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modul -->
 
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Produk</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form>
 						<div class="mb-3">
-							<label for="role_id" class="col-form-label">Role:</label>
-							<select class="form-select" id="role_id">
-								<?php foreach ($roles as $role) : ?>
-									<option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+							<label for="outlet_name" class="col-form-label">Nama Produk:</label>
+							<input type="text" class="form-control" id="productNameUpdate" name="productNameUpdate">
+						</div>
+						<div class="mb-3">
+							<label for="category_id" class="col-form-label">Kategori Produk:</label>
+							<select class="form-select" id="category_id_update">
+								<?php foreach ($categories as $category) : ?>
+									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal End -->
-
-	<!-- Modal Edit Role -->
-	<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Role</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form>
 						<div class="mb-3">
-							<label for="role_name" class="col-form-label">Role:</label>
-							<input type="text" class="form-control" id="role_name" name="role_name" required>
+							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
+							<input type="text" class="form-control" id="productDescriptionUpdate" name="productDescriptionUpdate">
 						</div>
+						<div class="mb-3">
+							<label for="productPrice" class="col-form-label">Harga:</label>
+							<input type="number" class="form-control" id="productPriceUpdate" name="productPriceUpdate">
+						</div>
+						<div class="mb-3">
+							<label class="col-form-label" for="productImage">Upload Image: </label>
+							<input type="file" id="productImageUpdate">
+						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Modal End -->
+	<!-- Modul -->
+
+	
 
 	<!--**********************************
-		Scripts
-	***********************************-->
+        Scripts
+    ***********************************-->
 	<!-- Required vendors -->
-	<script src="../js/navigation-gen.js"></script>
-	<script src="../vendor/global/global.min.js"></script>
-	<script src="../js/custom.min.js"></script>
-	<script src="../js/dlabnav-init.js"></script>
-	<script src="../js/demo.js"></script>
-	<script src="../js/styleSwitcher.js"></script>
-	<script src="../vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="js/navigation-gen.js"></script>
+	<script src="vendor/global/global.min.js"></script>
+	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
+	<!-- Apex Chart -->
+	<script src="vendor/apexchart/apexchart.js"></script>
 
 	<!-- Datatable -->
-	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="../js/plugins-init/datatables.init.js"></script>
+	<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="js/plugins-init/datatables.init.js"></script>
 
-	<!-- Modal Script -->
+	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+
+	<script src="js/custom.min.js"></script>
+	<script src="js/dlabnav-init.js"></script>
+	<script src="js/demo.js"></script>
+	<script src="js/styleSwitcher.js"></script>
 	<script type="module">
 		import {
 			callApi
-		} from '../js/logic/api.js';
+		} from 'js/logic/api.js';
+
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					// Get the file and other form data
+					const formData = new FormData();
+					formData.append('name', document.getElementById('productName').value);
+					formData.append('description', document.getElementById('productDescription').value);
+					formData.append('price', document.getElementById('productPrice').value);
+					formData.append('category_id', document.getElementById('category_id').value);
+
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImage');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					} else {
+						throw new Error('No image file selected');
+					}
+
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products', {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
+						},
+					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
 
 		// Tangkap elemen modal
 		var exampleModal = document.getElementById('exampleModal');
-		var editRoleModal = document.getElementById('editRoleModal');
-		var userId = 0;
+		var product_id = 0;
 
 		// Event ketika modal ditampilkan
 		exampleModal.addEventListener('show.bs.modal', function(event) {
@@ -1233,45 +1247,12 @@ $users = $data['data'] ?? [];
 			var button = event.relatedTarget;
 
 			// Ambil data-id dari tombol
-			userId = button.getAttribute('data-id');
-		});
-
-		editRoleModal.addEventListener('show.bs.modal', function(event) {
-			// Tombol yang memicu modal
-			var button = event.relatedTarget;
-
-			// Ambil data-id dari tombol
-			userId = button.getAttribute('data-id');
+			product_id = button.getAttribute('data-id');
 
 			(async () => {
 				try {
-					const data = await callApi('/api/roles?id=' + userId, {
-						headers: {
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
-
-					document.getElementById('role_name').value = data.data.name;
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			})();
-		});
-
-		// Event ketika button editbutton submit ditekan
-		document.getElementById('updateButton').addEventListener('click', function() {
-			// Ambil data role_id dari form
-			var role_id = document.getElementById('role_id').value;
-
-			(async () => {
-				try {
-					const data = await callApi('/api/roles/assign', {
-						method: 'POST',
-						body: {
-							user_id: userId,
-							role_id: role_id
-						},
+					const data = await callApi('/api/products?id=' + product_id, {
+						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
@@ -1279,14 +1260,66 @@ $users = $data['data'] ?? [];
 					});
 					console.log('Response:', data);
 
-					location.reload();
+					// Isi form dengan data yang didapat
+					document.getElementById('productDescriptionUpdate').value = data.data[0].description;
+					document.getElementById('productPriceUpdate').value = data.data[0].price;
+					document.getElementById('category_id_update').value = data.data[0].category_id;
 				} catch (error) {
 					console.error('Error:', error);
 				}
 			})();
 		});
-	</script>
 
+		document.getElementById('updateButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					// Get the file and other form data
+					const formData = new FormData();
+					const productNameUpdate = document.getElementById('productNameUpdate').value;
+
+					if (productNameUpdate !== null && productNameUpdate !== "" && productNameUpdate !== undefined) {
+						formData.append('name', productNameUpdate);
+					}
+					formData.append('description', document.getElementById('productDescriptionUpdate').value);
+					formData.append('price', document.getElementById('productPriceUpdate').value);
+					formData.append('category_id', document.getElementById('category_id_update').value);
+
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImageUpdate');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					}
+
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
+						},
+					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
+				} catch (error) {
+					console.error('Terjadi Error:', error);
+				}
+			})();
+		});
+		
+	</script>
 </body>
 
 </html>
