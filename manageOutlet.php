@@ -1186,14 +1186,18 @@ if ($outlets['success']) {
 		// Event ketika button editbutton submit ditekan
 		document.getElementById('updateButton').addEventListener('click', function() {
 			(async () => {
+				let body = {
+					address: document.getElementById('address').value,
+					phone: document.getElementById('phone').value
+				}
+
+				if (document.getElementById('name').value !== "" && document.getElementById('name').value !== null) {
+					body.name = document.getElementById('name').value;
+				}
 				try {
 					const data = await callApi('/api/outlets/' + outlet_id, {
 						method: 'POST',
-						body: {
-							name: document.getElementById('name').value !== "" ? document.getElementById('name').value : null,
-							address: document.getElementById('address').value,
-							phone: document.getElementById('phone').value
-						},
+						body: body,
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
