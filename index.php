@@ -1,5 +1,5 @@
 ﻿<?php
-require_once('/logic/loginvalidation.php');
+require_once('./logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
 $url = 'http://127.0.0.1:8000/api/transactions/best-categories';
