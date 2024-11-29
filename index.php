@@ -1,5 +1,5 @@
 ﻿<?php
-require_once('logic/loginvalidation.php');
+require_once('/logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
 $url = 'http://127.0.0.1:8000/api/transactions/best-categories';
@@ -102,16 +102,16 @@ curl_close($ch);
 	<title>Admin Dashboard</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/png" href="images/KoLab.png">
+	<link rel="icon" type="image/png" href="/images/KoLab.png">
 
 	<!-- Stylesheet -->
-	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
-	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
+	<link rel="stylesheet" href="/vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="/vendor/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="/vendor/chartist/css/chartist.min.css">
+	<link rel="stylesheet" href="/vendor/nouislider/nouislider.min.css">
 
 	<!-- Style css -->
-	<link href="css/style.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body data-page="index.php">
@@ -139,7 +139,7 @@ curl_close($ch);
 		***********************************-->
 		<div class="nav-header">
 			<a href="index.php" class="brand-logo">
-				<img src="images/KoLab.png" width="100vw" class="rounded-circle">
+				<img src="/images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
 				</div>
@@ -162,13 +162,13 @@ curl_close($ch);
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
+						<a class="nav-link" data-bs-toggle="tab" href="/#notes">Notes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Alerts</a>
+						<a class="nav-link" data-bs-toggle="tab" href="/#alerts">Alerts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" data-bs-toggle="tab" href="#chat">Chat</a>
+						<a class="nav-link active" data-bs-toggle="tab" href="/#chat">Chat</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -206,7 +206,7 @@ curl_close($ch);
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -219,7 +219,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -232,7 +232,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -245,7 +245,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -259,7 +259,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -272,7 +272,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -285,7 +285,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -299,7 +299,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -312,7 +312,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -326,7 +326,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -339,7 +339,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -352,7 +352,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -365,7 +365,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -379,7 +379,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -392,7 +392,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -453,7 +453,7 @@ curl_close($ch);
 							<div class="card-body msg_card_body dlab-scroll" id="DLAB_W_Contacts_Body3">
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -466,12 +466,12 @@ curl_close($ch);
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -484,12 +484,12 @@ curl_close($ch);
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -502,12 +502,12 @@ curl_close($ch);
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -516,7 +516,7 @@ curl_close($ch);
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -529,12 +529,12 @@ curl_close($ch);
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -547,12 +547,12 @@ curl_close($ch);
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -565,12 +565,12 @@ curl_close($ch);
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -810,7 +810,7 @@ curl_close($ch);
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="images/avatar/1.jpg">
+														<img alt="image" width="50" src="/images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -843,7 +843,7 @@ curl_close($ch);
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="images/avatar/1.jpg">
+														<img alt="image" width="50" src="/images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -956,10 +956,10 @@ curl_close($ch);
 
 							<li class="nav-item dropdown  header-profile">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<img src="images/user.jpg" width="56" alt="">
+									<img src="/images/user.jpg" width="56" alt="">
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a href="app-profile.html" class="dropdown-item ai-icon">
+									<a href="/app-profile.html" class="dropdown-item ai-icon">
 										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -968,7 +968,7 @@ curl_close($ch);
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
-									<a href="email-inbox.html" class="dropdown-item ai-icon">
+									<a href="/email-inbox.html" class="dropdown-item ai-icon">
 										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -979,7 +979,7 @@ curl_close($ch);
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="logic/logout.php" class="dropdown-item ai-icon">
+									<a href="/logic/logout.php" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1034,11 +1034,11 @@ curl_close($ch);
 														<ul class="nav nav-tabs" role="tablist">
 															<li class="nav-item">
 																<a class="nav-link active" data-bs-toggle="tab"
-																	href="#weekly" role="tab">Weekly</a>
+																	href="/#weekly" role="tab">Weekly</a>
 															</li>
 															<li class="nav-item">
 																<a class="nav-link" data-bs-toggle="tab"
-																	href="#monthly" role="tab">Monthly</a>
+																	href="/#monthly" role="tab">Monthly</a>
 															</li>
 														</ul>
 													</div>
@@ -1244,34 +1244,34 @@ curl_close($ch);
 	***********************************-->
 
 	<!-- Required vendors -->
-	<script src="js/navigation-gen.js"></script>
-	<script src="vendor/global/global.min.js"></script>
-	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-	<script src="js/custom.min.js"></script>
-	<script src="js/dlabnav-init.js"></script>
-	<script src="js/demo.js"></script>
-	<script src="js/styleSwitcher.js"></script>
+	<script src="/js/navigation-gen.js"></script>
+	<script src="/vendor/global/global.min.js"></script>
+	<script src="/vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="/js/custom.min.js"></script>
+	<script src="/js/dlabnav-init.js"></script>
+	<script src="/js/demo.js"></script>
+	<script src="/js/styleSwitcher.js"></script>
 
 	<!-- Dashboard 1 -->
-	<script src="js/dashboard/dashboard-1.js"></script>
-	<script src="vendor/owl-carousel/owl.carousel.js"></script>
+	<script src="/js/dashboard/dashboard-1.js"></script>
+	<script src="/vendor/owl-carousel/owl.carousel.js"></script>
 
 	<!-- Chart Morris plugin files -->
-	<script src="vendor/raphael/raphael.min.js"></script>
-	<script src="vendor/morris/morris.min.js"></script>
-	<script src="js/plugins-init/morris-init.js"></script>
+	<script src="/vendor/raphael/raphael.min.js"></script>
+	<script src="/vendor/morris/morris.min.js"></script>
+	<script src="/js/plugins-init/morris-init.js"></script>
 
 	<!-- Apex Chart -->
-	<script src="vendor/apexchart/apexchart.js"></script>
+	<script src="/vendor/apexchart/apexchart.js"></script>
 
 	<!-- Chart piety plugin files -->
-	<script src="vendor/peity/jquery.peity.min.js"></script>
+	<script src="/vendor/peity/jquery.peity.min.js"></script>
 
 	<!-- Chart Chartist plugin files -->
-	<script src="vendor/chartist/js/chartist.min.js"></script>
-	<script src="vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-	<script src="js/plugins-init/chartist-init.js"></script>
+	<script src="/vendor/chartist/js/chartist.min.js"></script>
+	<script src="/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<script src="/js/plugins-init/chartist-init.js"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			async function fetchAndRenderChart() {

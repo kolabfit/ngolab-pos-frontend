@@ -1,5 +1,5 @@
 <?php
-require_once('logic/loginvalidation.php');
+require_once('/logic/loginvalidation.php');
 Validation::validateLogin($_COOKIE['auth_token']);
 
 // URL API Kelola produk
@@ -44,22 +44,22 @@ if ($response === false) {
 	<title>Kelola Produk</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/png" href="images/KoLab.png">
+	<link rel="icon" type="image/png" href="/images/KoLab.png">
 
 	<!-- Stylesheet -->
-	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
-	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
+	<link rel="stylesheet" href="/vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="/vendor/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="/vendor/chartist/css/chartist.min.css">
+	<link rel="stylesheet" href="/vendor/nouislider/nouislider.min.css">
 
 	<!-- Datatable -->
-	<link rel="stylesheet" href="vendor/datatables/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="/vendor/datatables/css/jquery.dataTables.min.css">
 
 	<!-- Custom Stylesheet -->
-	<link rel="stylesheet" href="vendor/jquery-nice-select/css/nice-select.css">
+	<link rel="stylesheet" href="/vendor/jquery-nice-select/css/nice-select.css">
 
 	<!-- Style css -->
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body data-page="manageProduct.html">
@@ -88,7 +88,7 @@ if ($response === false) {
         ***********************************-->
 		<div class="nav-header">
 			<a href="index.html" class="brand-logo">
-				<img src="images/KoLab.png" width="100vw" class="rounded-circle">
+				<img src="/images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
 				</div>
@@ -111,13 +111,13 @@ if ($response === false) {
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
+						<a class="nav-link" data-bs-toggle="tab" href="/#notes">Notes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Alerts</a>
+						<a class="nav-link" data-bs-toggle="tab" href="/#alerts">Alerts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" data-bs-toggle="tab" href="#chat">Chat</a>
+						<a class="nav-link active" data-bs-toggle="tab" href="/#chat">Chat</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -155,7 +155,7 @@ if ($response === false) {
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -168,7 +168,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -181,7 +181,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -194,7 +194,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -208,7 +208,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -221,7 +221,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -234,7 +234,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -248,7 +248,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -261,7 +261,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -275,7 +275,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -288,7 +288,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -301,7 +301,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -314,7 +314,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon"></span>
 											</div>
@@ -328,7 +328,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -341,7 +341,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img"
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
 													alt="">
 												<span class="online_icon offline"></span>
 											</div>
@@ -402,7 +402,7 @@ if ($response === false) {
 							<div class="card-body msg_card_body dlab-scroll" id="DLAB_W_Contacts_Body3">
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -415,12 +415,12 @@ if ($response === false) {
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -433,12 +433,12 @@ if ($response === false) {
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -451,12 +451,12 @@ if ($response === false) {
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -465,7 +465,7 @@ if ($response === false) {
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Hi, how are you samim?
@@ -478,12 +478,12 @@ if ($response === false) {
 										<span class="msg_time_send">8:55 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am good too, thank you for your chat template
@@ -496,12 +496,12 @@ if ($response === false) {
 										<span class="msg_time_send">9:05 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										I am looking for your next templates
@@ -514,12 +514,12 @@ if ($response === false) {
 										<span class="msg_time_send">9:10 AM, Today</span>
 									</div>
 									<div class="img_cont_msg">
-										<img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 								</div>
 								<div class="d-flex justify-content-start mb-4">
 									<div class="img_cont_msg">
-										<img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+										<img src="/images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
 									</div>
 									<div class="msg_cotainer">
 										Bye, see you
@@ -759,7 +759,7 @@ if ($response === false) {
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="images/avatar/1.jpg">
+														<img alt="image" width="50" src="/images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -792,7 +792,7 @@ if ($response === false) {
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="images/avatar/1.jpg">
+														<img alt="image" width="50" src="/images/avatar/1.jpg">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -905,10 +905,10 @@ if ($response === false) {
 
 							<li class="nav-item dropdown  header-profile">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									<img src="images/user.jpg" width="56" alt="">
+									<img src="/images/user.jpg" width="56" alt="">
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a href="app-profile.html" class="dropdown-item ai-icon">
+									<a href="/app-profile.html" class="dropdown-item ai-icon">
 										<svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -917,7 +917,7 @@ if ($response === false) {
 										</svg>
 										<span class="ms-2">Profile </span>
 									</a>
-									<a href="email-inbox.html" class="dropdown-item ai-icon">
+									<a href="/email-inbox.html" class="dropdown-item ai-icon">
 										<svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -928,7 +928,7 @@ if ($response === false) {
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="page-error-404.html" class="dropdown-item ai-icon">
+									<a href="/page-error-404.html" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1047,7 +1047,7 @@ if ($response === false) {
         ***********************************-->
 		<div class="footer">
 			<div class="copyright">
-				<p>Copyright © Designed &amp; Developed by <a href="index.htm" target="_blank">DexignLab</a> 2021
+				<p>Copyright © Designed &amp; Developed by <a href="//index.htm" target="_blank">DexignLab</a> 2021
 				</p>
 			</div>
 		</div>
@@ -1169,26 +1169,26 @@ if ($response === false) {
         Scripts
     ***********************************-->
 	<!-- Required vendors -->
-	<script src="js/navigation-gen.js"></script>
-	<script src="vendor/global/global.min.js"></script>
-	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="/js/navigation-gen.js"></script>
+	<script src="/vendor/global/global.min.js"></script>
+	<script src="/vendor/chart.js/Chart.bundle.min.js"></script>
 	<!-- Apex Chart -->
-	<script src="vendor/apexchart/apexchart.js"></script>
+	<script src="/vendor/apexchart/apexchart.js"></script>
 
 	<!-- Datatable -->
-	<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="js/plugins-init/datatables.init.js"></script>
+	<script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="/js/plugins-init/datatables.init.js"></script>
 
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
-	<script src="js/custom.min.js"></script>
-	<script src="js/dlabnav-init.js"></script>
-	<script src="js/demo.js"></script>
-	<script src="js/styleSwitcher.js"></script>
+	<script src="/js/custom.min.js"></script>
+	<script src="/js/dlabnav-init.js"></script>
+	<script src="/js/demo.js"></script>
+	<script src="/js/styleSwitcher.js"></script>
 	<script type="module">
 		import {
 			callApi
-		} from 'js/logic/api.js';
+		} from '/js/logic/api.js';
 
 		document.getElementById('createButton').addEventListener('click', function() {
 			(async () => {
