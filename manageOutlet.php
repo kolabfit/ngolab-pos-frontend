@@ -1,6 +1,6 @@
 <?php
-require_once('/logic/loginvalidation.php');
-Validation::validateLogin($_COOKIE['auth_token']);
+require_once('./logic/loginvalidation.php');
+Validation::validateLoginAdmin($_COOKIE['auth_token']);
 
 // Ambil data dari API
 $ch = curl_init();

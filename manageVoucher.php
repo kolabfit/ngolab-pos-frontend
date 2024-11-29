@@ -1,6 +1,6 @@
 <?php
 require_once('./logic/loginvalidation.php');
-Validation::validateLogin($_COOKIE['auth_token']);
+Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

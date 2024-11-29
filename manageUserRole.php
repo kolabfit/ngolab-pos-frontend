@@ -1,6 +1,6 @@
 <?php
 require_once('./logic/loginvalidation.php');
-Validation::validateLogin($_COOKIE['auth_token']);
+Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola Role
 $apiUrl = 'http://127.0.0.1:8000/api/roles';

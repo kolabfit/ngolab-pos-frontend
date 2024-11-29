@@ -40,20 +40,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Simpan token ke dalam cookie (berlaku 1 jam)
         $token = $result['data']['token'];
         setcookie('auth_token', $token, time() + 3600, '/');
-
+        print_r($result);
         // Ambil role_id dari user
         $role_id = $result['data']['user']['role_id'];
 
         // Arahkan pengguna sesuai role
         if ($role_id == 1) {
             // Jika role_id adalah 1 (Admin)
-            header('Location: ../admin/index.php');
+            header('Location: ../index.php');
         } elseif ($role_id == 2) {
             // Jika role_id adalah 2 (Cashier)
-            header('Location: ../../coba.html');
-        } else {
+            header('Location: ../cashier/cashier.php');
+        } else if($role_id == 3) {
             // Jika role_id tidak diketahui
-            header('Location: ../../coba.html');
+            header('Location: ../operational/operational.php');
+        } else{
+            header('Location: ../unrole.php');
         }
         exit;
     } else {
