@@ -1,4 +1,7 @@
 <?php
+require_once('../logic/loginvalidation.php');
+Validation::validateLogin($_COOKIE['auth_token']);
+
 // URL API Kelola Role
 $apiUrl = 'http://127.0.0.1:8000/api/roles';
 
@@ -78,7 +81,7 @@ $users = $data['data'] ?? [];
 	<link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body data-page="manageUserRole.html">
+<body data-page="manageUserRole.php">
 
 	<!--*******************
 		Preloader start
@@ -989,10 +992,6 @@ $users = $data['data'] ?? [];
 								<h4 class="card-title">Kelola Role</h4>
 							</div>
 							<div class="card-body">
-								<div class="d-flex mb-3">
-									<a href="tambahRole.php" class="btn btn-success shadow btn-xs sharp me-1"><i
-											class="fas fa-plus"></i></a>
-								</div>
 								<div class="table-responsive">
 									<table id="datarole" class="display" style="min-width: 845px">
 										<thead>
@@ -1023,7 +1022,7 @@ $users = $data['data'] ?? [];
 														<td><?= htmlspecialchars($role['name']) ?></td>
 														<td>
 															<div class="d-flex">
-																<button href="#" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																<button href="#" data-id=<?= $role['id'] ?> class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i
 																		class="fas fa-pencil-alt"></i></button>
 															</div>
 														</td>
@@ -1046,10 +1045,6 @@ $users = $data['data'] ?? [];
 								<h4 class="card-title">Kelola User</h4>
 							</div>
 							<div class="card-body">
-								<div class="d-flex mb-3">
-									<a href="#" class="btn btn-success shadow btn-xs sharp me-1"><i
-											class="fas fa-plus"></i> </a>
-								</div>
 								<div class="table-responsive">
 									<table id="datauser" class="display" style="min-width: 845px">
 										<thead>
@@ -1086,6 +1081,7 @@ $users = $data['data'] ?? [];
 														<td><?= $user['role']['name'] ?></td>
 														<td><?= $user['staff']['employee_id'] ?></td>
 														<td><?= $user['staff']['position'] ?></td>
+														<?php if($user['role']['id'] != 1): ?>
 														<td>
 															<div class="d-flex">
 																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
@@ -1093,6 +1089,15 @@ $users = $data['data'] ?? [];
 																</button>
 															</div>
 														</td>
+														<?php else: ?>
+														<td>
+															<div class="d-flex">
+																<button data-id="<?php echo $user['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
+															</div>
+														</td>
+														<?php endif; ?>
 													</tr>
 												<?php endforeach; ?>
 											<?php else: ?>
@@ -1170,6 +1175,31 @@ $users = $data['data'] ?? [];
 	</div>
 	<!-- Modal End -->
 
+	<!-- Modal Edit Role -->
+	<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Role</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="role_name" class="col-form-label">Role:</label>
+							<input type="text" class="form-control" id="role_name" name="role_name" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal End -->
+
 	<!--**********************************
 		Scripts
 	***********************************-->
@@ -1194,6 +1224,7 @@ $users = $data['data'] ?? [];
 
 		// Tangkap elemen modal
 		var exampleModal = document.getElementById('exampleModal');
+		var editRoleModal = document.getElementById('editRoleModal');
 		var userId = 0;
 
 		// Event ketika modal ditampilkan
@@ -1203,6 +1234,29 @@ $users = $data['data'] ?? [];
 
 			// Ambil data-id dari tombol
 			userId = button.getAttribute('data-id');
+		});
+
+		editRoleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			userId = button.getAttribute('data-id');
+
+			(async () => {
+				try {
+					const data = await callApi('/api/roles?id=' + userId, {
+						headers: {
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					document.getElementById('role_name').value = data.data.name;
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
 		});
 
 		// Event ketika button editbutton submit ditekan

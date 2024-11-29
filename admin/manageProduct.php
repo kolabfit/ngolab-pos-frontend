@@ -1,3 +1,34 @@
+<?php
+require_once('../logic/loginvalidation.php');
+Validation::validateLogin($_COOKIE['auth_token']);
+
+// URL API Kelola produk
+$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
+
+// Inisialisasi cURL
+$curl = curl_init($apiUrl);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json'
+]);
+
+// Eksekusi cURL dan ambil data
+$response = curl_exec($curl);
+curl_close($curl);
+
+// Memeriksa apakah cURL berhasil mengambil data
+if ($response === false) {
+	$categories = []; // Jika gagal, set categories sebagai array kosong untuk mencegah error
+} else {
+	// Decode data JSON ke array PHP
+	$data = json_decode($response, true);
+
+	// Memeriksa apakah data ada dan berhasil diambil
+	$categories = isset($data['data']) ? $data['data'] : [];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -942,10 +973,8 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex">
-									<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-											class="fas fa-pencil-alt"></i></a>
-									<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-											class="fa fa-trash"></i></a>
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
+											class="fas fa-plus"></i></button>
 								</div>
 								<div class="table-responsive">
 									<table id="example5" class="display" style="min-width: 845px">
@@ -972,35 +1001,33 @@
 											$url = "http://127.0.0.1:8000/api/products";
 											$response = file_get_contents($url);
 											$products = json_decode($response, true);
-				
-											// Check if data retrieval was successful
-											if ($products && isset($products['data'])) {
-												foreach ($products['data'] as $product) {
-													echo "<tr>";
-													echo "<td>
+											?>
+											<?php if ($products) : ?>
+												<?php foreach ($products['data'] as $product) : ?>
+													<tr>
+														<td>
 															<div class='form-check custom-checkbox ms-2'>
-																<input type='checkbox' class='form-check-input' id='customCheckBox{$product['id']}'>
-																<label class='form-check-label' for='customCheckBox{$product['id']}'></label>
+																<input type='checkbox' class='form-check-input' id='customCheckBox{<?= $product['id'] ?>'>
+																<label class='form-check-label' for='customCheckBox{<?= $product['id'] ?>'></label>
 															</div>
-														  </td>";
-													echo "<td>{$product['name']}</td>";
-													echo "<td>Rp " . number_format($product['price'], 0, ',', '.') . "</td>";
-													echo "<td>{$product['description']}</td>";
-													echo "<td>{$product['category']['name']}</td>";
-													echo "<td><img src='{$product['image']}' alt='{$product['name']}' width='50'></td>";
-													echo "<td>{$product['barcode']}</td>";
-													echo "<td>
+														</td>
+														<td><?= $product['name'] ?></td>
+														<td><?= "Rp" . number_format($product['price'], 0, ',', '.') ?> </td>
+														<td><?= $product['description'] ?></td>
+														<td><?= $product['category']['name'] ?? 'Uncategorized' ?> </td>
+														<td><img src='<?= $product['image'] ?>' alt='<?= $product['name'] ?>' width='50'></td>
+														<td><?= $product['barcode'] ?></td>
+														<td>
 															<div class='d-flex'>
-																<a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
+																<button data-id="<?php echo $product['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																		class="fas fa-pencil-alt"></i>
+																</button>
 																<a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
 															</div>
-														  </td>";
-													echo "</tr>";
-												}
-											} else {
-												echo "<tr><td colspan='8'>No data found.</td></tr>";
-											}
-											?>
+														</td>
+													</tr>
+												<?php endforeach; ?>
+											<?php endif; ?>
 										</tbody>
 									</table>
 								</div>
@@ -1035,12 +1062,108 @@
 		<!--**********************************
            Support ticket button end
         ***********************************-->
-
-
 	</div>
 	<!--**********************************
         Main wrapper end
     ***********************************-->
+
+	<!-- Modal -->
+	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Produk</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="outlet_name" class="col-form-label">Nama Produk:</label>
+							<input type="text" class="form-control" id="productName" name="productName" required>
+						</div>
+						<div class="mb-3">
+							<label for="category_id" class="col-form-label">Kategori Produk:</label>
+							<select class="form-select" id="category_id">
+								<?php foreach ($categories as $category) : ?>
+									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
+							<input type="text" class="form-control" id="productDescription" name="productDescription" required>
+						</div>
+						<div class="mb-3">
+							<label for="productPrice" class="col-form-label">Harga:</label>
+							<input type="number" class="form-control" id="productPrice" name="productPrice" required>
+						</div>
+						<div class="mb-3">
+							<label class="col-form-label" for="productImage">Upload Image: </label>
+							<input type="file" id="productImage">
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Barcode (Opsional):</label>
+							<input type="text" class="form-control" id="productDescription" name="productDescription">
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modul -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Produk</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="outlet_name" class="col-form-label">Nama Produk:</label>
+							<input type="text" class="form-control" id="productNameUpdate" name="productNameUpdate">
+						</div>
+						<div class="mb-3">
+							<label for="category_id" class="col-form-label">Kategori Produk:</label>
+							<select class="form-select" id="category_id_update">
+								<?php foreach ($categories as $category) : ?>
+									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
+							<input type="text" class="form-control" id="productDescriptionUpdate" name="productDescriptionUpdate">
+						</div>
+						<div class="mb-3">
+							<label for="productPrice" class="col-form-label">Harga:</label>
+							<input type="number" class="form-control" id="productPriceUpdate" name="productPriceUpdate">
+						</div>
+						<div class="mb-3">
+							<label class="col-form-label" for="productImage">Upload Image: </label>
+							<input type="file" id="productImageUpdate">
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modul -->
+
+	
 
 	<!--**********************************
         Scripts
@@ -1062,6 +1185,141 @@
 	<script src="../js/dlabnav-init.js"></script>
 	<script src="../js/demo.js"></script>
 	<script src="../js/styleSwitcher.js"></script>
+	<script type="module">
+		import {
+			callApi
+		} from '../js/logic/api.js';
+
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					// Get the file and other form data
+					const formData = new FormData();
+					formData.append('name', document.getElementById('productName').value);
+					formData.append('description', document.getElementById('productDescription').value);
+					formData.append('price', document.getElementById('productPrice').value);
+					formData.append('category_id', document.getElementById('category_id').value);
+
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImage');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					} else {
+						throw new Error('No image file selected');
+					}
+
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products', {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
+						},
+					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		// Tangkap elemen modal
+		var exampleModal = document.getElementById('exampleModal');
+		var product_id = 0;
+
+		// Event ketika modal ditampilkan
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
+
+			// Ambil data-id dari tombol
+			product_id = button.getAttribute('data-id');
+
+			(async () => {
+				try {
+					const data = await callApi('/api/products?id=' + product_id, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					// Isi form dengan data yang didapat
+					document.getElementById('productDescriptionUpdate').value = data.data[0].description;
+					document.getElementById('productPriceUpdate').value = data.data[0].price;
+					document.getElementById('category_id_update').value = data.data[0].category_id;
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
+		});
+
+		document.getElementById('updateButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					// Get the file and other form data
+					const formData = new FormData();
+					const productNameUpdate = document.getElementById('productNameUpdate').value;
+
+					if (productNameUpdate !== null && productNameUpdate !== "" && productNameUpdate !== undefined) {
+						formData.append('name', productNameUpdate);
+					}
+					formData.append('description', document.getElementById('productDescriptionUpdate').value);
+					formData.append('price', document.getElementById('productPriceUpdate').value);
+					formData.append('category_id', document.getElementById('category_id_update').value);
+
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImageUpdate');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					}
+
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
+						},
+					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
+				} catch (error) {
+					console.error('Terjadi Error:', error);
+				}
+			})();
+		});
+		
+	</script>
 </body>
 
 </html>

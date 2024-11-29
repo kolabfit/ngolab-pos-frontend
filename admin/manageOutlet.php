@@ -1,4 +1,7 @@
 <?php
+require_once('../logic/loginvalidation.php');
+Validation::validateLogin($_COOKIE['auth_token']);
+
 // Ambil data dari API
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/outlets");

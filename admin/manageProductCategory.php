@@ -1,3 +1,19 @@
+<?php
+require_once('../logic/loginvalidation.php');
+Validation::validateLogin($_COOKIE['auth_token']);
+
+// Initialize cURL session
+$url = "http://127.0.0.1:8000/api/products/categories";
+$ch = curl_init();
+
+// Set cURL options
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Execute cURL request
+$response = curl_exec($ch);
+$dataCategory = json_decode($response, true);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -958,20 +974,6 @@
 											</tr>
 										</thead>
 										<tbody>
-											<?php
-											// Initialize cURL session
-											$url = "http://127.0.0.1:8000/api/products/categories";
-											$ch = curl_init();
-
-											// Set cURL options
-											curl_setopt($ch, CURLOPT_URL, $url);
-											curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-											// Execute cURL request
-											$response = curl_exec($ch);
-											$dataCategory = json_decode($response, true);
-
-											?>
 											<?php foreach ($dataCategory['data'] as $category): ?>
 												<tr>
 													<td>

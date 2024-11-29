@@ -2,27 +2,22 @@
     "items": [
       {
         "label": "Home",
-        "url": "index.html",
+        "url": "index.php",
         "icon": "fa-home"
       },
       {
-        "label": "Jam Penjualan",
-        "url": "jamPenjualan.html",
-        "icon": "fa-clock"
-      },
-      {
         "label": "Prediksi Menu",
-        "url": "prediksiMenu.html",
+        "url": "prediksiMenu.php",
         "icon": "fa-chart-line"
       },
       {
         "label": "Prediksi Pendapatan",
-        "url": "prediksiPendapatan.html",
+        "url": "prediksiPendapatan.php",
         "icon": "fa-chart-pie"
       },
       {
         "label": "Dashboard Sosial Media",
-        "url": "sosialMedia.html",
+        "url": "sosialMedia.php",
         "icon": "fa-hashtag"
       },
       {
@@ -32,32 +27,32 @@
       },
       {
         "label": "Kelola Kategori Produk",
-        "url": "manageProductCategory.html",
+        "url": "manageProductCategory.php",
         "icon": "fa-folder-open"
       },
       {
         "label": "Kelola Produk",
-        "url": "manageProduct.html",
+        "url": "manageProduct.php",
         "icon": "fa-box-open"
       },
       {
         "label": "Kelola Jenis Voucher",
-        "url": "manageVoucherType.html",
+        "url": "manageVoucherType.php",
         "icon": "fa-tags"
       },
       {
         "label": "Kelola Voucher",
-        "url": "manageVoucher.html",
+        "url": "manageVoucher.php",
         "icon": "fa-ticket-alt"
       },
       {
         "label": "Kelola Transaksi",
-        "url": "manageTransaction.html",
+        "url": "manageTransaction.php",
         "icon": "fa-receipt"
       },
       {
         "label": "Kelola Outlet",
-        "url": "manageOutlet.html",
+        "url": "manageOutlet.php",
         "icon": "fa-store"
       }
     ]

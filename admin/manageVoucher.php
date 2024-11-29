@@ -1,3 +1,7 @@
+<?php
+require_once('../logic/loginvalidation.php');
+Validation::validateLogin($_COOKIE['auth_token']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 

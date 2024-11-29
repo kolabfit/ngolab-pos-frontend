@@ -20,8 +20,17 @@ export async function callApi(url, options = {}) {
         };
 
         // If the body exists and is an object, stringify it
-        if (requestOptions.body && typeof requestOptions.body === "object") {
+        if (
+            requestOptions.body &&
+            typeof requestOptions.body === "object" &&
+            !(requestOptions.body instanceof FormData)
+        ) {
             requestOptions.body = JSON.stringify(requestOptions.body);
+        }
+
+        // if the body is form data, remove the content-type header
+        if (requestOptions.body instanceof FormData) {
+            delete requestOptions.headers["Content-Type"];
         }
 
         // Perform the API request
