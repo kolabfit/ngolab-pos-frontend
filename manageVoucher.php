@@ -983,9 +983,9 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 											}
 
 											// Ambil data dari API
-											$vouchersResponse = fetchData("http://127.0.0.1:8000/api/vouchers");
-											$categoriesResponse = fetchData("http://127.0.0.1:8000/api/products/categories");
-											$outletsResponse = fetchData("http://127.0.0.1:8000/api/outlets");
+											$vouchersResponse = fetchData("https://ngolab.id/api/vouchers");
+											$categoriesResponse = fetchData("https://ngolab.id/api/products/categories");
+											$outletsResponse = fetchData("https://ngolab.id/api/outlets");
 
 											// Memastikan data 'vouchers' ada
 											$vouchers = $vouchersResponse['data'] ?? [];

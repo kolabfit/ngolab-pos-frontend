@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once('loginvalidation.php');
+Validation::logout($_COOKIE['auth_token'] ?? null);
 
 // Hapus cookie auth_token dengan mengatur waktu kadaluwarsa ke masa lalu
 if (isset($_COOKIE['auth_token'])) {
