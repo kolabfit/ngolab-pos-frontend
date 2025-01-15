@@ -988,30 +988,62 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 										</thead>
 										<tbody>
 											<?php
-											if ($vouchersData && isset($vouchersData['data'])) {
-												foreach ($vouchersData['data'] as $voucher) {
-													echo "<tr>";
-													echo "<td>
-                    <div class='form-check custom-checkbox ms-2'>
-                        <input type='checkbox' class='form-check-input' id='customCheckBox{$voucher['id']}'>
-                        <label class='form-check-label' for='customCheckBox{$voucher['id']}'></label>
-                    </div>
-                  </td>";
-													echo "<td>" . htmlspecialchars($voucher['name']) . "</td>";
-													echo "<td>" . htmlspecialchars($voucher['discount']) . "%</td>";
-													echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))) . "</td>";
-													echo "<td>" . htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A') . "</td>";
-													echo "<td>" . htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A') . "</td>";
-													echo "<td>
-                    <div class='d-flex'>
-                        <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
-                        <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
-                    </div>
-                  </td>";
-													echo "</tr>";
-												}
-											} else {
-												echo "<tr><td colspan='7'>No vouchers found or error fetching data.</td></tr>";
+											// Fungsi untuk mengambil data dari API
+											function fetchData($url)
+											{
+												$ch = curl_init();
+												curl_setopt($ch, CURLOPT_URL, $url);
+												curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+												$response = curl_exec($ch);
+												curl_close($ch);
+												return json_decode($response, true);
+											}
+
+											// Ambil data dari API
+											$vouchersResponse = fetchData("https://ngolab.id/api/vouchers");
+											$categoriesResponse = fetchData("https://ngolab.id/api/products/categories");
+											$outletsResponse = fetchData("https://ngolab.id/api/outlets");
+
+											// Memastikan data 'vouchers' ada
+											$vouchers = $vouchersResponse['data'] ?? [];
+											$categories = $categoriesResponse['data'] ?? [];
+											$outlets = $outletsResponse['data'] ?? [];
+
+											// Cetak data untuk debugging
+											print_r($vouchers);
+
+											// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
+											$categoryMap = [];
+											foreach ($categories as $category) {
+												$categoryMap[$category['id']] = $category['name'];
+											}
+
+											$outletMap = [];
+											foreach ($outlets as $outlet) {
+												$outletMap[$outlet['id']] = $outlet['name'];
+											}
+
+											// Tampilkan data voucher dalam tabel
+											foreach ($vouchers as $voucher) {
+												echo "<tr>";
+												echo "<td>
+                                        <div class='form-check custom-checkbox ms-2'>
+                                            <input type='checkbox' class='form-check-input' id='customCheckBox{$voucher['id']}'>
+                                            <label class='form-check-label' for='customCheckBox{$voucher['id']}'></label>
+                                        </div>
+                                      </td>";
+												echo "<td>" . htmlspecialchars($voucher['name']) . "</td>";
+												echo "<td>" . htmlspecialchars($voucher['discount']) . "%</td>";
+												echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))) . "</td>";
+												echo "<td>" . htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A') . "</td>";
+												echo "<td>" . htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A') . "</td>";
+												echo "<td>
+                                        <div class='d-flex'>
+                                            <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
+                                            <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
+                                        </div>
+                                      </td>";
+												echo "</tr>";
 											}
 											?>
 										</tbody>

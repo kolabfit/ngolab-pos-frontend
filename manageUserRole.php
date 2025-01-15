@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola Role
-$apiUrl = 'http://127.0.0.1:8000/api/roles';
+$apiUrl = 'https://ngolab.id/api/roles';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -29,7 +29,7 @@ if ($response === false) {
 
 // Initialize cURL Kelola User
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/users/list");
+curl_setopt($ch, CURLOPT_URL, "https://ngolab.id/api/users/list");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 // Tambahkan header authorization

@@ -2,7 +2,7 @@
 require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-categories';
+$url = 'https://ngolab.id/api/transactions/best-categories';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -23,7 +23,7 @@ $response = curl_exec($ch);
 $kategoriTerlaris = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-products';
+$url = 'https://ngolab.id/api/transactions/best-products';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -44,7 +44,7 @@ $response = curl_exec($ch);
 $produkterlaris = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/transactions/sales/day';
+$url = 'https://ngolab.id/api/transactions/sales/day';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -65,7 +65,7 @@ $response = curl_exec($ch);
 $salesInDay = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/outlet/transactions/sales/day';
+$url = 'https://ngolab.id/api/outlet/transactions/sales/day';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -1277,7 +1277,7 @@ curl_close($ch);
 			async function fetchAndRenderChart() {
 				try {
 					// Panggil API dan parsing hasilnya sebagai JSON
-					const response = await fetch('http://127.0.0.1:8000/api/transactions/best-categories');
+					const response = await fetch('https://ngolab.id/api/transactions/best-categories');
 					const result = await response.json();
 					const data = result.data;
 
@@ -1353,7 +1353,7 @@ curl_close($ch);
 
 	<script>
 		// URL API Anda
-		const apiUrl = 'http://127.0.0.1:8000/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
+		const apiUrl = 'https://ngolab.id/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
 
 		// Fungsi untuk mengambil data dari API dan memprosesnya
 		async function fetchDataAndRenderChart() {
@@ -1461,7 +1461,7 @@ curl_close($ch);
 		async function fetchSalesData() {
 			try {
 				// Mem-fetch data dari API
-				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
 				const data = await response.json();
 
 				// Memastikan respon dari API memiliki data
@@ -1486,7 +1486,7 @@ curl_close($ch);
 		async function fetchAndDisplayData() {
 			try {
 				// Fetch data dari API
-				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
 				const jsonData = await response.json();
 
 				// Ambil data terbaru dari array "data"
@@ -1641,15 +1641,15 @@ curl_close($ch);
 		}
 
 		// Panggil fetchData untuk mengambil dan menampilkan data
-		fetchData('http://127.0.0.1:8000/api/transactions/total/hour');
+		fetchData('https://ngolab.id/api/transactions/total/hour');
 
 
 		document.getElementById('turnOnMonthly').addEventListener('change', async function() {
 			let url;
 			if (this.checked) {
-				url = `http://127.0.0.1:8000/api/transactions/total/hour?monthly=true`;
+				url = `https://ngolab.id/api/transactions/total/hour?monthly=true`;
 			} else {
-				url = `http://127.0.0.1:8000/api/transactions/total/hour`
+				url = `https://ngolab.id/api/transactions/total/hour`
 			}
 			document.getElementById('jam_penjualan').innerHTML = '';
 

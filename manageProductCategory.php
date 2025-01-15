@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // Initialize cURL session
-$url = "http://127.0.0.1:8000/api/products/categories";
+$url = "https://ngolab.id/api/products/categories";
 $ch = curl_init();
 
 // Set cURL options
