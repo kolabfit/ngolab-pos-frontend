@@ -1,6 +1,38 @@
 <?php
 require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
+
+function fetchData($url)
+{
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$response = curl_exec($ch);
+
+	if (curl_errno($ch)) {
+		echo 'Curl error: ' . curl_error($ch);
+		return false;
+	}
+
+	curl_close($ch);
+	return json_decode($response, true);
+}
+
+// Fetch data
+$vouchersData = fetchData("http://127.0.0.1:8000/api/vouchers");
+$categoriesResponse = fetchData("http://127.0.0.1:8000/api/products/categories");
+$outletsResponse = fetchData("http://127.0.0.1:8000/api/outlets");
+
+// Prepare category and outlet maps
+$categoryMap = [];
+foreach ($categoriesResponse['data'] ?? [] as $category) {
+	$categoryMap[$category['id']] = $category['name'];
+}
+
+$outletMap = [];
+foreach ($outletsResponse['data'] ?? [] as $outlet) {
+	$outletMap[$outlet['id']] = $outlet['name'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,8 +160,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -141,8 +172,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -154,8 +184,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -167,8 +196,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -181,8 +209,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -194,8 +221,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -207,8 +233,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -221,8 +246,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -234,8 +258,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -248,8 +271,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -261,8 +283,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -274,8 +295,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -287,8 +307,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -301,8 +320,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -314,8 +332,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -630,7 +647,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 											<div class="ms-auto">
 												<a href="javascript:void(0);"
 													class="btn btn-primary btn-xs sharp me-1"><i
-														class="fas fa-pencil-alt"></i></a>
+														class="fa fa-plus"></i></a>
 												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
 														class="fa fa-trash"></i></a>
 											</div>
@@ -946,10 +963,10 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex">
-									<a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i
-											class="fas fa-pencil-alt"></i></a>
-									<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-											class="fa fa-trash"></i></a>
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal"
+										data-bs-target="#createModal">
+										<i class="fas fa-plus"></i>
+									</button>
 								</div>
 								<div class="table-responsive">
 									<table id="example5" class="display" style="min-width: 845px">
@@ -971,62 +988,30 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 										</thead>
 										<tbody>
 											<?php
-											// Fungsi untuk mengambil data dari API
-											function fetchData($url)
-											{
-												$ch = curl_init();
-												curl_setopt($ch, CURLOPT_URL, $url);
-												curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-												$response = curl_exec($ch);
-												curl_close($ch);
-												return json_decode($response, true);
-											}
-
-											// Ambil data dari API
-											$vouchersResponse = fetchData("http://127.0.0.1:8000/api/vouchers");
-											$categoriesResponse = fetchData("http://127.0.0.1:8000/api/products/categories");
-											$outletsResponse = fetchData("http://127.0.0.1:8000/api/outlets");
-
-											// Memastikan data 'vouchers' ada
-											$vouchers = $vouchersResponse['data'] ?? [];
-											$categories = $categoriesResponse['data'] ?? [];
-											$outlets = $outletsResponse['data'] ?? [];
-
-											// Cetak data untuk debugging
-											print_r($vouchers);
-
-											// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
-											$categoryMap = [];
-											foreach ($categories as $category) {
-												$categoryMap[$category['id']] = $category['name'];
-											}
-
-											$outletMap = [];
-											foreach ($outlets as $outlet) {
-												$outletMap[$outlet['id']] = $outlet['name'];
-											}
-
-											// Tampilkan data voucher dalam tabel
-											foreach ($vouchers as $voucher) {
-												echo "<tr>";
-												echo "<td>
-                                        <div class='form-check custom-checkbox ms-2'>
-                                            <input type='checkbox' class='form-check-input' id='customCheckBox{$voucher['id']}'>
-                                            <label class='form-check-label' for='customCheckBox{$voucher['id']}'></label>
-                                        </div>
-                                      </td>";
-												echo "<td>" . htmlspecialchars($voucher['name']) . "</td>";
-												echo "<td>" . htmlspecialchars($voucher['discount']) . "%</td>";
-												echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))) . "</td>";
-												echo "<td>" . htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A') . "</td>";
-												echo "<td>" . htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A') . "</td>";
-												echo "<td>
-                                        <div class='d-flex'>
-                                            <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
-                                            <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
-                                        </div>
-                                      </td>";
-												echo "</tr>";
+											if ($vouchersData && isset($vouchersData['data'])) {
+												foreach ($vouchersData['data'] as $voucher) {
+													echo "<tr>";
+													echo "<td>
+                    <div class='form-check custom-checkbox ms-2'>
+                        <input type='checkbox' class='form-check-input' id='customCheckBox{$voucher['id']}'>
+                        <label class='form-check-label' for='customCheckBox{$voucher['id']}'></label>
+                    </div>
+                  </td>";
+													echo "<td>" . htmlspecialchars($voucher['name']) . "</td>";
+													echo "<td>" . htmlspecialchars($voucher['discount']) . "%</td>";
+													echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))) . "</td>";
+													echo "<td>" . htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A') . "</td>";
+													echo "<td>" . htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A') . "</td>";
+													echo "<td>
+                    <div class='d-flex'>
+                        <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
+                        <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
+                    </div>
+                  </td>";
+													echo "</tr>";
+												}
+											} else {
+												echo "<tr><td colspan='7'>No vouchers found or error fetching data.</td></tr>";
 											}
 											?>
 										</tbody>
@@ -1064,6 +1049,93 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 		   Support ticket button end
 		***********************************-->
 
+		<!-- Modul -->
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
+								<input type="text" class="form-control" id="name" name="name">
+							</div>
+							<div class="mb-3">
+								<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
+								<input type="text" class="form-control" id="address" name="address">
+							</div>
+							<div class="mb-3">
+								<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
+								<input type="text" class="form-control" id="phone" name="phone">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Voucher</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="voucherName" class="col-form-label">Nama Voucher:</label>
+								<input type="text" class="form-control" id="voucherName" name="voucherName" required>
+							</div>
+							<div class="mb-3">
+								<label for="voucherDiscount" class="col-form-label">Discount:</label>
+								<input type="text" class="form-control" id="voucherDiscount" name="voucherDiscount"
+									required>
+							</div>
+							<div class="mb-3">
+								<label for="voucherExpiration" class="col-form-label">Expiration:</label>
+								<input type="date" class="form-control" id="voucherExpiration" name="voucherExpiration"
+									required>
+							</div>
+							<div class="mb-3">
+								<label for="voucherCategory" class="col-form-label">Kategori:</label>
+								<select class="form-control" id="voucherCategory" name="voucherCategory" required>
+									<option value="">Pilih Kategori</option>
+									<?php foreach ($categoryMap as $id => $name): ?>
+										<option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label for="voucherOutlet" class="col-form-label">Outlet:</label>
+								<select class="form-control" id="voucherOutlet" name="voucherOutlet" required>
+									<option value="">Pilih Outlet</option>
+									<?php foreach ($outletMap as $id => $name): ?>
+										<option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modul -->
+
 
 	</div>
 	<!--**********************************
@@ -1090,6 +1162,57 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 	<script src="/js/dlabnav-init.js"></script>
 	<script src="/js/demo.js"></script>
 	<script src="/js/styleSwitcher.js"></script>
+
+	<script type="module">
+		import { callApi } from '/js/logic/api.js';
+
+		// Capture the modal element
+		var createModal = document.getElementById('createModal');
+
+		// Event when the create button is clicked
+		document.getElementById('createButton').addEventListener('click', function () {
+			(async () => {
+				try {
+					const expirationDate = new Date(document.getElementById('voucherExpiration').value);
+					const formattedDate = expirationDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+					const data = await callApi('/api/vouchers', {
+						method: 'POST',
+						body: {
+							name: document.getElementById('voucherName').value,
+							discount: document.getElementById('voucherDiscount').value,
+							expiration: formattedDate,
+							category_id: document.getElementById('voucherCategory').value,
+							outlet_id: document.getElementById('voucherOutlet').value
+						},
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+						}
+					});
+					console.log('Response:', data);
+
+					// Close the modal
+					var modal = bootstrap.Modal.getInstance(createModal);
+					modal.hide();
+
+					// Reload the page to show the updated list of vouchers
+					location.reload();
+				} catch (error) {
+					console.error('Error details:', error);
+					if (error.response) {
+						console.error('Response data:', error.response.data);
+						console.error('Response status:', error.response.status);
+						console.error('Response headers:', error.response.headers);
+					}
+					alert('An error occurred while creating the voucher. Please check the console for more details.');
+				}
+			})();
+		});
+
+		// You can add more event listeners here for edit and delete functionalities if needed
+
+	</script>
 </body>
 
 </html>
