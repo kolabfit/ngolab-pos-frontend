@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola produk
-$apiUrl = 'https://ngolab.id/api/products/categories';
+$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -65,8 +65,8 @@ if ($response === false) {
 <body data-page="manageProduct.html">
 
 	<!--*******************
-        Preloader start
-    ********************-->
+		Preloader start
+	********************-->
 	<div id="preloader">
 		<div class="lds-ripple">
 			<div></div>
@@ -74,18 +74,18 @@ if ($response === false) {
 		</div>
 	</div>
 	<!--*******************
-        Preloader end
-    ********************-->
+		Preloader end
+	********************-->
 
 
 	<!--**********************************
-        Main wrapper start
-    ***********************************-->
+		Main wrapper start
+	***********************************-->
 	<div id="main-wrapper" class="show menu-toggle">
 
 		<!--**********************************
-            Nav header start
-        ***********************************-->
+			Nav header start
+		***********************************-->
 		<div class="nav-header">
 			<a href="index.html" class="brand-logo">
 				<img src="/images/KoLab.png" width="100vw" class="rounded-circle">
@@ -100,12 +100,12 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Nav header end
-        ***********************************-->
+			Nav header end
+		***********************************-->
 
 		<!--**********************************
-            Chat box start
-        ***********************************-->
+			Chat box start
+		***********************************-->
 		<div class="chatbox">
 			<div class="chatbox-close"></div>
 			<div class="custom-tab-1">
@@ -155,8 +155,7 @@ if ($response === false) {
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -168,8 +167,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -181,8 +179,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -194,8 +191,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -208,8 +204,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -221,8 +216,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -234,8 +228,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -248,8 +241,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -261,8 +253,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -275,8 +266,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -288,8 +278,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -301,8 +290,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -314,8 +302,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -328,8 +315,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -341,8 +327,7 @@ if ($response === false) {
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -716,12 +701,12 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Chat box End
-        ***********************************-->
+			Chat box End
+		***********************************-->
 
 		<!--**********************************
-            Header start
-        ***********************************-->
+			Header start
+		***********************************-->
 		<div class="header border-bottom">
 			<div class="header-content">
 				<nav class="navbar navbar-expand">
@@ -928,7 +913,7 @@ if ($response === false) {
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="/page-error-404.html" class="dropdown-item ai-icon">
+									<a href="/logic/logout.php" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -946,12 +931,12 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Header end
-        ***********************************-->
+			Header end
+		***********************************-->
 
 		<!--**********************************
-            Sidebar start
-        ***********************************-->
+			Sidebar start
+		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
@@ -960,12 +945,12 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Sidebar end
-        ***********************************-->
+			Sidebar end
+		***********************************-->
 
 		<!--**********************************
-            Content body start
-        ***********************************-->
+			Content body start
+		***********************************-->
 		<div class="content-body">
 			<div class="container-fluid">
 				<div class="row">
@@ -973,8 +958,8 @@ if ($response === false) {
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex">
-									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#createModal"><i
-											class="fas fa-plus"></i></button>
+									<button class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal"
+										data-bs-target="#createModal"><i class="fas fa-plus"></i></button>
 								</div>
 								<div class="table-responsive">
 									<table id="example5" class="display" style="min-width: 845px">
@@ -998,31 +983,41 @@ if ($response === false) {
 										<tbody>
 											<?php
 											// Fetch data from API
-											$url = "https://ngolab.id/api/products";
+											$url = "http://127.0.0.1:8000/api/products";
 											$response = file_get_contents($url);
 											$products = json_decode($response, true);
 											?>
-											<?php if ($products) : ?>
-												<?php foreach ($products['data'] as $product) : ?>
+											<?php if ($products): ?>
+												<?php foreach ($products['data'] as $product): ?>
 													<tr>
 														<td>
 															<div class='form-check custom-checkbox ms-2'>
-																<input type='checkbox' class='form-check-input' id='customCheckBox{<?= $product['id'] ?>'>
-																<label class='form-check-label' for='customCheckBox{<?= $product['id'] ?>'></label>
+																<input type='checkbox' class='form-check-input'
+																	id='customCheckBox{<?= $product['id'] ?>'>
+																<label class='form-check-label'
+																	for='customCheckBox{<?= $product['id'] ?>'></label>
 															</div>
 														</td>
 														<td><?= $product['name'] ?></td>
 														<td><?= "Rp" . number_format($product['price'], 0, ',', '.') ?> </td>
 														<td><?= $product['description'] ?></td>
 														<td><?= $product['category']['name'] ?? 'Uncategorized' ?> </td>
-														<td><img src='<?= $product['image'] ?>' alt='<?= $product['name'] ?>' width='50'></td>
+														<td><img src='<?= $product['image'] ?>' alt='<?= $product['name'] ?>'
+																width='50'></td>
 														<td><?= $product['barcode'] ?></td>
 														<td>
 															<div class='d-flex'>
-																<button data-id="<?php echo $product['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+																<button data-id="<?php echo $product['id'] ?>" type="button"
+																	class="btn btn-primary shadow btn-xs sharp me-1"
+																	data-bs-toggle="modal" data-bs-target="#exampleModal"><i
 																		class="fas fa-pencil-alt"></i>
 																</button>
-																<a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
+																<div class='d-flex'>
+																	<button data-id="<?= $product['id'] ?>" type="button"
+																		class="btn btn-danger shadow btn-xs sharp btn-delete">
+																		<i class="fa fa-trash"></i>
+																	</button>
+																</div>
 															</div>
 														</td>
 													</tr>
@@ -1038,13 +1033,33 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Content body end
-        ***********************************-->
+			Content body end
+		***********************************-->
+
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Apakah anda yakin untuk menghapus kategori ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+						<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
 
 
 		<!--**********************************
-            Footer start
-        ***********************************-->
+			Footer start
+		***********************************-->
 		<div class="footer">
 			<div class="copyright">
 				<p>Copyright © Designed &amp; Developed by <a href="//index.htm" target="_blank">DexignLab</a> 2021
@@ -1052,20 +1067,20 @@ if ($response === false) {
 			</div>
 		</div>
 		<!--**********************************
-            Footer end
-        ***********************************-->
+			Footer end
+		***********************************-->
 
 		<!--**********************************
-           Support ticket button start
-        ***********************************-->
+		   Support ticket button start
+		***********************************-->
 
 		<!--**********************************
-           Support ticket button end
-        ***********************************-->
+		   Support ticket button end
+		***********************************-->
 	</div>
 	<!--**********************************
-        Main wrapper end
-    ***********************************-->
+		Main wrapper end
+	***********************************-->
 
 	<!-- Modal -->
 	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1084,14 +1099,15 @@ if ($response === false) {
 						<div class="mb-3">
 							<label for="category_id" class="col-form-label">Kategori Produk:</label>
 							<select class="form-select" id="category_id">
-								<?php foreach ($categories as $category) : ?>
+								<?php foreach ($categories as $category): ?>
 									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="mb-3">
 							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
-							<input type="text" class="form-control" id="productDescription" name="productDescription" required>
+							<input type="text" class="form-control" id="productDescription" name="productDescription"
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="productPrice" class="col-form-label">Harga:</label>
@@ -1134,14 +1150,15 @@ if ($response === false) {
 						<div class="mb-3">
 							<label for="category_id" class="col-form-label">Kategori Produk:</label>
 							<select class="form-select" id="category_id_update">
-								<?php foreach ($categories as $category) : ?>
+								<?php foreach ($categories as $category): ?>
 									<option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="mb-3">
 							<label for="outlet_address" class="col-form-label">Deskripsi Produk:</label>
-							<input type="text" class="form-control" id="productDescriptionUpdate" name="productDescriptionUpdate">
+							<input type="text" class="form-control" id="productDescriptionUpdate"
+								name="productDescriptionUpdate">
 						</div>
 						<div class="mb-3">
 							<label for="productPrice" class="col-form-label">Harga:</label>
@@ -1163,11 +1180,11 @@ if ($response === false) {
 	</div>
 	<!-- Modul -->
 
-	
+
 
 	<!--**********************************
-        Scripts
-    ***********************************-->
+		Scripts
+	***********************************-->
 	<!-- Required vendors -->
 	<script src="/js/navigation-gen.js"></script>
 	<script src="/vendor/global/global.min.js"></script>
@@ -1190,7 +1207,7 @@ if ($response === false) {
 			callApi
 		} from '/js/logic/api.js';
 
-		document.getElementById('createButton').addEventListener('click', function() {
+		document.getElementById('createButton').addEventListener('click', function () {
 			(async () => {
 				try {
 					// Get the file and other form data
@@ -1209,7 +1226,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('https://ngolab.id/api/products', {
+					const response = await fetch('http://127.0.0.1:8000/api/products', {
 						method: 'POST',
 						body: formData,
 						headers: {
@@ -1242,7 +1259,7 @@ if ($response === false) {
 		var product_id = 0;
 
 		// Event ketika modal ditampilkan
-		exampleModal.addEventListener('show.bs.modal', function(event) {
+		exampleModal.addEventListener('show.bs.modal', function (event) {
 			// Tombol yang memicu modal
 			var button = event.relatedTarget;
 
@@ -1270,7 +1287,7 @@ if ($response === false) {
 			})();
 		});
 
-		document.getElementById('updateButton').addEventListener('click', function() {
+		document.getElementById('updateButton').addEventListener('click', function () {
 			(async () => {
 				try {
 					// Get the file and other form data
@@ -1291,7 +1308,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('https://ngolab.id/api/products/' + product_id, {
+					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
 						method: 'POST',
 						body: formData,
 						headers: {
@@ -1318,8 +1335,64 @@ if ($response === false) {
 				}
 			})();
 		});
-		
+
 	</script>
+
+	<script>
+		function initializeDeleteButtons() {
+			const deleteButtons = document.querySelectorAll('.btn-delete');
+
+			deleteButtons.forEach((button) => {
+				button.addEventListener('click', async (event) => {
+					try {
+						// Ambil ID produk dari atribut data-id tombol
+						const productId = button.getAttribute('data-id');
+
+						// Tampilkan modal konfirmasi
+						const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+						deleteModal.show();
+
+						// Tangkap tombol hapus di dalam modal
+						const deleteButton = document.getElementById('deleteButton');
+						deleteButton.onclick = async () => {
+							deleteModal.hide();
+
+							// Kirim permintaan DELETE ke API
+							const response = await fetch(`http://127.0.0.1:8000/api/products/${productId}`, {
+								method: 'DELETE',
+								headers: {
+									'Authorization': document.cookie
+										.split('; ')
+										.find((row) => row.startsWith('auth_token='))
+										.split('=')[1], // Ambil token dari cookies
+								},
+							});
+
+							if (!response.ok) {
+								const errorData = await response.json();
+								console.error('Error:', errorData);
+								alert(`Gagal menghapus produk: ${errorData.message}`);
+								return;
+							}
+
+							// Reload halaman untuk memperbarui data
+							location.reload();
+						};
+
+					} catch (error) {
+						console.error('Terjadi kesalahan saat menghapus produk:', error);
+						alert('Terjadi kesalahan. Silakan coba lagi.');
+					}
+				});
+			});
+		}
+
+		// Panggil fungsi untuk menginisialisasi tombol delete setelah halaman dimuat
+		document.addEventListener('DOMContentLoaded', () => {
+			initializeDeleteButtons();
+		});
+	</script>
+	</script>";
 </body>
 
 </html>

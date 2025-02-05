@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola Role
-$apiUrl = 'https://ngolab.id/api/roles';
+$apiUrl = 'http://127.0.0.1:8000/api/roles';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -29,7 +29,7 @@ if ($response === false) {
 
 // Initialize cURL Kelola User
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://ngolab.id/api/users/list");
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/users/list");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 // Tambahkan header authorization
@@ -945,7 +945,7 @@ $users = $data['data'] ?? [];
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="/page-error-404.html" class="dropdown-item ai-icon">
+									<a href="/logic/logout.php" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

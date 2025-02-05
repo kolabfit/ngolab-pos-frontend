@@ -918,7 +918,7 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="/page-error-404.html" class="dropdown-item ai-icon">
+									<a href="/logic/logout.php" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -989,7 +989,7 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 										<tbody>
 											<?php
 											// Fungsi untuk mengambil data dari API
-											function fetchData($url)
+											function getData($url)
 											{
 												$ch = curl_init();
 												curl_setopt($ch, CURLOPT_URL, $url);
@@ -1000,9 +1000,9 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 											}
 
 											// Ambil data dari API
-											$vouchersResponse = fetchData("https://ngolab.id/api/vouchers");
-											$categoriesResponse = fetchData("https://ngolab.id/api/products/categories");
-											$outletsResponse = fetchData("https://ngolab.id/api/outlets");
+											$vouchersResponse = getData("http://127.0.0.1:8000/api/vouchers");
+											$categoriesResponse = getData("http://127.0.0.1:8000/api/products/categories");
+											$outletsResponse = getData("http://127.0.0.1:8000/api/outlets");
 
 											// Memastikan data 'vouchers' ada
 											$vouchers = $vouchersResponse['data'] ?? [];
@@ -1010,7 +1010,7 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 											$outlets = $outletsResponse['data'] ?? [];
 
 											// Cetak data untuk debugging
-											print_r($vouchers);
+											// print_r($vouchers);
 
 											// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
 											$categoryMap = [];

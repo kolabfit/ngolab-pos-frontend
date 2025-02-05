@@ -6,21 +6,6 @@
         "icon": "fa-home"
       },
       {
-        "label": "Prediksi Menu",
-        "url": "prediksiMenu.php",
-        "icon": "fa-chart-line"
-      },
-      {
-        "label": "Prediksi Pendapatan",
-        "url": "prediksiPendapatan.php",
-        "icon": "fa-chart-pie"
-      },
-      {
-        "label": "Dashboard Sosial Media",
-        "url": "sosialMedia.php",
-        "icon": "fa-hashtag"
-      },
-      {
         "label": "Kelola User & Role",
         "url": "manageUserRole.php",
         "icon": "fa-users-cog"
@@ -34,11 +19,6 @@
         "label": "Kelola Produk",
         "url": "manageProduct.php",
         "icon": "fa-box-open"
-      },
-      {
-        "label": "Kelola Jenis Voucher",
-        "url": "manageVoucherType.php",
-        "icon": "fa-tags"
       },
       {
         "label": "Kelola Voucher",
