@@ -4,7 +4,7 @@ class ApiClient
 {
     private $baseUrl;
 
-    public function __construct($baseUrl = 'https://ngolab.id')
+    public function __construct($baseUrl = 'http://127.0.0.1:8000')
     {
         $this->baseUrl = rtrim($baseUrl, '/');
     }

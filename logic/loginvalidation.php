@@ -6,7 +6,7 @@ class Validation
         if (isset($auth_token) == false || $auth_token == null) {
             header('Location: ' . $exiturl);
         } else {
-            $url = 'https://ngolab.id/api/users';
+            $url = 'http://127.0.0.1:8000/api/users';
 
             // Inisiasi cURL
             $ch = curl_init($url);

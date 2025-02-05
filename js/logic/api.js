@@ -34,7 +34,7 @@ export async function callApi(url, options = {}) {
         }
 
         // Perform the API request
-        const response = await fetch("https://ngolab.id" + url, requestOptions);
+        const response = await fetch("http://127.0.0.1:8000" + url, requestOptions);
 
         // Check if the response is ok (status in the range 200–299)
         if (!response.ok) {

@@ -4,7 +4,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], './logic/login.php');
 
 // Ambil data dari API
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://ngolab.id/api/outlets");
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/outlets");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
 	'Authorization: Bearer your_token_here', // Ganti dengan token yang valid jika diperlukan
@@ -999,7 +999,7 @@ if ($outlets['success']) {
 																	for="customCheckBox<?= $outlet['id'] ?>"></label>
 															</div>
 														</td>
-														<td><?= htmlspecialchars($outlet['name']) ?></td>
+														<td><a href="detailProdukOutlet.php?outletId=<?= $outlet['id'] ?>"><?= htmlspecialchars($outlet['name']) ?></a></td>
 														<td><?= htmlspecialchars($outlet['address']) ?></td>
 														<td><?= htmlspecialchars($outlet['phone']) ?></td>
 														<td>

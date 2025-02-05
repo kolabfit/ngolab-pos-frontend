@@ -660,9 +660,6 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 												<p>10 Aug 2020</p>
 											</div>
 											<div class="ms-auto">
-												<a href="javascript:void(0);"
-													class="btn btn-primary btn-xs sharp me-1"><i
-														class="fas fa-pencil-alt"></i></a>
 												<a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
 														class="fa fa-trash"></i></a>
 											</div>
@@ -918,7 +915,7 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="/page-error-404.html" class="dropdown-item ai-icon">
+									<a href="/logic/logout.php" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -983,69 +980,104 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 												<th>Expiration</th>
 												<th>Kategori</th>
 												<th>Outlet</th>
-												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php
-											// Fungsi untuk mengambil data dari API
-											function fetchData($url)
-											{
-												$ch = curl_init();
-												curl_setopt($ch, CURLOPT_URL, $url);
-												curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-												$response = curl_exec($ch);
-												curl_close($ch);
-												return json_decode($response, true);
-											}
+										<?php
+										// Fungsi untuk mengambil data dari API
+										function getData($url)
+										{
+											$ch = curl_init();
+											curl_setopt($ch, CURLOPT_URL, $url);
+											curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+											$response = curl_exec($ch);
+											curl_close($ch);
+											return json_decode($response, true);
+										}
+										
+										// Ambil data dari API
+										$vouchersResponse = getData("http://127.0.0.1:8000/api/vouchers");
+										$categoriesResponse = getData("http://127.0.0.1:8000/api/products/categories");
+										$outletsResponse = getData("http://127.0.0.1:8000/api/outlets");
+										
+										// Memastikan data 'vouchers' ada
+										$vouchers = $vouchersResponse['data'] ?? [];
+										$categories = $categoriesResponse['data'] ?? [];
+										$outlets = $outletsResponse['data'] ?? [];
+										
+										// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
+										$categoryMap = [];
+										foreach ($categories as $category) {
+											$categoryMap[$category['id']] = $category['name'];
+										}
+										
+										$outletMap = [];
+										foreach ($outlets as $outlet) {
+											$outletMap[$outlet['id']] = $outlet['name'];
+										}
+										?>
+										
+										<!-- Tampilkan data voucher dalam tabel -->
+										<?php foreach ($vouchers as $voucher) : ?>
+											<tr id="row-<?= $voucher['id']; ?>">
+												<td>
+													<div class='form-check custom-checkbox ms-2'>
+														<input type='checkbox' class='form-check-input' id='customCheckBox<?= $voucher['id']; ?>'>
+														<label class='form-check-label' for='customCheckBox<?= $voucher['id']; ?>'></label>
+													</div>
+												</td>
+												<td><?= htmlspecialchars($voucher['name']); ?></td>
+												<td><?= htmlspecialchars($voucher['discount']); ?>%</td>
+												<td><?= htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))); ?></td>
+												<td><?= htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A'); ?></td>
+												<td><?= htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A'); ?></td>
+											</tr>
+										<?php endforeach; ?>
+										
+										<!-- JavaScript untuk Hapus Data -->
+										<script>
+											document.addEventListener("DOMContentLoaded", function () {
+												const deleteButtons = document.querySelectorAll(".btn-delete");
 
-											// Ambil data dari API
-											$vouchersResponse = fetchData("https://ngolab.id/api/vouchers");
-											$categoriesResponse = fetchData("https://ngolab.id/api/products/categories");
-											$outletsResponse = fetchData("https://ngolab.id/api/outlets");
+												deleteButtons.forEach(button => {
+													button.addEventListener("click", function (event) {
+														event.preventDefault();
 
-											// Memastikan data 'vouchers' ada
-											$vouchers = $vouchersResponse['data'] ?? [];
-											$categories = $categoriesResponse['data'] ?? [];
-											$outlets = $outletsResponse['data'] ?? [];
+														let voucherId = this.getAttribute("data-id");
+														let row = document.getElementById("row-" + voucherId);
 
-											// Cetak data untuk debugging
-											print_r($vouchers);
+														if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+															fetch(`http://127.0.0.1:8000/api/vouchers/${voucherId}`, {
+																method: "DELETE",
+																headers: {
+																	"Content-Type": "application/json"
+																}
+															})
+															.then(response => {
+																if (!response.ok) {
+																	throw new Error(`HTTP error! Status: ${response.status}`);
+																}
+																return response.json();
+															})
+															.then(data => {
+																if (data.success) {
+																	row.remove(); // Hapus baris dari tabel
+																	alert("Data berhasil dihapus!");
+																} else {
+																	alert("Gagal menghapus data: " + (data.message || "Tidak diketahui"));
+																}
+															})
+															.catch(error => {
+																console.error("Error:", error);
+																alert("Terjadi kesalahan saat menghapus data!");
+															});
+														}
+													});
+												});
+											});
 
-											// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
-											$categoryMap = [];
-											foreach ($categories as $category) {
-												$categoryMap[$category['id']] = $category['name'];
-											}
-
-											$outletMap = [];
-											foreach ($outlets as $outlet) {
-												$outletMap[$outlet['id']] = $outlet['name'];
-											}
-
-											// Tampilkan data voucher dalam tabel
-											foreach ($vouchers as $voucher) {
-												echo "<tr>";
-												echo "<td>
-                                        <div class='form-check custom-checkbox ms-2'>
-                                            <input type='checkbox' class='form-check-input' id='customCheckBox{$voucher['id']}'>
-                                            <label class='form-check-label' for='customCheckBox{$voucher['id']}'></label>
-                                        </div>
-                                      </td>";
-												echo "<td>" . htmlspecialchars($voucher['name']) . "</td>";
-												echo "<td>" . htmlspecialchars($voucher['discount']) . "%</td>";
-												echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))) . "</td>";
-												echo "<td>" . htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A') . "</td>";
-												echo "<td>" . htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A') . "</td>";
-												echo "<td>
-                                        <div class='d-flex'>
-                                            <a href='#' class='btn btn-primary shadow btn-xs sharp me-1'><i class='fas fa-pencil-alt'></i></a>
-                                            <a href='#' class='btn btn-danger shadow btn-xs sharp'><i class='fa fa-trash'></i></a>
-                                        </div>
-                                      </td>";
-												echo "</tr>";
-											}
-											?>
+										</script>
+										
 										</tbody>
 									</table>
 								</div>
@@ -1081,42 +1113,93 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 		   Support ticket button end
 		***********************************-->
 
-		<!-- Modul -->
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="mb-3">
-								<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
-								<input type="text" class="form-control" id="name" name="name">
-							</div>
-							<div class="mb-3">
-								<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
-								<input type="text" class="form-control" id="address" name="address">
-							</div>
-							<div class="mb-3">
-								<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
-								<input type="text" class="form-control" id="phone" name="phone">
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="updateButton">Ubah</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modul -->
+		<?php
 
-		<!-- Modal -->
-		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+require_once('./logic/loginvalidation.php');
+Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
+
+// URL API Voucher
+$apiUrlVoucher = 'http://127.0.0.1:8000/api/vouchers';
+
+// Aktifkan error reporting untuk debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Cek apakah form dikirim
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari form
+    $voucherName = trim($_POST['voucherName'] ?? '');
+    $voucherDiscount = floatval($_POST['voucherDiscount'] ?? 0);
+    $voucherExpiration = trim($_POST['voucherExpiration'] ?? '');
+    $voucherCategory = trim($_POST['voucherCategory'] ?? '');
+    $voucherOutletProduct = trim($_POST['voucherOutletProduct'] ?? '');
+    $voucherOutlet = trim($_POST['voucherOutlet'] ?? '');
+
+    // Validasi input
+    if (empty($voucherName) || $voucherDiscount <= 0 || empty($voucherExpiration)) {
+        die("<script>alert('Semua parameter wajib harus diisi dengan benar.'); window.history.back();</script>");
+    }
+
+    // Konversi tanggal ke Unix Timestamp
+    $voucherExpirationDate = strtotime($voucherExpiration);
+    if ($voucherExpirationDate === false) {
+        die("<script>alert('Format tanggal tidak valid.'); window.history.back();</script>");
+    }
+
+    // Validasi logika parameter outlet dan outlet_product
+    if (empty($voucherOutletProduct) && empty($voucherOutlet)) {
+        die("<script>alert('Harus menyertakan outlet_id jika outlet_product_id tidak ada.'); window.history.back();</script>");
+    }
+
+    // Ambil token dari cookie
+    if (!isset($_COOKIE['auth_token'])) {
+        die("<script>alert('Token otorisasi tidak ditemukan. Harap login kembali.'); window.history.back();</script>");
+    }
+    $authToken = $_COOKIE['auth_token'];
+
+    // Data yang akan dikirim ke API
+    $postData = json_encode([
+        'name' => $voucherName,
+        'discount' => $voucherDiscount,
+        'expire_unix_timestamp' => $voucherExpirationDate,
+        'category_id' => $voucherCategory ?: null,
+        'outlet_product_id' => $voucherOutletProduct ?: null,
+        'outlet_id' => $voucherOutlet ?: null,
+    ]);
+
+    // Inisialisasi cURL
+    $curlVoucher = curl_init($apiUrlVoucher);
+    curl_setopt($curlVoucher, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curlVoucher, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: ' . $authToken,
+    ]);
+    curl_setopt($curlVoucher, CURLOPT_POST, true);
+    curl_setopt($curlVoucher, CURLOPT_POSTFIELDS, $postData);
+
+    // Eksekusi cURL dan ambil responsenya
+    $responseVoucher = curl_exec($curlVoucher);
+    $httpCode = curl_getinfo($curlVoucher, CURLINFO_HTTP_CODE);
+    
+    // Cek kesalahan cURL
+    if ($responseVoucher === false) {
+        die("<script>alert('cURL Error: " . curl_error($curlVoucher) . "'); window.history.back();</script>");
+    }
+    curl_close($curlVoucher);
+
+}
+
+
+?>
+
+
+
+
+
+		
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -1124,52 +1207,151 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form>
+						<!-- Form pointing to PHP handler -->
+						<form method="POST" action="manageVoucher.php">
+							<!-- Nama Voucher -->
 							<div class="mb-3">
 								<label for="voucherName" class="col-form-label">Nama Voucher:</label>
-								<input type="text" class="form-control" id="voucherName" name="voucherName" required>
+								<input type="text" class="form-control" id="voucherName" name="voucherName" required
+									placeholder="Masukkan nama voucher">
 							</div>
+							<!-- Diskon -->
 							<div class="mb-3">
-								<label for="voucherDiscount" class="col-form-label">Discount:</label>
-								<input type="text" class="form-control" id="voucherDiscount" name="voucherDiscount"
-									required>
+								<label for="voucherDiscount" class="col-form-label">Discount (%):</label>
+								<input type="number" step="0.01" class="form-control" id="voucherDiscount" name="voucherDiscount"
+									min="0" max="100" required placeholder="Masukkan diskon (contoh: 10.5)">
 							</div>
+							<!-- Tanggal Expirasi -->
 							<div class="mb-3">
-								<label for="voucherExpiration" class="col-form-label">Expiration:</label>
-								<input type="date" class="form-control" id="voucherExpiration" name="voucherExpiration"
-									required>
+								<label for="voucherExpiration" class="col-form-label">Tanggal Expirasi:</label>
+								<input type="date" class="form-control" id="voucherExpiration" name="voucherExpiration" required>
 							</div>
+							<!-- Kategori -->
 							<div class="mb-3">
 								<label for="voucherCategory" class="col-form-label">Kategori:</label>
-								<select class="form-control" id="voucherCategory" name="voucherCategory" required>
+								<select class="form-control" id="voucherCategory" name="voucherCategory">
 									<option value="">Pilih Kategori</option>
 									<?php foreach ($categoryMap as $id => $name): ?>
 										<option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
+							<!-- Outlet -->
 							<div class="mb-3">
 								<label for="voucherOutlet" class="col-form-label">Outlet:</label>
-								<select class="form-control" id="voucherOutlet" name="voucherOutlet" required>
+								<select class="form-control" id="voucherOutlet" name="voucherOutlet">
 									<option value="">Pilih Outlet</option>
 									<?php foreach ($outletMap as $id => $name): ?>
 										<option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
+							<!-- Modal Footer -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+							</div>
 						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Modul -->
 
+<script>
+    async function fetchData(url) {
+        try {
+            const response = await fetch(url);
+            const result = await response.json();
+            return result.data || [];
+        } catch (error) {
+            console.error("Gagal mengambil data dari API:", error);
+            return [];
+        }
+    }
 
-	</div>
+    async function loadDropdowns() {
+        const categories = await fetchData("http://127.0.0.1:8000/api/products/categories");
+        const outlets = await fetchData("http://127.0.0.1:8000/api/outlets");
+        
+        const categorySelect = document.getElementById("voucherCategory");
+        categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
+        categories.forEach(category => {
+            let option = document.createElement("option");
+            option.value = category.id;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+        });
+        
+        const outletSelect = document.getElementById("voucherOutlet");
+        outletSelect.innerHTML = '<option value="">Pilih Outlet</option>';
+        outlets.forEach(outlet => {
+            let option = document.createElement("option");
+            option.value = outlet.id;
+            option.textContent = outlet.name;
+            outletSelect.appendChild(option);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadDropdowns);
+
+    document.getElementById("createButton").addEventListener("click", async function() {
+        const voucherName = document.getElementById("voucherName").value;
+        const voucherDiscount = parseFloat(document.getElementById("voucherDiscount").value);
+        const voucherExpiration = document.getElementById("voucherExpiration").value;
+        const voucherCategory = document.getElementById("voucherCategory").value;
+        const voucherOutlet = document.getElementById("voucherOutlet").value;
+        
+        if (!voucherName || voucherDiscount <= 0 || !voucherExpiration) {
+            alert("Semua parameter wajib harus diisi dengan benar.");
+            return;
+        }
+        
+        const voucherExpirationDate = new Date(voucherExpiration).getTime() / 1000;
+        
+        const authToken = document.cookie.split('; ').find(row => row.startsWith('auth_token='))?.split('=')[1];
+        if (!authToken) {
+            alert("Token otorisasi tidak ditemukan. Harap login kembali.");
+            return;
+        }
+        
+        const postData = {
+            name: voucherName,
+            discount: voucherDiscount,
+            expire_unix_timestamp: voucherExpirationDate,
+            category_id: voucherCategory || null,
+            outlet_id: voucherOutlet || null,
+        };
+        
+        try {
+			const response = await fetch("http://127.0.0.1:8000/api/vouchers", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": authToken,
+				},
+				body: JSON.stringify(postData),
+			});
+
+			const responseData = await response.json();
+			console.log("Response API:", responseData); // Debugging untuk melihat isi respons
+
+			if (response.status === 401) {
+				alert("Error API: HTTP 401 - Unauthorized. Pastikan token valid.");
+			} else if (response.ok || response.status === 201 || responseData.success) {
+				// Cek status HTTP 201 (Created) atau response.ok selain dari `success`
+				window.location.replace("manageVoucher.php");
+			} else {
+				window.location.replace("manageVoucher.php"); // Redirect tetap dilakukan
+			}
+		} catch (error) {
+			console.error("Fetch error:", error); // Log kesalahan untuk debugging
+			alert("Terjadi kesalahan dalam menghubungi API.");
+		}
+
+	});
+</script>
+</script>
+
 	<!--**********************************
 		Main wrapper end
 	***********************************-->
@@ -1195,56 +1377,113 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 	<script src="/js/demo.js"></script>
 	<script src="/js/styleSwitcher.js"></script>
 
-	<script type="module">
-		import { callApi } from '/js/logic/api.js';
+	<script>
+		
+	</script>
 
-		// Capture the modal element
-		var createModal = document.getElementById('createModal');
+	<!-- <script type="module">
+    import { callApi } from '/js/logic/api.js';
 
-		// Event when the create button is clicked
-		document.getElementById('createButton').addEventListener('click', function () {
-			(async () => {
-				try {
-					const expirationDate = new Date(document.getElementById('voucherExpiration').value);
-					const formattedDate = expirationDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    document.getElementById('createButton').addEventListener('click', function () {
+        (async () => {
+            try {
+                // Ambil elemen input
+                const voucherNameInput = document.getElementById('voucherName');
+                const voucherDiscountInput = document.getElementById('voucherDiscount');
+                const voucherExpirationInput = document.getElementById('voucherExpiration');
+                const voucherCategoryInput = document.getElementById('voucherCategory');
+                const voucherOutletProductInput = document.getElementById('voucherOutletProduct');
+                const voucherOutletInput = document.getElementById('voucherOutlet');
 
-					const data = await callApi('/api/vouchers', {
-						method: 'POST',
-						body: {
-							name: document.getElementById('voucherName').value,
-							discount: document.getElementById('voucherDiscount').value,
-							expiration: formattedDate,
-							category_id: document.getElementById('voucherCategory').value,
-							outlet_id: document.getElementById('voucherOutlet').value
-						},
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
+                // Validasi elemen input
+                if (!voucherNameInput || !voucherDiscountInput || !voucherExpirationInput) {
+                    throw new Error('Parameter wajib tidak ditemukan.');
+                }
 
-					// Close the modal
-					var modal = bootstrap.Modal.getInstance(createModal);
-					modal.hide();
+                // Ambil nilai input
+                const voucherName = voucherNameInput.value.trim();
+                const voucherDiscount = parseFloat(voucherDiscountInput.value.trim());
+                const voucherExpiration = voucherExpirationInput.value.trim();
+                const voucherCategory = voucherCategoryInput?.value.trim(); // Opsional
+                const voucherOutletProduct = voucherOutletProductInput?.value.trim(); // Opsional
+                const voucherOutlet = voucherOutletInput?.value.trim(); // Opsional
 
-					// Reload the page to show the updated list of vouchers
-					location.reload();
-				} catch (error) {
-					console.error('Error details:', error);
-					if (error.response) {
-						console.error('Response data:', error.response.data);
-						console.error('Response status:', error.response.status);
-						console.error('Response headers:', error.response.headers);
-					}
-					alert('An error occurred while creating the voucher. Please check the console for more details.');
-				}
-			})();
-		});
+                if (!voucherName || isNaN(voucherDiscount) || !voucherExpiration) {
+                    throw new Error('Semua parameter wajib harus diisi dengan benar.');
+                }
 
-		// You can add more event listeners here for edit and delete functionalities if needed
+                // Konversi tanggal ke Unix Timestamp
+                const voucherExpirationDate = new Date(voucherExpiration).getTime();
+                const expireUnixTimestamp = Math.floor(voucherExpirationDate / 1000);
+
+                // Validasi logika parameter outlet dan outlet_product
+                if (!voucherOutletProduct && !voucherOutlet) {
+                    throw new Error('Harus menyertakan outlet_id jika outlet_product_id tidak ada.');
+                }
+
+                // Ambil token dari cookie
+                const authCookie = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('auth_token='));
+
+                if (!authCookie) {
+                    throw new Error('Token otorisasi tidak ditemukan. Harap login kembali.');
+                }
+
+                const authToken = authCookie.split('=')[1];
+
+                // Buat body permintaan
+                const body = {
+                    name: voucherName,
+                    discount: voucherDiscount,
+                    expire_unix_timestamp: expireUnixTimestamp,
+                };
+                if (voucherCategory) body.category_id = voucherCategory;
+                if (voucherOutletProduct) body.outlet_product_id = voucherOutletProduct;
+                if (!voucherOutletProduct && voucherOutlet) body.outlet_id = voucherOutlet;
+
+                console.log('Body yang dikirim:', body); // Debugging
+
+                // Kirim permintaan ke API
+                const data = await callApi('/api/vouchers', {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${authToken}`
+                    }
+                });
+
+                if (data.status === 'success') {
+                    alert(data.message);
+
+                    // Tutup modal
+                    const modal = bootstrap.Modal.getInstance(
+                        document.getElementById('createModal')
+                    );
+                    modal.hide();
+
+                    // Reload halaman
+                    location.reload();
+                } else {
+                    throw new Error(data.message || 'Gagal menambah voucher.');
+                }
+            } catch (error) {
+                console.error('Error details:', error.message || error);
+                alert(`Terjadi kesalahan: ${error.message || 'Silakan cek konsol untuk detail lebih lanjut.'}`);
+            }
+        })();
+    });
+</script> -->
 
 	</script>
+
+
+
+
+
+
+
 </body>
 
 </html>

@@ -53,7 +53,7 @@
         <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
             <h2 class="text-center text-3xl font-bold mb-6">Register</h2>
 
-            <form method="POST" action="https://ngolab.id/api/users/register">
+            <form method="POST" action="http://127.0.0.1:8000/api/users/register">
                 <div class="mb-4">
                     <label for="name" class="block mb-1">Full Name</label>
                     <input id="name" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="name" required autofocus>
