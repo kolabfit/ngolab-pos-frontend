@@ -93,17 +93,23 @@
                     <div class="tab-pane fade active show" id="chat" role="tabpanel">
                         <div class="card mb-sm-3 mb-md-0 contacts_card dlab-chat-user-box">
                             <div class="card-header chat-list-header text-center">
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
-                                            <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"></rect>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                x="4" y="11" width="16" height="2" rx="1"></rect>
                                         </g>
                                     </svg></a>
                                 <div>
                                     <h6 class="mb-1">Chat List</h6>
                                     <p class="mb-0">Show All</p>
                                 </div>
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24"></rect>
                                             <circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -118,7 +124,8 @@
                                     <li class="active dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -130,7 +137,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -142,7 +150,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -154,7 +163,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -167,7 +177,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -179,7 +190,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -191,7 +203,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -204,7 +217,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -216,7 +230,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -229,7 +244,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -241,7 +257,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/1.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -253,7 +270,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/2.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -265,7 +283,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/3.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon"></span>
                                             </div>
                                             <div class="user_info">
@@ -278,7 +297,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/4.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -290,7 +310,8 @@
                                     <li class="dlab-chat-user">
                                         <div class="d-flex bd-highlight">
                                             <div class="img_cont">
-                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <img src="../images/avatar/5.jpg" class="rounded-circle user_img"
+                                                    alt="">
                                                 <span class="online_icon offline"></span>
                                             </div>
                                             <div class="user_info">
@@ -305,11 +326,18 @@
                         <div class="card chat dlab-chat-history-box d-none">
                             <div class="card-header chat-list-header text-center">
                                 <a href="javascript:void(0);" class="dlab-chat-history-back">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                            <rect fill="#000000" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) " x="14" y="7" width="2" height="10" rx="1"></rect>
-                                            <path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) "></path>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) "
+                                                x="14" y="7" width="2" height="10" rx="1"></rect>
+                                            <path
+                                                d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z"
+                                                fill="#000000" fill-rule="nonzero"
+                                                transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) ">
+                                            </path>
                                         </g>
                                     </svg>
                                 </a>
@@ -318,7 +346,10 @@
                                     <p class="mb-0 text-success">Online</p>
                                 </div>
                                 <div class="dropdown">
-                                    <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                    <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false"><svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                            viewbox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                 <rect x="0" y="0" width="24" height="24"></rect>
                                                 <circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -327,9 +358,12 @@
                                             </g>
                                         </svg></a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li class="dropdown-item"><i class="fa fa-user-circle text-primary me-2"></i> View profile</li>
-                                        <li class="dropdown-item"><i class="fa fa-users text-primary me-2"></i> Add to btn-close friends</li>
-                                        <li class="dropdown-item"><i class="fa fa-plus text-primary me-2"></i> Add to group</li>
+                                        <li class="dropdown-item"><i class="fa fa-user-circle text-primary me-2"></i>
+                                            View profile</li>
+                                        <li class="dropdown-item"><i class="fa fa-users text-primary me-2"></i> Add to
+                                            btn-close friends</li>
+                                        <li class="dropdown-item"><i class="fa fa-plus text-primary me-2"></i> Add to
+                                            group</li>
                                         <li class="dropdown-item"><i class="fa fa-ban text-primary me-2"></i> Block</li>
                                     </ul>
                                 </div>
@@ -466,7 +500,8 @@
                                 <div class="input-group">
                                     <textarea class="form-control" placeholder="Type your message..."></textarea>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary"><i class="fa fa-location-arrow"></i></button>
+                                        <button type="button" class="btn btn-primary"><i
+                                                class="fa fa-location-arrow"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -475,7 +510,9 @@
                     <div class="tab-pane fade" id="alerts" role="tabpanel">
                         <div class="card mb-sm-3 mb-md-0 contacts_card">
                             <div class="card-header chat-list-header text-center">
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24"></rect>
                                             <circle fill="#000000" cx="5" cy="12" r="2"></circle>
@@ -487,11 +524,17 @@
                                     <h6 class="mb-1">Notications</h6>
                                     <p class="mb-0">Show All</p>
                                 </div>
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24"></rect>
-                                            <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                            <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+                                            <path
+                                                d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path
+                                                d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+                                                fill="#000000" fill-rule="nonzero"></path>
                                         </g>
                                     </svg></a>
                             </div>
@@ -544,21 +587,31 @@
                     <div class="tab-pane fade" id="notes">
                         <div class="card mb-sm-3 mb-md-0 note_card">
                             <div class="card-header chat-list-header text-center">
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
-                                            <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"></rect>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                x="4" y="11" width="16" height="2" rx="1"></rect>
                                         </g>
                                     </svg></a>
                                 <div>
                                     <h6 class="mb-1">Notes</h6>
                                     <p class="mb-0">Add New Nots</p>
                                 </div>
-                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
+                                <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewbox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24"></rect>
-                                            <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                            <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+                                            <path
+                                                d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path
+                                                d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+                                                fill="#000000" fill-rule="nonzero"></path>
                                         </g>
                                     </svg></a>
                             </div>
@@ -571,8 +624,11 @@
                                                 <p>10 Aug 2020</p>
                                             </div>
                                             <div class="ms-auto">
-                                                <a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="javascript:void(0);"
+                                                    class="btn btn-primary btn-xs sharp me-1"><i
+                                                        class="fas fa-pencil-alt"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
                                             </div>
                                         </div>
                                     </li>
@@ -583,8 +639,11 @@
                                                 <p>10 Aug 2020</p>
                                             </div>
                                             <div class="ms-auto">
-                                                <a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="javascript:void(0);"
+                                                    class="btn btn-primary btn-xs sharp me-1"><i
+                                                        class="fas fa-pencil-alt"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
                                             </div>
                                         </div>
                                     </li>
@@ -595,8 +654,11 @@
                                                 <p>10 Aug 2020</p>
                                             </div>
                                             <div class="ms-auto">
-                                                <a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="javascript:void(0);"
+                                                    class="btn btn-primary btn-xs sharp me-1"><i
+                                                        class="fas fa-pencil-alt"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
                                             </div>
                                         </div>
                                     </li>
@@ -607,8 +669,11 @@
                                                 <p>10 Aug 2020</p>
                                             </div>
                                             <div class="ms-auto">
-                                                <a href="javascript:void(0);" class="btn btn-primary btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="javascript:void(0);"
+                                                    class="btn btn-primary btn-xs sharp me-1"><i
+                                                        class="fas fa-pencil-alt"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
                                             </div>
                                         </div>
                                     </li>
@@ -639,19 +704,26 @@
                             <li class="nav-item d-flex align-items-center">
                                 <div class="input-group search-area">
                                     <input type="text" class="form-control" placeholder="Search here...">
-                                    <span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+                                    <span class="input-group-text"><a href="javascript:void(0)"><i
+                                                class="flaticon-381-search-2"></i></a></span>
                                 </div>
                             </li>
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    <svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M23.3333 19.8333H23.1187C23.2568 19.4597 23.3295 19.065 23.3333 18.6666V12.8333C23.3294 10.7663 22.6402 8.75902 21.3735 7.12565C20.1068 5.49228 18.3343 4.32508 16.3333 3.80679V3.49996C16.3333 2.88112 16.0875 2.28763 15.6499 1.85004C15.2123 1.41246 14.6188 1.16663 14 1.16663C13.3812 1.16663 12.7877 1.41246 12.3501 1.85004C11.9125 2.28763 11.6667 2.88112 11.6667 3.49996V3.80679C9.66574 4.32508 7.89317 5.49228 6.6265 7.12565C5.35983 8.75902 4.67058 10.7663 4.66667 12.8333V18.6666C4.67053 19.065 4.74316 19.4597 4.88133 19.8333H4.66667C4.35725 19.8333 4.0605 19.9562 3.84171 20.175C3.62292 20.3938 3.5 20.6905 3.5 21C3.5 21.3094 3.62292 21.6061 3.84171 21.8249C4.0605 22.0437 4.35725 22.1666 4.66667 22.1666H23.3333C23.6428 22.1666 23.9395 22.0437 24.1583 21.8249C24.3771 21.6061 24.5 21.3094 24.5 21C24.5 20.6905 24.3771 20.3938 24.1583 20.175C23.9395 19.9562 23.6428 19.8333 23.3333 19.8333Z" fill="#717579"></path>
-                                        <path d="M9.9819 24.5C10.3863 25.2088 10.971 25.7981 11.6766 26.2079C12.3823 26.6178 13.1838 26.8337 13.9999 26.8337C14.816 26.8337 15.6175 26.6178 16.3232 26.2079C17.0288 25.7981 17.6135 25.2088 18.0179 24.5H9.9819Z" fill="#717579"></path>
+                                    <svg width="28" height="28" viewbox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M23.3333 19.8333H23.1187C23.2568 19.4597 23.3295 19.065 23.3333 18.6666V12.8333C23.3294 10.7663 22.6402 8.75902 21.3735 7.12565C20.1068 5.49228 18.3343 4.32508 16.3333 3.80679V3.49996C16.3333 2.88112 16.0875 2.28763 15.6499 1.85004C15.2123 1.41246 14.6188 1.16663 14 1.16663C13.3812 1.16663 12.7877 1.41246 12.3501 1.85004C11.9125 2.28763 11.6667 2.88112 11.6667 3.49996V3.80679C9.66574 4.32508 7.89317 5.49228 6.6265 7.12565C5.35983 8.75902 4.67058 10.7663 4.66667 12.8333V18.6666C4.67053 19.065 4.74316 19.4597 4.88133 19.8333H4.66667C4.35725 19.8333 4.0605 19.9562 3.84171 20.175C3.62292 20.3938 3.5 20.6905 3.5 21C3.5 21.3094 3.62292 21.6061 3.84171 21.8249C4.0605 22.0437 4.35725 22.1666 4.66667 22.1666H23.3333C23.6428 22.1666 23.9395 22.0437 24.1583 21.8249C24.3771 21.6061 24.5 21.3094 24.5 21C24.5 20.6905 24.3771 20.3938 24.1583 20.175C23.9395 19.9562 23.6428 19.8333 23.3333 19.8333Z"
+                                            fill="#717579"></path>
+                                        <path
+                                            d="M9.9819 24.5C10.3863 25.2088 10.971 25.7981 11.6766 26.2079C12.3823 26.6178 13.1838 26.8337 13.9999 26.8337C14.816 26.8337 15.6175 26.6178 16.3232 26.2079C17.0288 25.7981 17.6135 25.2088 18.0179 24.5H9.9819Z"
+                                            fill="#717579"></path>
                                     </svg>
                                     <span class="badge light text-white bg-warning rounded-circle">12</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <div id="DZ_W_Notification1" class="widget-media dlab-scroll p-3" style="height:380px;">
+                                    <div id="DZ_W_Notification1" class="widget-media dlab-scroll p-3"
+                                        style="height:380px;">
                                         <ul class="timeline">
                                             <li>
                                                 <div class="timeline-panel">
@@ -721,26 +793,34 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <a class="all-notification" href="javascript:void(0);">See all notifications <i class="ti-arrow-end"></i></a>
+                                    <a class="all-notification" href="javascript:void(0);">See all notifications <i
+                                            class="ti-arrow-end"></i></a>
                                 </div>
                             </li>
 
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link " href="javascript:void(0);" data-bs-toggle="dropdown">
-                                    <svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M22.1666 5.83331H20.9999V3.49998C20.9999 3.19056 20.877 2.89381 20.6582 2.67502C20.4394 2.45623 20.1427 2.33331 19.8333 2.33331C19.5238 2.33331 19.2271 2.45623 19.0083 2.67502C18.7895 2.89381 18.6666 3.19056 18.6666 3.49998V5.83331H9.33325V3.49998C9.33325 3.19056 9.21034 2.89381 8.99154 2.67502C8.77275 2.45623 8.47601 2.33331 8.16659 2.33331C7.85717 2.33331 7.56042 2.45623 7.34163 2.67502C7.12284 2.89381 6.99992 3.19056 6.99992 3.49998V5.83331H5.83325C4.90499 5.83331 4.01476 6.20206 3.35838 6.85844C2.702 7.51482 2.33325 8.40506 2.33325 9.33331V10.5H25.6666V9.33331C25.6666 8.40506 25.2978 7.51482 24.6415 6.85844C23.9851 6.20206 23.0948 5.83331 22.1666 5.83331Z" fill="#717579"></path>
-                                        <path d="M2.33325 22.1666C2.33325 23.0949 2.702 23.9851 3.35838 24.6415C4.01476 25.2979 4.90499 25.6666 5.83325 25.6666H22.1666C23.0948 25.6666 23.9851 25.2979 24.6415 24.6415C25.2978 23.9851 25.6666 23.0949 25.6666 22.1666V12.8333H2.33325V22.1666Z" fill="#717579"></path>
+                                    <svg width="28" height="28" viewbox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22.1666 5.83331H20.9999V3.49998C20.9999 3.19056 20.877 2.89381 20.6582 2.67502C20.4394 2.45623 20.1427 2.33331 19.8333 2.33331C19.5238 2.33331 19.2271 2.45623 19.0083 2.67502C18.7895 2.89381 18.6666 3.19056 18.6666 3.49998V5.83331H9.33325V3.49998C9.33325 3.19056 9.21034 2.89381 8.99154 2.67502C8.77275 2.45623 8.47601 2.33331 8.16659 2.33331C7.85717 2.33331 7.56042 2.45623 7.34163 2.67502C7.12284 2.89381 6.99992 3.19056 6.99992 3.49998V5.83331H5.83325C4.90499 5.83331 4.01476 6.20206 3.35838 6.85844C2.702 7.51482 2.33325 8.40506 2.33325 9.33331V10.5H25.6666V9.33331C25.6666 8.40506 25.2978 7.51482 24.6415 6.85844C23.9851 6.20206 23.0948 5.83331 22.1666 5.83331Z"
+                                            fill="#717579"></path>
+                                        <path
+                                            d="M2.33325 22.1666C2.33325 23.0949 2.702 23.9851 3.35838 24.6415C4.01476 25.2979 4.90499 25.6666 5.83325 25.6666H22.1666C23.0948 25.6666 23.9851 25.2979 24.6415 24.6415C25.2978 23.9851 25.6666 23.0949 25.6666 22.1666V12.8333H2.33325V22.1666Z"
+                                            fill="#717579"></path>
                                     </svg>
                                     <span class="badge light text-white bg-success rounded-circle">!</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <div id="DZ_W_TimeLine02" class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
+                                    <div id="DZ_W_TimeLine02"
+                                        class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
                                         <ul class="timeline">
                                             <li>
                                                 <div class="timeline-badge primary"></div>
                                                 <a class="timeline-panel text-muted" href="javascript:void(0);">
                                                     <span>10 minutes ago</span>
-                                                    <h6 class="mb-0">Youtube, a video-sharing website, goes live <strong class="text-primary">$500</strong>.</h6>
+                                                    <h6 class="mb-0">Youtube, a video-sharing website, goes live <strong
+                                                            class="text-primary">$500</strong>.</h6>
                                                 </a>
                                             </li>
                                             <li>
@@ -748,8 +828,10 @@
                                                 </div>
                                                 <a class="timeline-panel text-muted" href="javascript:void(0);">
                                                     <span>20 minutes ago</span>
-                                                    <h6 class="mb-0">New order placed <strong class="text-info">#XF-2356.</strong></h6>
-                                                    <p class="mb-0">Quisque a consequat ante Sit amet magna at volutapt...</p>
+                                                    <h6 class="mb-0">New order placed <strong
+                                                            class="text-info">#XF-2356.</strong></h6>
+                                                    <p class="mb-0">Quisque a consequat ante Sit amet magna at
+                                                        volutapt...</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -757,7 +839,8 @@
                                                 </div>
                                                 <a class="timeline-panel text-muted" href="javascript:void(0);">
                                                     <span>30 minutes ago</span>
-                                                    <h6 class="mb-0">john just buy your product <strong class="text-warning">Sell $250</strong></h6>
+                                                    <h6 class="mb-0">john just buy your product <strong
+                                                            class="text-warning">Sell $250</strong></h6>
                                                 </a>
                                             </li>
                                             <li>
@@ -795,21 +878,29 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="../app-profile.html" class="dropdown-item ai-icon">
-                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
+                                            width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                         <span class="ms-2">Profile </span>
                                     </a>
                                     <a href="../email-inbox.html" class="dropdown-item ai-icon">
-                                        <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
+                                            width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                            </path>
                                             <polyline points="22,6 12,13 2,6"></polyline>
                                         </svg>
                                         <span class="ms-2">Inbox </span>
                                     </a>
-                                    <a href="../page-error-404.html" class="dropdown-item ai-icon">
-                                        <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <a href="/logic/logout.php" class="dropdown-item ai-icon">
+                                        <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+                                            width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                                             <polyline points="16 17 21 12 16 7"></polyline>
                                             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -849,93 +940,42 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                            <!-- Filter -->
+                            <div class="card-body d-flex justify-content-between">
+                                <div>
+                                    <label for="filterType">Filter By:</label>
+                                    <select id="filterType" class="form-select d-inline-block w-auto">
+                                        <option value="id">ID Transaksi</option>
+                                        <option value="cashier_id">ID Kasir</option>
+                                    </select>
+
+                                    <!-- Dynamic Filter Input -->
+                                    <span id="filterInputContainer">
+                                        <input type="text" id="filterValue" class="form-control d-inline-block w-auto"
+                                            placeholder="Masukkan nilai">
+                                    </span>
+
+                                    <button id="applyFilter" class="btn btn-primary">Terapkan</button>
                                 </div>
+                            </div>
+                            <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="example5" class="display" style="min-width: 845px">
+                                    <table id="transactionTable" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    <div class="form-check custom-checkbox ms-2">
-                                                        <input type="checkbox" class="form-check-input" id="checkAll" required="">
-                                                        <label class="form-check-label" for="checkAll"></label>
-                                                    </div>
-                                                </th>
-                                                <th>Pesanan</th>
-                                                <th>Customer</th>
-                                                <th>Voucher</th>
-                                                <th>Payment Method</th>
+                                                <th>ID</th>
+                                                <th>Nama Customer</th>
+                                                <th>Metode Pembayaran</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Harga Akhir</th>
+                                                <th>Outlet</th>
+                                                <th>Kasir</th>
+                                                <th>Tanggal Transaksi</th>
+                                                <th>Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check custom-checkbox ms-2">
-                                                        <input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-                                                        <label class="form-check-label" for="customCheckBox2"></label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">List Pesanan</a>
-                                                </td>
-                                                <td>Mahasiswa</td>
-                                                <td>-</td>
-                                                <td>QR</td>
-                                                <td><span class="badge light badge-success">Success</span></td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check custom-checkbox ms-2">
-                                                        <input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-                                                        <label class="form-check-label" for="customCheckBox2"></label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">List Pesanan</a>
-                                                </td>
-                                                <td>Dosen</td>
-                                                <td>10%</td>
-                                                <td>Cash</td>
-                                                <td><span class="badge light badge-warning">Pending</span></td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check custom-checkbox ms-2">
-                                                        <input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
-                                                        <label class="form-check-label" for="customCheckBox2"></label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">List Pesanan</a>
-                                                </td>
-                                                <td>Dosen</td>
-                                                <td>10%</td>
-                                                <td>Cash</td>
-                                                <td><span class="badge light badge-danger">Cancelled</span></td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            <!-- Data will be populated here -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -949,13 +989,51 @@
             Content body end
         ***********************************-->
 
+        <!-- Modal Detail Customer & List Pesanan -->
+        <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="customerModalLabel">Detail Customer & Pesanan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Nama:</strong> <span id="customerName"></span></p>
+                        <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="customerPhone"></span></p>
+                        <p><strong>Instagram:</strong> <span id="customerInstagram"></span></p>
+                        <p><strong>Total Point:</strong> <span id="customerPoints"></span></p>
+
+                        <h6 class="mt-3">List Pesanan</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Jumlah</th>
+                                    <th>Produk</th>
+                                    <th>Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderDetailsBody">
+                                <!-- Data pesanan akan dimasukkan di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!--**********************************
             Footer start
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021</p>
+                <p>Copyright © Designed &amp; Developed by <a href="../../index.htm" target="_blank">DexignLab</a> 2021
+                </p>
             </div>
         </div>
         <!--**********************************
@@ -1019,6 +1097,89 @@
         </div>
     </div>
 
+    <!-- Modal Tambah Transaksi -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Tambah Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTransactionForm">
+                        <!-- Tambahkan dropdown outlet -->
+                        <div class="mb-3">
+                            <label for="outletSelect" class="form-label">Pilih Outlet</label>
+                            <select class="form-control" id="outletSelect" name="outlet_id" required>
+                                <option value="">Pilih Outlet</option>
+                            </select>
+                        </div>
+
+                        <!-- Tambahkan produk outlet -->
+                        <div id="outletProductsContainer">
+                            <h6>Produk Outlet</h6>
+                            <div class="row g-3 align-items-center mb-2">
+                                <div class="col">
+                                    <select class="form-control outlet-product-select" name="outlet_product_id" required
+                                        disabled>
+                                        <option value="">Pilih Produk</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" name="quantity" placeholder="Jumlah"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-items-center">
+                                <div class="col">
+                                    <input type="text" class="form-control" name="notes" placeholder="Catatan">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger btn-sm removeProductRow">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm mt-3" id="addProductRow">Tambah
+                            Produk</button>
+                        <!-- Form field lainnya -->
+                        <div class="mb-3 mt-3">
+                            <label for="customer_name" class="form-label">Nama Customer</label>
+                            <input type="text" class="form-control" id="customer_name" name="customer_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="voucher_code" class="form-label">Kode Voucher (Opsional)</label>
+                            <input type="text" class="form-control" id="voucher_code" name="voucher_code">
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Metode Pembayaran</label>
+                            <select class="form-control" id="payment_method" name="payment_method" required>
+                                <option value="tunai">Tunai</option>
+                                <option value="transfer">Transfer</option>
+                                <option value="qr">QR</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment_status" class="form-label">Status Pembayaran</label>
+                            <select class="form-control" id="payment_status" name="payment_status" required>
+                                <option value="success">Sukses</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Gagal</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="submitTransaction">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!--**********************************
         Scripts
     ***********************************-->
@@ -1039,6 +1200,159 @@
     <script src="../js/dlabnav-init.js"></script>
     <script src="../js/demo.js"></script>
     <script src="../js/styleSwitcher.js"></script>
+
+    <!-- Datatable JS -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const apiTransactionURL = "http://127.0.0.1:8000/api/transactions";
+            const apiOutletURL = "http://127.0.0.1:8000/api/outlets";
+            const table = $('#transactionTable').DataTable();
+
+            let outletMap = {};
+            let cashierMap = {};
+
+            // Fetch daftar outlet dan kasir
+            fetch(apiOutletURL)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        data.data.forEach(outlet => {
+                            outletMap[outlet.id] = outlet.name;
+                        });
+                        fetchTransactions();
+                    } else {
+                        console.error("Gagal memuat daftar outlet.");
+                    }
+                })
+                .catch(error => console.error("Error fetching outlets:", error));
+
+            function fetchTransactions() {
+                fetch(apiTransactionURL)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            table.clear();
+                            cashierMap = {}; // Reset daftar kasir
+                            let cashierOptions = '<option value="">Pilih Kasir</option>';
+
+                            data.data.forEach(transaction => {
+                                let outletId = transaction.details.length > 0 ? transaction.details[0].outlet_product.outlet_id : null;
+                                let outletName = outletMap[outletId] || "Tidak Diketahui";
+                                let cashierName = transaction.cashier ? transaction.cashier.name : "Tidak Diketahui";
+                                let transactionDate = new Date(transaction.created_at).toLocaleString("id-ID");
+
+                                // Tambahkan kasir ke daftar (tanpa duplikasi)
+                                if (transaction.cashier && !(transaction.cashier.id in cashierMap)) {
+                                    cashierMap[transaction.cashier.id] = transaction.cashier.name;
+                                    cashierOptions += `<option value="${transaction.cashier.id}">${transaction.cashier.name}</option>`;
+                                }
+
+                                table.row.add([
+                                    transaction.id,
+                                    transaction.customer.name,
+                                    transaction.payment_method || "-",
+                                    `<span class="badge bg-${getStatusClass(transaction.status)}">${transaction.status}</span>`,
+                                    `Rp${transaction.final_price.toLocaleString()}`,
+                                    outletName,
+                                    cashierName,
+                                    transactionDate,
+                                    `<button class="btn btn-info btn-sm view-details" data-id="${transaction.id}" data-transaction='${JSON.stringify(transaction)}'>Lihat</button>`
+                                ]);
+                            });
+
+                            // Update dropdown kasir jika diperlukan
+                            $('#filterType').off("change").on("change", function () {
+                                updateFilterInput(cashierOptions);
+                            });
+
+                            table.draw();
+                        } else {
+                            alert("Gagal memuat data transaksi.");
+                        }
+                    })
+                    .catch(error => console.error("Error fetching transactions:", error));
+            }
+
+            function getStatusClass(status) {
+                switch (status.toLowerCase()) {
+                    case "success":
+                        return "success";
+                    case "pending":
+                        return "warning";
+                    case "cancelled":
+                        return "danger";
+                    default:
+                        return "secondary";
+                }
+            }
+
+            function updateFilterInput(cashierOptions) {
+                let selectedFilter = $('#filterType').val();
+                let filterInputContainer = $('#filterInputContainer');
+
+                if (selectedFilter === "cashier_id") {
+                    filterInputContainer.html(`
+                        <select id="filterValue" class="form-select d-inline-block w-auto">
+                            ${cashierOptions}
+                        </select>
+                    `);
+                } else {
+                    filterInputContainer.html(`
+                        <input type="text" id="filterValue" class="form-control d-inline-block w-auto" placeholder="Masukkan nilai">
+                    `);
+                }
+            }
+
+            $('#applyFilter').on('click', function () {
+                const filterType = $('#filterType').val();
+                const filterValue = $('#filterValue').val();
+                fetchFilteredTransactions(filterType, filterValue);
+            });
+
+            function fetchFilteredTransactions(filterType, filterValue) {
+                let url = apiTransactionURL;
+                if (filterType && filterValue) {
+                    url += `?${filterType}=${filterValue}`;
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            table.clear();
+
+                            data.data.forEach(transaction => {
+                                let outletId = transaction.details.length > 0 ? transaction.details[0].outlet_product.outlet_id : null;
+                                let outletName = outletMap[outletId] || "Tidak Diketahui";
+                                let cashierName = transaction.cashier ? transaction.cashier.name : "Tidak Diketahui";
+                                let transactionDate = new Date(transaction.created_at).toLocaleString("id-ID");
+
+                                table.row.add([
+                                    transaction.id,
+                                    transaction.customer.name,
+                                    transaction.payment_method || "-",
+                                    `<span class="badge bg-${getStatusClass(transaction.status)}">${transaction.status}</span>`,
+                                    `Rp${transaction.final_price.toLocaleString()}`,
+                                    outletName,
+                                    cashierName,
+                                    transactionDate,
+                                    `<button class="btn btn-info btn-sm view-details" data-id="${transaction.id}" data-transaction='${JSON.stringify(transaction)}'>Lihat</button>`
+                                ]);
+                            });
+
+                            table.draw();
+                        } else {
+                            alert("Gagal memuat data transaksi.");
+                        }
+                    })
+                    .catch(error => console.error("Error fetching filtered transactions:", error));
+            }
+        });
+    </script>
 </body>
 
 </html>

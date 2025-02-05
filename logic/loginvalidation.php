@@ -39,7 +39,7 @@ class Validation
         if (isset($auth_token) == false || $auth_token == null) {
             header('Location: ' . $exiturl);
         } else {
-            $url = 'https://ngolab.id/api/users';
+            $url = 'http://127.0.0.1:8000/api/users';
 
             // Inisiasi cURL
             $ch = curl_init($url);
@@ -70,7 +70,7 @@ class Validation
     public static function isLogin($auth_token, $adminUrl, $cashierUrl, $operationalUrl, $unroleUrl)
     {
         if (isset($auth_token) == true &&  $auth_token !== null) {
-            $url = 'https://ngolab.id/api/users';
+            $url = 'http://127.0.0.1:8000/api/users';
 
             // Inisiasi cURL
             $ch = curl_init($url);
@@ -108,7 +108,7 @@ class Validation
     }
 
     public static function getLoginUser($auth_token){
-        $url = 'https://ngolab.id/api/users';
+        $url = 'http://127.0.0.1:8000/api/users';
 
         // Inisiasi cURL
         $ch = curl_init($url);
@@ -133,7 +133,7 @@ class Validation
     }
 
     public static function logout($auth_token){
-        $url = 'https://ngolab.id/api/users/logout';
+        $url = 'http://127.0.0.1:8000/api/users/logout';
 
         // Inisiasi cURL
         $ch = curl_init($url);

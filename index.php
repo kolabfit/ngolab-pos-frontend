@@ -206,8 +206,7 @@ curl_close($ch);
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -219,8 +218,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -232,8 +230,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -245,8 +242,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -259,8 +255,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -272,8 +267,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -285,8 +279,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -299,8 +292,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -312,8 +304,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -326,8 +317,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -339,8 +329,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -352,8 +341,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -365,8 +353,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -379,8 +366,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -392,8 +378,7 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
-													alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -1054,13 +1039,15 @@ curl_close($ch);
 																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"], "innerRadius": 20, "radius": 15}'>5/8</span>
 														</div>
 														<div class="ms-3">
-															<h4 id="totalProjects" class="fs-24 font-w700 ">Rp.<?= number_format($salesInDay['data']['total_sales'], 0, ',', '.') ?></h4>
+															<h4 id="totalProjects" class="fs-24 font-w700 ">
+																Rp.<?= number_format($salesInDay['data']['total_sales'], 0, ',', '.') ?>
+															</h4>
 															<span class="fs-16 font-w400 d-block">Total Sales
 																Today</span>
 														</div>
 													</div>
 													<div class="d-flex">
-														<?php foreach ($salesInDayPerOutlet['data'] as $sales) : ?>
+														<?php foreach ($salesInDayPerOutlet['data'] as $sales): ?>
 															<div class="d-flex me-5">
 																<div class="mt-2">
 																	<svg width="13" height="13" viewbox="0 0 13 13"
@@ -1070,8 +1057,11 @@ curl_close($ch);
 																	</svg>
 																</div>
 																<div class="ms-3">
-																	<h4 id="kortailQuantity" class="fs-24 font-w700"><?= number_format($sales['total_sales'], 0, ',', '.') ?></h4>
-																	<span class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
+																	<h4 id="kortailQuantity" class="fs-24 font-w700">
+																		<?= number_format($sales['total_sales'], 0, ',', '.') ?>
+																	</h4>
+																	<span
+																		class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
 																</div>
 															</div>
 														<?php endforeach; ?>
@@ -1170,7 +1160,7 @@ curl_close($ch);
 															<div class="d-flex align-items-center">
 																<span class="big-wind"
 																	style="overflow:hidden; box-sizing: border-box; margin:0;">
-																	<img src="<?php echo $product['product']['image']  ?>"
+																	<img src="<?php echo $product['product']['image'] ?>"
 																		alt="" style="width:100%; height:100%; "
 																		class="img-fluid">
 																</span>
@@ -1273,11 +1263,11 @@ curl_close($ch);
 	<script src="/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 	<script src="/js/plugins-init/chartist-init.js"></script>
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			async function fetchAndRenderChart() {
+		document.addEventListener("DOMContentLoaded", function () {
+			async function fetchBestCategories() {
 				try {
 					// Panggil API dan parsing hasilnya sebagai JSON
-					const response = await fetch('http://127.0.0.1:8000/api/transactions/best-categories');
+					const response = await fetch('https://ngolab.id/api/transactions/best-categories');
 					const result = await response.json();
 					const data = result.data;
 
@@ -1285,10 +1275,10 @@ curl_close($ch);
 					const categories = data.map(item => item.category.name);
 					const quantities = data.map(item => parseInt(item.total_quantity));
 
-					// Warna yang sesuai untuk setiap kategori
+					// Warna untuk setiap kategori
 					const colors = ['#886CC0', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'];
 
-					// Buat konfigurasi grafik dengan ApexCharts
+					// Konfigurasi grafik dengan ApexCharts
 					const options = {
 						series: quantities,
 						chart: {
@@ -1301,10 +1291,10 @@ curl_close($ch);
 							enabled: false
 						},
 						stroke: {
-							width: 0,
+							width: 0
 						},
 						legend: {
-							show: false // Sembunyikan legend bawaan ApexCharts
+							show: false
 						},
 						responsive: [{
 							breakpoint: 1800,
@@ -1322,38 +1312,36 @@ curl_close($ch);
 
 					// Generate legend dinamis
 					const legendContainer = document.getElementById("legendContainer");
-					legendContainer.innerHTML = ''; // Kosongkan legend sebelum mengisinya
+					legendContainer.innerHTML = '';
 
 					data.forEach((item, index) => {
-						// Buat elemen HTML untuk setiap kategori
 						const legendItem = document.createElement("div");
 						legendItem.classList.add("d-flex", "align-items-center", "justify-content-between", "mb-4");
 
 						legendItem.innerHTML = `
-					<span class="fs-18 font-w500">
-						<svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
-						</svg>
-						${item.category.name} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
-					</span>
-					<span class="fs-18 font-w600">${quantities[index]}</span>
-				`;
+						<span class="fs-18 font-w500">
+							<svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
+							</svg>
+							${item.category.name} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
+						</span>
+						<span class="fs-18 font-w600">${quantities[index]}</span>
+					`;
 
 						legendContainer.appendChild(legendItem);
 					});
 				} catch (error) {
-					console.error("Gagal mengambil data dari API:", error);
+					console.error(error);
 				}
 			}
 
-			// Panggil fungsi untuk mengambil data dan menampilkan grafik
-			fetchAndRenderChart();
+			fetchBestCategories();
 		});
 	</script>
 
 	<script>
 		// URL API Anda
-		const apiUrl = 'http://127.0.0.1:8000/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
+		const apiUrl = 'https://ngolab.id/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
 
 		// Fungsi untuk mengambil data dari API dan memprosesnya
 		async function fetchDataAndRenderChart() {
@@ -1441,7 +1429,7 @@ curl_close($ch);
 				},
 				tooltip: {
 					y: {
-						formatter: function(val) {
+						formatter: function (val) {
 							return "Rp. " + val.toLocaleString();
 						}
 					}
@@ -1461,7 +1449,7 @@ curl_close($ch);
 		async function fetchSalesData() {
 			try {
 				// Mem-fetch data dari API
-				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
 				const data = await response.json();
 
 				// Memastikan respon dari API memiliki data
@@ -1486,7 +1474,7 @@ curl_close($ch);
 		async function fetchAndDisplayData() {
 			try {
 				// Fetch data dari API
-				const response = await fetch('http://127.0.0.1:8000/api/transactions/sales/day');
+				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
 				const jsonData = await response.json();
 
 				// Ambil data terbaru dari array "data"
@@ -1512,25 +1500,25 @@ curl_close($ch);
 			// Chart data records -- each entry in this array corresponds to a point on
 			// the chart.
 			data: [{
-					year: '2008',
-					value: 20
-				},
-				{
-					year: '2009',
-					value: 10
-				},
-				{
-					year: '2010',
-					value: 5
-				},
-				{
-					year: '2011',
-					value: 5
-				},
-				{
-					year: '2012',
-					value: 20
-				}
+				year: '2008',
+				value: 20
+			},
+			{
+				year: '2009',
+				value: 10
+			},
+			{
+				year: '2010',
+				value: 5
+			},
+			{
+				year: '2011',
+				value: 5
+			},
+			{
+				year: '2012',
+				value: 20
+			}
 			],
 			// The name of the data record attribute that contains x-values.
 			xkey: 'year',
@@ -1574,8 +1562,8 @@ curl_close($ch);
 			})
 		}
 
-		jQuery(window).on('load', function() {
-			setTimeout(function() {
+		jQuery(window).on('load', function () {
+			setTimeout(function () {
 				cardsCenter();
 			}, 1000);
 		});
@@ -1597,7 +1585,7 @@ curl_close($ch);
 				behaveLikeLine: true,
 				gridLineColor: 'transparent',
 				hideHover: 'auto',
-				dateFormat: function(x) {
+				dateFormat: function (x) {
 					return x + ":00"; // Ini juga memastikan tampilan saat hover sesuai format jam
 				}
 			});
@@ -1641,15 +1629,15 @@ curl_close($ch);
 		}
 
 		// Panggil fetchData untuk mengambil dan menampilkan data
-		fetchData('http://127.0.0.1:8000/api/transactions/total/hour');
+		fetchData('https://ngolab.id/api/transactions/total/hour');
 
 
-		document.getElementById('turnOnMonthly').addEventListener('change', async function() {
+		document.getElementById('turnOnMonthly').addEventListener('change', async function () {
 			let url;
 			if (this.checked) {
-				url = `http://127.0.0.1:8000/api/transactions/total/hour?monthly=true`;
+				url = `https://ngolab.id/api/transactions/total/hour?monthly=true`;
 			} else {
-				url = `http://127.0.0.1:8000/api/transactions/total/hour`
+				url = `https://ngolab.id/api/transactions/total/hour`
 			}
 			document.getElementById('jam_penjualan').innerHTML = '';
 
