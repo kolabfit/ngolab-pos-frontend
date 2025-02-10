@@ -999,7 +999,7 @@ if ($outlets['success']) {
 																	for="customCheckBox<?= $outlet['id'] ?>"></label>
 															</div>
 														</td>
-														<td><?= htmlspecialchars($outlet['name']) ?></td>
+														<td><a href="detailProdukOutlet.php?outletId=<?= $outlet['id'] ?>"><?= htmlspecialchars($outlet['name']) ?></a></td>
 														<td><?= htmlspecialchars($outlet['address']) ?></td>
 														<td><?= htmlspecialchars($outlet['phone']) ?></td>
 														<td>

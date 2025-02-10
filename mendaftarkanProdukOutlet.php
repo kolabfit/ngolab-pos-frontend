@@ -1,92 +1,34 @@
-﻿<?php
+<?php
 require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-categories';
+// URL API Kelola produk
+$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
 
-// Inisiasi cURL
-$ch = curl_init($url);
-
-// Set opsi cURL untuk mengirim request POST dengan JSON
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Set header untuk memberitahu bahwa kita mengirimkan JSON
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-	'Content-Type: application/json',
-	'Accept: application/json',
-	'Authorization: ' . $_COOKIE['auth_token']
+// Inisialisasi cURL
+$curl = curl_init($apiUrl);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, [
+	'Content-Type: application/json'
 ]);
 
-// Eksekusi cURL dan ambil respons dari API
-$response = curl_exec($ch);
-// Decode response dari JSON ke array PHP
-$kategoriTerlaris = json_decode($response, true);
-curl_close($ch);
+// Eksekusi cURL dan ambil data
+$response = curl_exec($curl);
+curl_close($curl);
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-products';
+// Memeriksa apakah cURL berhasil mengambil data
+if ($response === false) {
+	$categories = []; // Jika gagal, set categories sebagai array kosong untuk mencegah error
+} else {
+	// Decode data JSON ke array PHP
+	$data = json_decode($response, true);
 
-// Inisiasi cURL
-$ch = curl_init($url);
-
-// Set opsi cURL untuk mengirim request POST dengan JSON
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Set header untuk memberitahu bahwa kita mengirimkan JSON
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-	'Content-Type: application/json',
-	'Accept: application/json',
-	'Authorization: ' . $_COOKIE['auth_token']
-]);
-
-// Eksekusi cURL dan ambil respons dari API
-$response = curl_exec($ch);
-// Decode response dari JSON ke array PHP
-$produkterlaris = json_decode($response, true);
-curl_close($ch);
-
-$url = 'http://127.0.0.1:8000/api/transactions/sales/day';
-
-// Inisiasi cURL
-$ch = curl_init($url);
-
-// Set opsi cURL untuk mengirim request POST dengan JSON
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Set header untuk memberitahu bahwa kita mengirimkan JSON
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-	'Content-Type: application/json',
-	'Accept: application/json',
-	'Authorization: ' . $_COOKIE['auth_token']
-]);
-
-// Eksekusi cURL dan ambil respons dari API
-$response = curl_exec($ch);
-// Decode response dari JSON ke array PHP
-$salesInDay = json_decode($response, true);
-curl_close($ch);
-
-$url = 'http://127.0.0.1:8000/api/outlet/transactions/sales/day';
-
-// Inisiasi cURL
-$ch = curl_init($url);
-
-// Set opsi cURL untuk mengirim request POST dengan JSON
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Set header untuk memberitahu bahwa kita mengirimkan JSON
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-	'Content-Type: application/json',
-	'Accept: application/json',
-	'Authorization: ' . $_COOKIE['auth_token']
-]);
-
-// Eksekusi cURL dan ambil respons dari API
-$response = curl_exec($ch);
-// Decode response dari JSON ke array PHP
-$salesInDayPerOutlet = json_decode($response, true);
-curl_close($ch);
+	// Memeriksa apakah data ada dan berhasil diambil
+	$categories = isset($data['data']) ? $data['data'] : [];
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +41,7 @@ curl_close($ch);
 	<meta name="format-detection" content="telephone=no">
 
 	<!-- PAGE TITLE -->
-	<title>Admin Dashboard</title>
+	<title>Kelola Produk</title>
 
 	<!-- FAVICONS ICON -->
 	<link rel="icon" type="image/png" href="/images/KoLab.png">
@@ -110,15 +52,21 @@ curl_close($ch);
 	<link rel="stylesheet" href="/vendor/chartist/css/chartist.min.css">
 	<link rel="stylesheet" href="/vendor/nouislider/nouislider.min.css">
 
+	<!-- Datatable -->
+	<link rel="stylesheet" href="/vendor/datatables/css/jquery.dataTables.min.css">
+
+	<!-- Custom Stylesheet -->
+	<link rel="stylesheet" href="/vendor/jquery-nice-select/css/nice-select.css">
+
 	<!-- Style css -->
-	<link href="/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body data-page="index.php">
+<body data-page="manageProduct.html">
 
 	<!--*******************
-		Preloader start
-	********************-->
+        Preloader start
+    ********************-->
 	<div id="preloader">
 		<div class="lds-ripple">
 			<div></div>
@@ -126,19 +74,20 @@ curl_close($ch);
 		</div>
 	</div>
 	<!--*******************
-		Preloader end
-	********************-->
+        Preloader end
+    ********************-->
+
 
 	<!--**********************************
-		Main wrapper start
-	***********************************-->
+        Main wrapper start
+    ***********************************-->
 	<div id="main-wrapper" class="show menu-toggle">
 
 		<!--**********************************
-			Nav header start
-		***********************************-->
+            Nav header start
+        ***********************************-->
 		<div class="nav-header">
-			<a href="index.php" class="brand-logo">
+			<a href="index.html" class="brand-logo">
 				<img src="/images/KoLab.png" width="100vw" class="rounded-circle">
 				<div class="brand-title">
 					<h2 class="">Admin</h2>
@@ -151,12 +100,12 @@ curl_close($ch);
 			</div>
 		</div>
 		<!--**********************************
-			Nav header end
-		***********************************-->
+            Nav header end
+        ***********************************-->
 
 		<!--**********************************
-			Chat box start
-		***********************************-->
+            Chat box start
+        ***********************************-->
 		<div class="chatbox">
 			<div class="chatbox-close"></div>
 			<div class="custom-tab-1">
@@ -206,7 +155,8 @@ curl_close($ch);
 									<li class="active dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -218,7 +168,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -230,7 +181,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -242,7 +194,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -255,7 +208,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -267,7 +221,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -279,7 +234,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -292,7 +248,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -304,7 +261,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -317,7 +275,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -329,7 +288,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/1.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -341,7 +301,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/2.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -353,7 +314,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/3.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
@@ -366,7 +328,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/4.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -378,7 +341,8 @@ curl_close($ch);
 									<li class="dlab-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+												<img src="/images/avatar/5.jpg" class="rounded-circle user_img"
+													alt="">
 												<span class="online_icon offline"></span>
 											</div>
 											<div class="user_info">
@@ -752,19 +716,19 @@ curl_close($ch);
 			</div>
 		</div>
 		<!--**********************************
-			Chat box End
-		***********************************-->
+            Chat box End
+        ***********************************-->
 
 		<!--**********************************
-			Header start
-		***********************************-->
+            Header start
+        ***********************************-->
 		<div class="header border-bottom">
 			<div class="header-content">
 				<nav class="navbar navbar-expand">
 					<div class="collapse navbar-collapse justify-content-between">
 						<div class="header-left">
 							<div class="dashboard_bar">
-								Dashboard
+								Kelola Produk
 							</div>
 						</div>
 						<ul class="navbar-nav header-right">
@@ -964,7 +928,7 @@ curl_close($ch);
 										</svg>
 										<span class="ms-2">Inbox </span>
 									</a>
-									<a href="/logic/logout.php" class="dropdown-item ai-icon">
+									<a href="/page-error-404.html" class="dropdown-item ai-icon">
 										<svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
 											width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
 											stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -982,12 +946,12 @@ curl_close($ch);
 			</div>
 		</div>
 		<!--**********************************
-			Header end
-		***********************************-->
+            Header end
+        ***********************************-->
 
 		<!--**********************************
-			Sidebar start
-		***********************************-->
+            Sidebar start
+        ***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
@@ -996,653 +960,376 @@ curl_close($ch);
 			</div>
 		</div>
 		<!--**********************************
-			Sidebar end
-		***********************************-->
+            Sidebar end
+        ***********************************-->
 
 		<!--**********************************
-			Content body start
-		***********************************-->
-		<div class="content-body">
-			<!-- row -->
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xl-12">
-						<div class="row">
-							<div class="col-xl-12">
-								<div class="row">
-									<div class="col-xl-12">
-										<div class="card">
-											<div class="card-header border-0 flex-wrap">
-												<h4 class="fs-20 font-w700 mb-2">Grafik Penjualan</h4>
-												<div class="d-flex align-items-center project-tab mb-2">
-													<div class="card-tabs mt-3 mt-sm-0 mb-3 ">
-														<ul class="nav nav-tabs" role="tablist">
-															<li class="nav-item">
-																<a class="nav-link active" data-bs-toggle="tab"
-																	href="/#weekly" role="tab">Weekly</a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" data-bs-toggle="tab"
-																	href="/#monthly" role="tab">Monthly</a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<div class="card-body">
-												<div
-													class="d-flex justify-content-between align-items-center flex-wrap">
-													<div class="d-flex">
-														<div
-															class="d-inline-block position-relative donut-chart-sale mb-3">
-															<span class="donut1"
-																data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"], "innerRadius": 20, "radius": 15}'>5/8</span>
-														</div>
-														<div class="ms-3">
-															<h4 id="totalProjects" class="fs-24 font-w700 ">
-																Rp.<?= number_format($salesInDay['data']['total_sales'], 0, ',', '.') ?>
-															</h4>
-															<span class="fs-16 font-w400 d-block">Total Sales
-																Today</span>
-														</div>
-													</div>
-													<div class="d-flex">
-														<?php foreach ($salesInDayPerOutlet['data'] as $sales): ?>
-															<div class="d-flex me-5">
-																<div class="mt-2">
-																	<svg width="13" height="13" viewbox="0 0 13 13"
-																		fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF">
-																		</circle>
-																	</svg>
-																</div>
-																<div class="ms-3">
-																	<h4 id="kortailQuantity" class="fs-24 font-w700">
-																		<?= number_format($sales['total_sales'], 0, ',', '.') ?>
-																	</h4>
-																	<span
-																		class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
-																</div>
-															</div>
-														<?php endforeach; ?>
-													</div>
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            <?php
+                            // URL API Produk
+                            $apiUrlProducts = 'http://127.0.0.1:8000/api/products';
 
-												</div>
-												<div class="tab-content">
-													<div class="tab-pane fade active show" id="weekly">
-														<div id="chartBarWeekly" class="chartBar"></div>
-													</div>
+                            // Inisialisasi cURL
+                            $curlProducts = curl_init($apiUrlProducts);
+                            curl_setopt($curlProducts, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($curlProducts, CURLOPT_HTTPHEADER, [
+                                'Content-Type: application/json'
+                            ]);
 
-													<div class="tab-pane fade" id="monthly">
-														<div id="chartBarMonthly" class="chartBar"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-6 col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Total Overview</h4>
-									</div>
-									<div class="card-body">
-										<div id="simple-line-chart" class="ct-chart ct-golden-section chartlist-chart">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-6 col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Income Overview</h4>
-									</div>
-									<div class="card-body">
-										<div id="default-data" class="ct-chart ct-golden-section chartlist-chart"></div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Jam Penjualan</h4>
-										<input type="checkbox" name="monthly" id="turnOnMonthly">
-									</div>
-									<div class="card-body">
-										<div id="jam_penjualan"></div>
-									</div>
-								</div>
-							</div>
+                            // Eksekusi cURL dan ambil data
+                            $responseProducts = curl_exec($curlProducts);
+                            curl_close($curlProducts);
 
-							<div class="col-xl-12">
-								<div class="row">
-									<div class="col-xl-6 col-lg-6">
-										<div class="row">
-											<div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-6">
-												<div class="card">
-													<div class="card-header border-0">
-														<div>
-															<h4 class="fs-20 font-w700">Kategori Terlaris</h4>
-															<span class="fs-14 font-w400 d-block">Berikut merupakan
-																penjualan kategori terlaris</span>
-														</div>
-													</div>
-													<div class="card-body">
-														<div id="kategoriterlarischart"> </div>
-														<div class="mb-3 mt-4">
-															<h4 class="fs-18 font-w600">Detail</h4>
-														</div>
-														<!-- Tambahkan container untuk legend dinamis -->
-														<div id="legendContainer"></div>
-													</div>
-													<div class="card-footer border-0 pt-0">
-														<a href="javascript:void(0);"
-															class="btn btn-outline-primary d-block btn-rounded">Update
-															Progress</a>
+                            // Memeriksa apakah cURL berhasil mengambil data
+                            if ($responseProducts === false) {
+                                $products = []; // Jika gagal, set products sebagai array kosong untuk mencegah error
+                            } else {
+                                // Decode data JSON ke array PHP
+                                $dataProducts = json_decode($responseProducts, true);
 
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6">
-										<div class="card">
-											<div class="card-header border-0 pb-0">
-												<div>
-													<h4 class="fs-20 font-w700">Produk Populer</h4>
-												</div>
-											</div>
-											<div class="card-body pb-0" id="productContainer">
-												<?php foreach ($produkterlaris['data'] as $product): ?>
-													<div class="project-details">
-														<div class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<span class="big-wind"
-																	style="overflow:hidden; box-sizing: border-box; margin:0;">
-																	<img src="<?php echo $product['product']['image'] ?>"
-																		alt="" style="width:100%; height:100%; "
-																		class="img-fluid">
-																</span>
-																<div class="ms-3">
-																	<h4><?php echo $product['product']['name']; ?></h4>
-																	<span class="fs-14 font-w400">Total Terjual:
-																		<strong><?php echo $product["total_quantity"]; ?>
-																			<strong>Item</span>
-																</div>
-															</div>
-															<div class="dropdown">
-																<div class="btn-link" data-bs-toggle="dropdown">
-																	<svg width="24" height="24" viewbox="0 0 24 24"
-																		fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<circle cx="12.4999" cy="3.5" r="2.5"
-																			fill="#A5A5A5"></circle>
-																		<circle cx="12.4999" cy="11.5" r="2.5"
-																			fill="#A5A5A5"></circle>
-																		<circle cx="12.4999" cy="19.5" r="2.5"
-																			fill="#A5A5A5"></circle>
-																	</svg>
-																</div>
-																<div class="dropdown-menu dropdown-menu-right">
-																	<a class="dropdown-item"
-																		href="javascript:void(0)">Delete</a>
-																	<a class="dropdown-item"
-																		href="javascript:void(0)">Edit</a>
-																</div>
-															</div>
-														</div>
-													</div>
-												<?php endforeach; ?>
-											</div>
-											<div class="card-footer pt-0 border-0">
-												<a href="javascript:void(0);"
-													class="btn btn-outline-primary d-block btn-rounded">Pin other
-													projects</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                                // Memeriksa apakah data ada dan berhasil diambil
+                                $products = isset($dataProducts['data']) ? $dataProducts['data'] : [];
+                            }
+
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                // Ambil data dari form
+                                var_dump($_POST);
+                                $productId = $_POST['product_id'] ;
+                                $outletId = $_GET['outletId'];
+                            
+                                // Validasi input
+                                if (empty($productId) || empty($outletId)) {
+                                    echo "Data produk atau outlet tidak boleh kosong.";
+                                    exit;
+                                }
+                            
+                                // Data yang akan dikirim ke API
+                                $postData = json_encode([
+                                    'product_id' => $productId,
+                                    'outlet_id' => $outletId
+                                ]);
+                            
+                                // URL API untuk assign product ke outlet
+                                $apiUrlAssign = 'http://127.0.0.1:8000/api/outlets/assign-product';
+                            
+                                // Inisialisasi cURL
+                                $curlAssign = curl_init($apiUrlAssign);
+                                curl_setopt($curlAssign, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($curlAssign, CURLOPT_HTTPHEADER, [
+                                    'Content-Type: application/json',
+                                    'Authorization: ' . $_COOKIE['auth_token']
+                                ]);
+                                curl_setopt($curlAssign, CURLOPT_POST, true);
+                                curl_setopt($curlAssign, CURLOPT_POSTFIELDS, $postData);
+                            
+                                // Eksekusi cURL dan ambil responsenya
+                                $responseAssign = curl_exec($curlAssign);
+                            
+                                // Cek kesalahan cURL
+                                if ($responseAssign === false) {
+                                    $curlError = curl_error($curlAssign);
+                                    echo "Gagal mengirim data ke API. Error: $curlError";
+                                    curl_close($curlAssign);
+                                    exit;
+                                }
+                            
+                                curl_close($curlAssign);
+                            
+                                // Validasi respons dari API
+                                $responseData = json_decode($responseAssign, true);
+                                if (json_last_error() !== JSON_ERROR_NONE) {
+                                    echo "Respons API tidak valid: " . json_last_error_msg();
+                                    exit;
+                                }
+                            
+                                // Periksa hasil respons
+                                if (isset($responseData['success']) && $responseData['success']) {
+                                    echo "<script>
+                                            window.location.href = 'detailProdukOutlet.php?outletId=" . $outletId . "';
+                                          </script>";
+                                } else {
+                                    echo "Gagal mendaftarkan produk ke outlet. Pesan: " . $responseData['message'];
+                                }
+                            }
+                            
+
+                        ?>
+
+                                <!-- Form untuk mengirim data produk dan outlet -->
+                                <form id="assignProductForm" method="POST" action="mendaftarkanProdukOutlet.php?outletId=<?= htmlspecialchars($_GET['outletId']) ?>">
+                                    <div class="mb-3">
+                                        <label for="product_id" class="col-form-label">Pilih Produk:</label>
+                                        <select class="form-select" id="product_id" name="product_id">
+                                            <?php foreach ($products as $product) : ?>
+                                                <option value="<?= htmlspecialchars($product['id']) ?>">
+                                                    <?= htmlspecialchars($product['name']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    
+                                    
+                                    <button type="submit" class="btn btn-primary">Daftarkan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+       
+        ?>
 		<!--**********************************
-			Content body end
-		***********************************-->
+            Content body end
+        ***********************************-->
+
 
 		<!--**********************************
-			Footer start
-		***********************************-->
+            Footer start
+        ***********************************-->
 		<div class="footer">
 			<div class="copyright">
-				<p>Copyright © Designed &amp; Developed by DexignLab 2021</p>
+				<p>Copyright © Designed &amp; Developed by <a href="//index.htm" target="_blank">DexignLab</a> 2021
+				</p>
 			</div>
 		</div>
 		<!--**********************************
-			Footer end
-		***********************************-->
+            Footer end
+        ***********************************-->
 
+		<!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+		<!--**********************************
+           Support ticket button end
+        ***********************************-->
 	</div>
 	<!--**********************************
-		Main wrapper end
-	***********************************-->
+        Main wrapper end
+    ***********************************-->
+
+	<!-- Modal -->
+	
+	
+
+	
+
+
+	
 
 	<!--**********************************
-		Scripts
-	***********************************-->
-
+        Scripts
+    ***********************************-->
 	<!-- Required vendors -->
 	<script src="/js/navigation-gen.js"></script>
 	<script src="/vendor/global/global.min.js"></script>
 	<script src="/vendor/chart.js/Chart.bundle.min.js"></script>
+	<!-- Apex Chart -->
+	<script src="/vendor/apexchart/apexchart.js"></script>
+
+	<!-- Datatable -->
+	<script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="/js/plugins-init/datatables.init.js"></script>
+
 	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+
 	<script src="/js/custom.min.js"></script>
 	<script src="/js/dlabnav-init.js"></script>
 	<script src="/js/demo.js"></script>
 	<script src="/js/styleSwitcher.js"></script>
+	<script type="module">
+		import {
+			callApi
+		} from '/js/logic/api.js';
 
-	<!-- Dashboard 1 -->
-	<script src="/js/dashboard/dashboard-1.js"></script>
-	<script src="/vendor/owl-carousel/owl.carousel.js"></script>
-
-	<!-- Chart Morris plugin files -->
-	<script src="/vendor/raphael/raphael.min.js"></script>
-	<script src="/vendor/morris/morris.min.js"></script>
-	<script src="/js/plugins-init/morris-init.js"></script>
-
-	<!-- Apex Chart -->
-	<script src="/vendor/apexchart/apexchart.js"></script>
-
-	<!-- Chart piety plugin files -->
-	<script src="/vendor/peity/jquery.peity.min.js"></script>
-
-	<!-- Chart Chartist plugin files -->
-	<script src="/vendor/chartist/js/chartist.min.js"></script>
-	<script src="/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-	<script src="/js/plugins-init/chartist-init.js"></script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			async function fetchBestCategories() {
+		document.getElementById('createButton').addEventListener('click', function() {
+			(async () => {
 				try {
-					// Panggil API dan parsing hasilnya sebagai JSON
-					const response = await fetch('https://ngolab.id/api/transactions/best-categories');
-					const result = await response.json();
-					const data = result.data;
+					// Get the file and other form data
+					const formData = new FormData();
+					formData.append('name', document.getElementById('productName').value);
+					formData.append('description', document.getElementById('productDescription').value);
+					formData.append('price', document.getElementById('productPrice').value);
+					formData.append('category_id', document.getElementById('category_id').value);
 
-					// Ambil nama kategori dan jumlah total dari setiap kategori
-					const categories = data.map(item => item.category.name);
-					const quantities = data.map(item => parseInt(item.total_quantity));
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImage');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					} else {
+						throw new Error('No image file selected');
+					}
 
-					// Warna untuk setiap kategori
-					const colors = ['#886CC0', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'];
-
-					// Konfigurasi grafik dengan ApexCharts
-					const options = {
-						series: quantities,
-						chart: {
-							type: 'donut',
-							height: 300
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products', {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
 						},
-						labels: categories,
-						colors: colors,
-						dataLabels: {
-							enabled: false
-						},
-						stroke: {
-							width: 0
-						},
-						legend: {
-							show: false
-						},
-						responsive: [{
-							breakpoint: 1800,
-							options: {
-								chart: {
-									height: 200
-								},
-							}
-						}]
-					};
-
-					// Render grafik di container dengan id #kategoriterlarischart
-					const chart = new ApexCharts(document.querySelector("#kategoriterlarischart"), options);
-					chart.render();
-
-					// Generate legend dinamis
-					const legendContainer = document.getElementById("legendContainer");
-					legendContainer.innerHTML = '';
-
-					data.forEach((item, index) => {
-						const legendItem = document.createElement("div");
-						legendItem.classList.add("d-flex", "align-items-center", "justify-content-between", "mb-4");
-
-						legendItem.innerHTML = `
-						<span class="fs-18 font-w500">
-							<svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
-							</svg>
-							${item.category.name} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
-						</span>
-						<span class="fs-18 font-w600">${quantities[index]}</span>
-					`;
-
-						legendContainer.appendChild(legendItem);
 					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
 				} catch (error) {
-					console.error(error);
+					console.error('Error:', error);
 				}
-			}
-
-			fetchBestCategories();
+			})();
 		});
-	</script>
 
-	<script>
-		// URL API Anda
-		const apiUrl = 'https://ngolab.id/api/outlet/transactions/sales/weekly'; // Ganti dengan URL API Anda
+		// Tangkap elemen modal
+		var createButton = document.getElementById('createButton');
+		if (createButton) {
+			createButton.addEventListener('click', function() {
+				(async () => {
+					try {
+						// Get the file and other form data
+						const formData = new FormData();
+						formData.append('name', document.getElementById('productName').value);
+						formData.append('description', document.getElementById('productDescription').value);
+						formData.append('price', document.getElementById('productPrice').value);
+						formData.append('category_id', document.getElementById('category_id').value);
 
-		// Fungsi untuk mengambil data dari API dan memprosesnya
-		async function fetchDataAndRenderChart() {
-			try {
-				const response = await fetch(apiUrl);
-
-				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
-				}
-
-				const apiResponse = await response.json();
-				const formattedData = processData(apiResponse.data);
-
-				renderChart(formattedData);
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-		}
-
-		// Fungsi untuk memproses data API
-		const processData = (data) => {
-			const outletsData = {};
-
-			data.forEach(entry => {
-				for (const outlet in entry) {
-					if (outlet !== 'date') {
-						if (!outletsData[outlet]) {
-							outletsData[outlet] = [];
+						// Append the image file (ensure the input type="file")
+						const imageInput = document.getElementById('productImage');
+						if (imageInput.files.length > 0) {
+							formData.append('image', imageInput.files[0]); // Use the File object
+						} else {
+							throw new Error('No image file selected');
 						}
-						outletsData[outlet].push(parseInt(entry[outlet].total_sales, 10) || 0);
-					}
-				}
-			});
 
-			return Object.keys(outletsData).map(outlet => ({
-				name: outlet,
-				data: outletsData[outlet]
-			}));
-		};
+						// Perform the API request
+						const response = await fetch('http://127.0.0.1:8000/api/products', {
+							method: 'POST',
+							body: formData,
+							headers: {
+								'Authorization': document.cookie
+									.split('; ')
+									.find((row) => row.startsWith('auth_token='))
+									.split('=')[1], // Add token from cookies
+							},
+						});
 
-		// Fungsi untuk menampilkan grafik dengan ApexCharts
-		const renderChart = (formattedData) => {
-			var options = {
-				series: formattedData,
-				chart: {
-					type: 'bar',
-					height: 400,
-					toolbar: {
-						show: false,
-					},
-				},
-				plotOptions: {
-					bar: {
-						horizontal: false,
-						columnWidth: '57%',
-						endingShape: "rounded",
-						borderRadius: 12,
-					},
-				},
-				colors: ['#42FFFF', '#FFCF6D', '#FFA7D7'],
-				dataLabels: {
-					enabled: false,
-				},
-				legend: {
-					show: false,
-				},
-				xaxis: {
-					categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-					labels: {
-						style: {
-							colors: '#787878',
-							fontSize: '13px',
-							fontFamily: 'poppins',
-						},
-					},
-				},
-				yaxis: {
-					labels: {
-						style: {
-							colors: '#787878',
-							fontSize: '13px',
-							fontFamily: 'poppins',
-						},
-					},
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return "Rp. " + val.toLocaleString();
+						// Handle the response
+						if (!response.ok) {
+							const errorData = await response.json();
+							console.error('Error:', errorData);
+							throw new Error(`HTTP error! Status: ${response.status}`);
 						}
+						const data = await response.json();
+						console.log('Response:', data);
+
+						// Reload the page or perform other actions
+						location.reload();
+					} catch (error) {
+						console.error('Error:', error);
 					}
-				},
-			};
-
-			var chartBar1 = new ApexCharts(document.querySelector("#chartBarWeekly"), options);
-			chartBar1.render();
-		};
-
-		// Menjalankan fungsi untuk mengambil data dan menampilkan grafik saat halaman dimuat
-		document.addEventListener("DOMContentLoaded", fetchDataAndRenderChart);
-	</script>
-
-	<script>
-		// Fungsi untuk mendapatkan data dari API dan memperbarui elemen HTML
-		async function fetchSalesData() {
-			try {
-				// Mem-fetch data dari API
-				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
-				const data = await response.json();
-
-				// Memastikan respon dari API memiliki data
-				if (data && data.data && data.data.length > 0) {
-					// Misalnya kita ambil data dari hari terakhir (data terbaru)
-					const latestSalesData = data.data[data.data.length - 1];
-
-					// Update nilai total quantity di elemen HTML
-					document.getElementById('totalProjects').innerText = latestSalesData.total_quantity;
-					document.getElementById('totalSales').innerText = latestSalesData.total_sales;
-				}
-			} catch (error) {
-				console.error('Error fetching sales data:', error);
-			}
-		}
-
-		// Panggil fungsi saat halaman dimuat
-		window.onload = fetchSalesData;
-	</script>
-
-	<script>
-		async function fetchAndDisplayData() {
-			try {
-				// Fetch data dari API
-				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
-				const jsonData = await response.json();
-
-				// Ambil data terbaru dari array "data"
-				const latestData = jsonData.data[jsonData.data.length - 1];
-
-				// Update elemen HTML dengan data terbaru
-				document.getElementById('kortailQuantity').innerText = latestData.total_quantity;
-				document.getElementById('coWorkQuantity').innerText = latestData.total_quantity;
-				document.getElementById('expressQuantity').innerText = latestData.total_quantity;
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
-		}
-
-		// Panggil fungsi ketika halaman dimuat
-		window.onload = fetchAndDisplayData;
-	</script>
-
-	<script>
-		new Morris.Line({
-			// ID of the element in which to draw the chart.
-			element: 'myfirstchart',
-			// Chart data records -- each entry in this array corresponds to a point on
-			// the chart.
-			data: [{
-				year: '2008',
-				value: 20
-			},
-			{
-				year: '2009',
-				value: 10
-			},
-			{
-				year: '2010',
-				value: 5
-			},
-			{
-				year: '2011',
-				value: 5
-			},
-			{
-				year: '2012',
-				value: 20
-			}
-			],
-			// The name of the data record attribute that contains x-values.
-			xkey: 'year',
-			// A list of names of data record attributes that contain y-values.
-			ykeys: ['value'],
-			// Labels for the ykeys -- will be displayed when you hover over the
-			// chart.
-			labels: ['Value']
-		});
-
-		function cardsCenter() {
-			jQuery('.card-slider').owlCarousel({
-				loop: true,
-				margin: 0,
-				nav: true,
-				//center:true,
-				slideSpeed: 3000,
-				paginationSpeed: 3000,
-				dots: true,
-				navText: ['<i class="fas fa-arrow-left"></i>', '<i class="fas fa-arrow-right"></i>'],
-				responsive: {
-					0: {
-						items: 1
-					},
-					576: {
-						items: 1
-					},
-					800: {
-						items: 1
-					},
-					991: {
-						items: 1
-					},
-					1200: {
-						items: 1
-					},
-					1600: {
-						items: 1
-					}
-				}
-			})
-		}
-
-		jQuery(window).on('load', function () {
-			setTimeout(function () {
-				cardsCenter();
-			}, 1000);
-		});
-	</script>
-	<script>
-		// Fungsi untuk menampilkan chart Morris dengan data dari API
-		function renderMorrisChart(data, outlet_name) {
-			new Morris.Area({
-				element: 'jam_penjualan',
-				data: data, // Data dari fetch API dimasukkan di sini
-				lineColors: ['#123456', '#f5cf53', '#ff5733'], // Sesuaikan dengan warna yang diinginkan
-				xkey: 'hour',
-				ykeys: outlet_name, // Sesuaikan dengan nama outlet
-				labels: outlet_name, // Sesuaikan dengan nama outlet
-				pointSize: 0,
-				lineWidth: 0,
-				resize: true,
-				fillOpacity: 0.9,
-				behaveLikeLine: true,
-				gridLineColor: 'transparent',
-				hideHover: 'auto',
-				dateFormat: function (x) {
-					return x + ":00"; // Ini juga memastikan tampilan saat hover sesuai format jam
-				}
+				})();
 			});
 		}
 
-		// Ambil data dari API dan masukkan ke chart Morris
-		async function fetchData(url) {
-			try {
-				const response = await fetch(url); // Ganti dengan URL API Anda
-				const result = await response.json();
+		var exampleModal = document.getElementById('exampleModal');
+		var product_id = 0;
 
-				// Peta data dari respons API menjadi format Morris
-				const rawData = result.data;
-				const morrisData = [];
+		// Event ketika modal ditampilkan
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Tombol yang memicu modal
+			var button = event.relatedTarget;
 
-				// Proses data per hour untuk mendapatkan data yang sesuai dengan format Morris
-				rawData.transactions.forEach(item => {
-					// Temukan atau buat entri untuk setiap hour
-					let hourEntry = morrisData.find(entry => entry.hour === item.hour);
+			// Ambil data-id dari tombol
+			product_id = button.getAttribute('data-id');
 
-					if (!hourEntry) {
-						hourEntry = {
-							hour: item.hour
-						};
-						morrisData.push(hourEntry);
-					}
-
-					// Tambahkan data outlet untuk setiap hour
-					for (let [outlet, count] of Object.entries(item)) {
-						if (outlet !== 'hour') {
-							hourEntry[outlet] = count;
+			(async () => {
+				try {
+					const data = await callApi('/api/products?id=' + product_id, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
 						}
-					}
-				});
+					});
+					console.log('Response:', data);
 
-				// Panggil fungsi untuk render chart
-				renderMorrisChart(morrisData, rawData.outlet_name);
-			} catch (error) {
-				console.error("Error fetching data: ", error);
-			}
-		}
-
-		// Panggil fetchData untuk mengambil dan menampilkan data
-		fetchData('https://ngolab.id/api/transactions/total/hour');
-
-
-		document.getElementById('turnOnMonthly').addEventListener('change', async function () {
-			let url;
-			if (this.checked) {
-				url = `https://ngolab.id/api/transactions/total/hour?monthly=true`;
-			} else {
-				url = `https://ngolab.id/api/transactions/total/hour`
-			}
-			document.getElementById('jam_penjualan').innerHTML = '';
-
-			fetchData(url);
+					// Isi form dengan data yang didapat
+					document.getElementById('productDescriptionUpdate').value = data.data[0].description;
+					document.getElementById('productPriceUpdate').value = data.data[0].price;
+					document.getElementById('category_id_update').value = data.data[0].category_id;
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			})();
 		});
+
+		document.getElementById('updateButton').addEventListener('click', function() {
+			(async () => {
+				try {
+					// Get the file and other form data
+					const formData = new FormData();
+					const productNameUpdate = document.getElementById('productNameUpdate').value;
+
+					if (productNameUpdate !== null && productNameUpdate !== "" && productNameUpdate !== undefined) {
+						formData.append('name', productNameUpdate);
+					}
+					formData.append('description', document.getElementById('productDescriptionUpdate').value);
+					formData.append('price', document.getElementById('productPriceUpdate').value);
+					formData.append('category_id', document.getElementById('category_id_update').value);
+
+					// Append the image file (ensure the input type="file")
+					const imageInput = document.getElementById('productImageUpdate');
+					if (imageInput.files.length > 0) {
+						formData.append('image', imageInput.files[0]); // Use the File object
+					}
+
+					// Perform the API request
+					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
+						method: 'POST',
+						body: formData,
+						headers: {
+							'Authorization': document.cookie
+								.split('; ')
+								.find((row) => row.startsWith('auth_token='))
+								.split('=')[1], // Add token from cookies
+						},
+					});
+
+					// Handle the response
+					if (!response.ok) {
+						const errorData = await response.json();
+						console.error('Error:', errorData);
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log('Response:', data);
+
+					// Reload the page or perform other actions
+					location.reload();
+				} catch (error) {
+					console.error('Terjadi Error:', error);
+				}
+			})();
+		});
+		
 	</script>
 </body>
 
