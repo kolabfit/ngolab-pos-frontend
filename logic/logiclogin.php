@@ -50,10 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ../index.php');
         } elseif ($role_id == 2) {
             // Jika role_id adalah 2 (Cashier)
-            header('Location: ../cashier/cashier.php');
+            header('Location: ../cashier/index.php');
         } else if($role_id == 3) {
             // Jika role_id tidak diketahui
-            header('Location: ../operational/operational.php');
+            header('Location: ../operational/index.php');
         } else{
             header('Location: ../unrole.php');
         }

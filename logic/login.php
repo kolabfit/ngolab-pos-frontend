@@ -1,6 +1,6 @@
 <?php
 require_once('loginvalidation.php');
-Validation::isLogin($_COOKIE['auth_token'] ?? null, '../index.php', '../cashier/cashier.php', '../operational/operational.php', '../unrole.php');
+Validation::isLogin($_COOKIE['auth_token'] ?? null, '../index.php', '../cashier/index.php', '../operational/index.php', '../unrole.php');
 ?>
 
 <!doctype html>

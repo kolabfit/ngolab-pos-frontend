@@ -64,12 +64,14 @@ class Validation
                 header('Location: ' . $exiturl);
                 exit;
             }
+
+            return $result;
         }
     }
 
     public static function isLogin($auth_token, $adminUrl, $cashierUrl, $operationalUrl, $unroleUrl)
     {
-        if (isset($auth_token) == true &&  $auth_token !== null) {
+        if (isset($auth_token) == true && $auth_token !== null) {
             $url = 'http://127.0.0.1:8000/api/users';
 
             // Inisiasi cURL
@@ -90,7 +92,6 @@ class Validation
             // Decode response dari JSON ke array PHP
             $result = json_decode($response, true);
             curl_close($ch);
-            print_r($result['role_id']);
 
             if ($result['success'] == true && $result['data']['role_id'] == 1) {
                 header('Location: ' . $adminUrl);
@@ -107,7 +108,8 @@ class Validation
         }
     }
 
-    public static function getLoginUser($auth_token){
+    public static function getLoginUser($auth_token)
+    {
         $url = 'http://127.0.0.1:8000/api/users';
 
         // Inisiasi cURL
@@ -132,7 +134,8 @@ class Validation
         return $result;
     }
 
-    public static function logout($auth_token){
+    public static function logout($auth_token)
+    {
         $url = 'http://127.0.0.1:8000/api/users/logout';
 
         // Inisiasi cURL
@@ -156,5 +159,40 @@ class Validation
         curl_close($ch);
 
         return $result;
+    }
+
+    public static function validateLoginOperational($auth_token, $exiturl)
+    {
+        if (isset($auth_token) == false || $auth_token == null) {
+            header('Location: ' . $exiturl);
+        } else {
+            $url = 'http://127.0.0.1:8000/api/users';
+
+            // Inisiasi cURL
+            $ch = curl_init($url);
+
+            // Set opsi cURL untuk mengirim request POST dengan JSON
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            // Set header untuk memberitahu bahwa kita mengirimkan JSON
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'Authorization: ' . $_COOKIE['auth_token']
+            ]);
+
+            // Eksekusi cURL dan ambil respons dari API
+            $response = curl_exec($ch);
+            // Decode response dari JSON ke array PHP
+            $result = json_decode($response, true);
+            curl_close($ch);
+
+            if ($result['success'] != true || $result['data']['role_id'] != 3) {
+                header('Location: ' . $exiturl);
+                exit;
+            }
+
+            return $result;
+        }
     }
 }

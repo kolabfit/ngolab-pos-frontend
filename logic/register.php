@@ -34,12 +34,12 @@
             <div>
                 <ul class="flex space-x-4">
                     <li>
-                        <a href="login.html" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
+                        <a href="login.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
                             Login
                         </a>
                     </li>
                     <li>
-                        <a href="register.html" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
+                        <a href="register.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
                             Register
                         </a>
                     </li>
