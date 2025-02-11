@@ -2,7 +2,7 @@
 require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-categories';
+$url = 'https://ngolab.id/api/transactions/best-categories';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -23,7 +23,7 @@ $response = curl_exec($ch);
 $kategoriTerlaris = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/transactions/best-products';
+$url = 'https://ngolab.id/api/transactions/best-products';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -44,7 +44,7 @@ $response = curl_exec($ch);
 $produkterlaris = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/transactions/sales/day';
+$url = 'https://ngolab.id/api/transactions/sales/day';
 
 // Inisiasi cURL
 $ch = curl_init($url);
@@ -65,7 +65,7 @@ $response = curl_exec($ch);
 $salesInDay = json_decode($response, true);
 curl_close($ch);
 
-$url = 'http://127.0.0.1:8000/api/outlet/transactions/sales/day';
+$url = 'https://ngolab.id/api/outlet/transactions/sales/day';
 
 // Inisiasi cURL
 $ch = curl_init($url);

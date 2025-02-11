@@ -114,7 +114,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
         if (!confirmation) return;
 
         try {
-          const response = await fetch('http://127.0.0.1:8000/api/users/logout', {
+          const response = await fetch('https://ngolab.id/api/users/logout', {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
 
     async function fetchOrders() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/transactions');
+        const response = await fetch('https://ngolab.id/api/transactions');
 
         if (!response.ok) {
           throw new Error(`Gagal mengambil data: ${response.status} ${response.statusText}`);
@@ -231,7 +231,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
       const formattedStatus = statusMapping[newStatus] || newStatus;
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/transactions/detail/status', {
+        const response = await fetch('https://ngolab.id/api/transactions/detail/status', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

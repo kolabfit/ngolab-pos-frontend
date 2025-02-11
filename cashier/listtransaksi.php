@@ -163,7 +163,7 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
 
         async function fetchOutlets() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/outlets');
+                const response = await fetch('https://ngolab.id/api/outlets');
                 const data = await response.json();
 
                 if (data.success) {
@@ -200,7 +200,7 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
         }
 
         async function fetchTransactions() {
-            const apiUrl = `http://127.0.0.1:8000/api/transactions${currentOutletId ? `?outlet_id=${currentOutletId}` : ''}`;
+            const apiUrl = `https://ngolab.id/api/transactions${currentOutletId ? `?outlet_id=${currentOutletId}` : ''}`;
             console.log(`Fetching data from: ${apiUrl}`);
 
             try {
@@ -390,7 +390,7 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                 if (!confirmation) return;
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/users/logout', {
+                    const response = await fetch('https://ngolab.id/api/users/logout', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
