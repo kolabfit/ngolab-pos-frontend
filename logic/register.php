@@ -9,7 +9,6 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom Style for Background Animation -->
     <style>
         .animated-bg {
             background: linear-gradient(270deg, #1a1a2e, #090e1c, #ff7700, #000000);
@@ -28,23 +27,11 @@
     <!-- Navigation -->
     <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="login.html" class="text-2xl font-bold">
-                My App
-            </a>
-            <div>
-                <ul class="flex space-x-4">
-                    <li>
-                        <a href="login.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
-                            Login
-                        </a>
-                    </li>
-                    <li>
-                        <a href="register.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">
-                            Register
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <a href="login.html" class="text-2xl font-bold">My App</a>
+            <ul class="flex space-x-4">
+                <li><a href="login.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">Login</a></li>
+                <li><a href="register.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">Register</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -93,9 +80,74 @@
         </div>
     </main>
 
-    <!-- Tailwind JS (optional for animations) -->
     <script>
-        // Custom hover effects for buttons can be added via Tailwind's transition classes
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password-confirm').value;
+            const position = document.getElementById('position').value.trim();
+            const employeeId = document.getElementById('employee_id').value.trim();
+
+            // Validasi Form
+            if (name.length < 3) {
+                showNotification('Nama harus minimal 3 karakter', 'bg-red-500');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showNotification('Format email tidak valid', 'bg-red-500');
+                return;
+            }
+
+            if (password.length < 8) {
+                showNotification('Password harus minimal 8 karakter', 'bg-red-500');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showNotification('Password dan konfirmasi harus sama', 'bg-red-500');
+                return;
+            }
+
+            if (position === "" || employeeId === "") {
+                showNotification('Position dan Employee ID harus diisi', 'bg-red-500');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://ngolab.id/api/users/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, position, employee_id: employeeId })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showNotification('Registrasi berhasil! Redirecting...', 'bg-green-500');
+                    setTimeout(() => { window.location.href = '/logic/login.php'; }, 2000);
+                } else {
+                    showNotification(result.message || 'Registrasi gagal', 'bg-red-500');
+                }
+            } catch (error) {
+                showNotification('Terjadi kesalahan, coba lagi', 'bg-red-500');
+            }
+        });
+
+        function showNotification(message, bgColor) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `p-4 mb-4 text-center rounded-md ${bgColor}`;
+            notification.classList.remove('hidden');
+        }
+
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return re.test(email);
+        }
     </script>
 </body>
 </html>
