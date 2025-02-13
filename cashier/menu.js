@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Sending POST request with payload:", payload);
   
     // Kirim request ke API
-    fetch("http://127.0.0.1:8000/api/transactions/discount", {
+    fetch("https://ngolab.id/api/transactions/discount", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // console.log(jsonPayload);
 
     // 8. Kirim data ke API
-    fetch("http://127.0.0.1:8000/api/transactions", {
+    fetch("https://ngolab.id/api/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!confirmation) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/logout", {
+      const response = await fetch("https://ngolab.id/api/users/logout", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
