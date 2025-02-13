@@ -18,9 +18,9 @@ function fetchData($url)
 }
 
 // Fetch data
-$vouchersData = fetchData("http://127.0.0.1:8000/api/vouchers");
-$categoriesResponse = fetchData("http://127.0.0.1:8000/api/products/categories");
-$outletsResponse = fetchData("http://127.0.0.1:8000/api/outlets");
+$vouchersData = fetchData("https://ngolab.id/api/vouchers");
+$categoriesResponse = fetchData("https://ngolab.id/api/products/categories");
+$outletsResponse = fetchData("https://ngolab.id/api/outlets");
 
 // Prepare category and outlet maps
 $categoryMap = [];
@@ -996,9 +996,9 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 										}
 										
 										// Ambil data dari API
-										$vouchersResponse = getData("http://127.0.0.1:8000/api/vouchers");
-										$categoriesResponse = getData("http://127.0.0.1:8000/api/products/categories");
-										$outletsResponse = getData("http://127.0.0.1:8000/api/outlets");
+										$vouchersResponse = getData("https://ngolab.id/api/vouchers");
+										$categoriesResponse = getData("https://ngolab.id/api/products/categories");
+										$outletsResponse = getData("https://ngolab.id/api/outlets");
 										
 										// Memastikan data 'vouchers' ada
 										$vouchers = $vouchersResponse['data'] ?? [];
@@ -1047,7 +1047,7 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 														let row = document.getElementById("row-" + voucherId);
 
 														if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-															fetch(`http://127.0.0.1:8000/api/vouchers/${voucherId}`, {
+															fetch(`https://ngolab.id/api/vouchers/${voucherId}`, {
 																method: "DELETE",
 																headers: {
 																	"Content-Type": "application/json"
@@ -1120,7 +1120,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Voucher
-$apiUrlVoucher = 'http://127.0.0.1:8000/api/vouchers';
+$apiUrlVoucher = 'https://ngolab.id/api/vouchers';
 
 // Aktifkan error reporting untuk debugging
 error_reporting(E_ALL);
@@ -1270,8 +1270,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     async function loadDropdowns() {
-        const categories = await fetchData("http://127.0.0.1:8000/api/products/categories");
-        const outlets = await fetchData("http://127.0.0.1:8000/api/outlets");
+        const categories = await fetchData("https://ngolab.id/api/products/categories");
+        const outlets = await fetchData("https://ngolab.id/api/outlets");
         
         const categorySelect = document.getElementById("voucherCategory");
         categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
@@ -1323,7 +1323,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
         
         try {
-			const response = await fetch("http://127.0.0.1:8000/api/vouchers", {
+			const response = await fetch("https://ngolab.id/api/vouchers", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

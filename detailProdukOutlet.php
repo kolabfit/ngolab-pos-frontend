@@ -4,7 +4,7 @@ Validation::validateLoginAdmin($_COOKIE['auth_token'], './logic/login.php');
 
 // Ambil data dari API
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/api/outlets");
+curl_setopt($ch, CURLOPT_URL, "https://ngolab.id/api/outlets");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer your_token_here', // Ganti dengan token yang valid jika diperlukan
@@ -999,7 +999,7 @@ if ($outlets['success']) {
                                             <?php
                                             $outletId = $_GET['outletId'];
                                             // Fetch data from API
-                                            $url = "http://127.0.0.1:8000/api/outlets/" . $outletId . "/products";
+                                            $url = "https://ngolab.id/api/outlets/" . $outletId . "/products";
                                             $products = [];
                                             $response = @file_get_contents($url);
 

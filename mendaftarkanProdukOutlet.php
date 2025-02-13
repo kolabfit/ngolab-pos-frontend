@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola produk
-$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
+$apiUrl = 'https://ngolab.id/api/products/categories';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -974,7 +974,7 @@ if ($response === false) {
                             <div class="card-body">
                             <?php
                             // URL API Produk
-                            $apiUrlProducts = 'http://127.0.0.1:8000/api/products';
+                            $apiUrlProducts = 'https://ngolab.id/api/products';
 
                             // Inisialisasi cURL
                             $curlProducts = curl_init($apiUrlProducts);
@@ -1017,7 +1017,7 @@ if ($response === false) {
                                 ]);
                             
                                 // URL API untuk assign product ke outlet
-                                $apiUrlAssign = 'http://127.0.0.1:8000/api/outlets/assign-product';
+                                $apiUrlAssign = 'https://ngolab.id/api/outlets/assign-product';
                             
                                 // Inisialisasi cURL
                                 $curlAssign = curl_init($apiUrlAssign);
@@ -1170,7 +1170,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('http://127.0.0.1:8000/api/products', {
+					const response = await fetch('https://ngolab.id/api/products', {
 						method: 'POST',
 						body: formData,
 						headers: {
@@ -1220,7 +1220,7 @@ if ($response === false) {
 						}
 
 						// Perform the API request
-						const response = await fetch('http://127.0.0.1:8000/api/products', {
+						const response = await fetch('https://ngolab.id/api/products', {
 							method: 'POST',
 							body: formData,
 							headers: {
@@ -1302,7 +1302,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
+					const response = await fetch('https://ngolab.id/api/products/' + product_id, {
 						method: 'POST',
 						body: formData,
 						headers: {

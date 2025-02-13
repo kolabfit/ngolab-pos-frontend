@@ -7,12 +7,12 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null,);
 $token = $_COOKIE['auth_token'];
 
 // Ambil data outlet dari API
-$outletApiUrl = 'http://127.0.0.1:8000/api/outlets';
+$outletApiUrl = 'https://ngolab.id/api/outlets';
 $outletResponse = file_get_contents($outletApiUrl);
 $outlets = json_decode($outletResponse, true)['data'] ?? [];
 
 // Ambil data produk dari API
-$productApiUrl = 'http://127.0.0.1:8000/api/outlets/products';
+$productApiUrl = 'https://ngolab.id/api/outlets/products';
 $productResponse = file_get_contents($productApiUrl);
 $outletProducts = json_decode($productResponse, true)['data'] ?? [];
 ?>

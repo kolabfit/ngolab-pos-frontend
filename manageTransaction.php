@@ -1208,8 +1208,8 @@
 
     <script>
         $(document).ready(function () {
-            const apiTransactionURL = "http://127.0.0.1:8000/api/transactions";
-            const apiOutletURL = "http://127.0.0.1:8000/api/outlets";
+            const apiTransactionURL = "https://ngolab.id/api/transactions";
+            const apiOutletURL = "https://ngolab.id/api/outlets";
             const table = $('#transactionTable').DataTable();
 
             let outletMap = {};

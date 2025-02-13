@@ -3,7 +3,7 @@ require_once('./logic/loginvalidation.php');
 Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
 // URL API Kelola produk
-$apiUrl = 'http://127.0.0.1:8000/api/products/categories';
+$apiUrl = 'https://ngolab.id/api/products/categories';
 
 // Inisialisasi cURL
 $curl = curl_init($apiUrl);
@@ -983,7 +983,7 @@ if ($response === false) {
 										<tbody>
 											<?php
 											// Fetch data from API
-											$url = "http://127.0.0.1:8000/api/products";
+											$url = "https://ngolab.id/api/products";
 											$response = file_get_contents($url);
 											$products = json_decode($response, true);
 											?>
@@ -1226,7 +1226,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('http://127.0.0.1:8000/api/products', {
+					const response = await fetch('https://ngolab.id/api/products', {
 						method: 'POST',
 						body: formData,
 						headers: {
@@ -1308,7 +1308,7 @@ if ($response === false) {
 					}
 
 					// Perform the API request
-					const response = await fetch('http://127.0.0.1:8000/api/products/' + product_id, {
+					const response = await fetch('https://ngolab.id/api/products/' + product_id, {
 						method: 'POST',
 						body: formData,
 						headers: {
@@ -1358,7 +1358,7 @@ if ($response === false) {
 							deleteModal.hide();
 
 							// Kirim permintaan DELETE ke API
-							const response = await fetch(`http://127.0.0.1:8000/api/products/${productId}`, {
+							const response = await fetch(`https://ngolab.id/api/products/${productId}`, {
 								method: 'DELETE',
 								headers: {
 									'Authorization': document.cookie

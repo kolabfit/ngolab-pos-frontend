@@ -214,7 +214,7 @@ $token = $_COOKIE['auth_token'];
 
     <!-- PHP untuk Fetch Data API -->
     <?php
-    $apiUrl = 'http://127.0.0.1:8000/api/transactions';
+    $apiUrl = 'https://ngolab.id/api/transactions';
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -269,7 +269,7 @@ $token = $_COOKIE['auth_token'];
             // Fungsi untuk memuat saldo hari ini berdasarkan outlet
             async function loadTodayBalances() {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/balances/today?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`https://ngolab.id/api/balances/today?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ $token = $_COOKIE['auth_token'];
             // Fungsi untuk memuat total transaksi hari ini berdasarkan outlet
             async function loadTodayTransactions() {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/outlet/transactions/sales/day?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`https://ngolab.id/api/outlet/transactions/sales/day?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ $token = $_COOKIE['auth_token'];
             // Fungsi untuk memuat list transaksi berdasarkan outlet
             async function loadTransactionList() {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/transactions?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`https://ngolab.id/api/transactions?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -407,7 +407,7 @@ $token = $_COOKIE['auth_token'];
             // Fungsi untuk memuat daftar outlet
             async function loadOutlets() {
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/outlets', {
+                    const response = await fetch('https://ngolab.id/api/outlets', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -483,7 +483,7 @@ $token = $_COOKIE['auth_token'];
                 }
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/balances/open', {
+                    const response = await fetch('https://ngolab.id/api/balances/open', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -574,7 +574,7 @@ $token = $_COOKIE['auth_token'];
                 }
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/balances/close', {
+                    const response = await fetch('https://ngolab.id/api/balances/close', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -643,7 +643,7 @@ $token = $_COOKIE['auth_token'];
                 }
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/users', {
+                    const response = await fetch('https://ngolab.id/api/users', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -684,7 +684,7 @@ $token = $_COOKIE['auth_token'];
                 if (!confirmation) return;
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/users/logout', {
+                    const response = await fetch('https://ngolab.id/api/users/logout', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -800,7 +800,7 @@ $token = $_COOKIE['auth_token'];
             async function loadTransactions() {
                 try {
                     console.log('Loading transactions...'); // Log awal
-                    const response = await fetch('http://127.0.0.1:8000/api/transactions', {
+                    const response = await fetch('https://ngolab.id/api/transactions', {
                         headers: {
                             'Authorization': `${getCookie('auth_token')}`
                         }
