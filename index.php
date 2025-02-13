@@ -112,6 +112,8 @@ curl_close($ch);
 
 	<!-- Style css -->
 	<link href="/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 <body data-page="index.php">
@@ -990,11 +992,61 @@ curl_close($ch);
 		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
-				<ul class="metismenu" id="menu">
-					<!-- Will be generated -->
+				<ul class="metismenu text-start" id="sidebar-menu">
+					<!-- Ikon Home -->
+					<li>
+						<a href="index.php">
+							<img src="/images/icons/home.png" alt="Home Icon" width="24" height="24">
+							<span>Home</span>
+						</a>
+					</li>
+
+					<!-- Ikon Users-Cog -->
+					<li>
+						<a href="manageUserRole.php">
+							<img src="/images/icons/user-gear.png" alt="Users Cog Icon" width="24" height="24">
+							<span>Kelola User & Role</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="manageProductCategory.php">
+							<img src="/images/icons/folder-open.png" alt="Folder Icon" width="24" height="24">
+							<span>Kelola Kategori Produk</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="manageProduct.php">
+							<img src="/images/icons/box-open.png" alt="Box Icon" width="24" height="24">
+							<span>Kelola Produk</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="manageVoucher.php">
+							<img src="/images/icons/ticket.png" alt="Gift Icon" width="24" height="24">
+							<span>Kelola Voucher</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="manageTransaction.php">
+							<img src="/images/icons/receipt.png" alt="Transaction Icon" width="24" height="24">
+							<span>Kelola Transaksi</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="manageOutlet.php">
+							<img src="/images/icons/shop.png" alt="Outlet Icon" width="24" height="24">
+							<span>Kelola Outlet</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
+
 		<!--**********************************
 			Sidebar end
 		***********************************-->
