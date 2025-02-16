@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($result['success']) && $result['success'] && isset($result['data']['token'])) {
         // Simpan token ke dalam cookie (berlaku 1 jam)
         $token = $result['data']['token'];
-        setcookie('auth_token', $token, time() + 3600, '/');
+        setcookie('auth_token', $token, time() + 28800, '/');
         print_r($result);
         // Ambil role_id dari user
         $role_id = $result['data']['user']['role_id'];

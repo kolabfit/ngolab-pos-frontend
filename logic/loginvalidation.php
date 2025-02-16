@@ -1,236 +1,138 @@
 <?php
 class Validation
 {
+    // Function to validate login for a specific role
+    public static function validateLogin($auth_token, $role_id, $exiturl)
+    {
+        if (empty($auth_token)) {
+            header('Location: ' . $exiturl);
+            exit;
+        }
+
+        $url = 'https://ngolab.id/api/users';
+
+        // cURL initialization
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Authorization: ' . $auth_token
+        ]);
+
+        // Execute and decode response
+        $response = curl_exec($ch);
+        $result = json_decode($response, true);
+        curl_close($ch);
+
+        if ($result['success'] !== true || $result['data']['role_id'] != $role_id) {
+            header('Location: ' . $exiturl);
+            exit;
+        }
+
+        return $result;
+    }
+
+    // Specific methods for each role
     public static function validateLoginAdmin($auth_token, $exiturl)
     {
-        if (isset($auth_token) == false || $auth_token == null) {
-            header('Location: ' . $exiturl);
-        } else {
-            $url = 'https://ngolab.id/api/users';
-
-            // Inisiasi cURL
-            $ch = curl_init($url);
-
-            // Set opsi cURL untuk mengirim request POST dengan JSON
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            // Set header untuk memberitahu bahwa kita mengirimkan JSON
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Accept: application/json',
-                'Authorization: ' . $auth_token
-            ]);
-
-            // Eksekusi cURL dan ambil respons dari API
-            $response = curl_exec($ch);
-            // Decode response dari JSON ke array PHP
-            $result = json_decode($response, true);
-            curl_close($ch);
-
-            if ($result['success'] != true || $result['data']['role_id'] != 1) {
-                header('Location: ' . $exiturl);
-                exit;
-            }
-        }
+        return self::validateLogin($auth_token, 1, $exiturl);  // Admin role ID is 1
     }
 
     public static function validateLoginCashier($auth_token, $exiturl)
     {
-        if (isset($auth_token) == false || $auth_token == null) {
-            header('Location: ' . $exiturl);
-        } else {
-            $url = 'https://ngolab.id/api/users';
-
-            // Inisiasi cURL
-            $ch = curl_init($url);
-
-            // Set opsi cURL untuk mengirim request POST dengan JSON
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            // Set header untuk memberitahu bahwa kita mengirimkan JSON
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Accept: application/json',
-                'Authorization: ' . $_COOKIE['auth_token']
-            ]);
-
-            // Eksekusi cURL dan ambil respons dari API
-            $response = curl_exec($ch);
-            // Decode response dari JSON ke array PHP
-            $result = json_decode($response, true);
-            curl_close($ch);
-
-            if ($result['success'] != true || $result['data']['role_id'] != 2) {
-                header('Location: ' . $exiturl);
-                exit;
-            }
-
-            return $result;
-        }
+        return self::validateLogin($auth_token, 2, $exiturl);  // Cashier role ID is 2
     }
 
+    public static function validateLoginOperational($auth_token, $exiturl)
+    {
+        return self::validateLogin($auth_token, 3, $exiturl);  // Operational role ID is 3
+    }
+
+    public static function validateLoginUnrole($auth_token, $exiturl)
+    {
+        return self::validateLogin($auth_token, 404, $exiturl);  // Unrole ID is 404
+    }
+
+    // Checking user login and redirecting based on their role
     public static function isLogin($auth_token, $adminUrl, $cashierUrl, $operationalUrl, $unroleUrl)
     {
-        if (isset($auth_token) == true && $auth_token !== null) {
+        if (isset($auth_token) && !empty($auth_token)) {
             try {
                 $url = 'https://ngolab.id/api/users';
-
-                // Inisiasi cURL
                 $ch = curl_init($url);
-
-                // Set opsi cURL untuk mengirim request POST dengan JSON
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                // Set header untuk memberitahu bahwa kita mengirimkan JSON
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     'Content-Type: application/json',
                     'Accept: application/json',
                     'Authorization: ' . $auth_token
                 ]);
 
-                // Eksekusi cURL dan ambil respons dari API
                 $response = curl_exec($ch);
-                // Decode response dari JSON ke array PHP
                 $result = json_decode($response, true);
                 curl_close($ch);
 
-                if ($result['success'] == true && $result['data']['role_id'] == 1) {
-                    header('Location: ' . $adminUrl);
-                    exit;
-                } else if ($result['success'] == true && $result['data']['role_id'] == 2) {
-                    header('Location: ' . $cashierUrl);
-                    exit;
-                } else if ($result['success'] == true && $result['data']['role_id'] == 3) {
-                    header('Location: ' . $operationalUrl);
-                    exit;
+                // Redirecting based on the user's role
+                if ($result['success'] === true) {
+                    switch ($result['data']['role_id']) {
+                        case 1: // Admin
+                            header('Location: ' . $adminUrl);
+                            exit;
+                        case 2: // Cashier
+                            header('Location: ' . $cashierUrl);
+                            exit;
+                        case 3: // Operational
+                            header('Location: ' . $operationalUrl);
+                            exit;
+                        default:
+                            header('Location: ' . $unroleUrl);
+                            exit;
+                    }
                 }
-            } catch (\Throwable $th) {
-                echo $th;
+            } catch (Exception $e) {
+                // Handle exception
+                echo $e->getMessage();
             }
-
         }
     }
 
+    // Fetching logged-in user's data
     public static function getLoginUser($auth_token)
     {
         $url = 'https://ngolab.id/api/users';
-
-        // Inisiasi cURL
         $ch = curl_init($url);
-
-        // Set opsi cURL untuk mengirim request POST dengan JSON
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // Set header untuk memberitahu bahwa kita mengirimkan JSON
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
             'Authorization: ' . $auth_token
         ]);
 
-        // Eksekusi cURL dan ambil respons dari API
         $response = curl_exec($ch);
-        // Decode response dari JSON ke array PHP
         $result = json_decode($response, true);
         curl_close($ch);
 
         return $result;
     }
 
+    // Logout the user
     public static function logout($auth_token)
     {
         $url = 'https://ngolab.id/api/users/logout';
-
-        // Inisiasi cURL
         $ch = curl_init($url);
-
-        // Set opsi cURL untuk mengirim request POST dengan JSON
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-
-        // Set header untuk memberitahu bahwa kita mengirimkan JSON
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
             'Authorization: ' . $auth_token
         ]);
 
-        // Eksekusi cURL dan ambil respons dari API
         $response = curl_exec($ch);
-        // Decode response dari JSON ke array PHP
         $result = json_decode($response, true);
         curl_close($ch);
 
         return $result;
     }
-
-    public static function validateLoginOperational($auth_token, $exiturl)
-    {
-        if (isset($auth_token) == false || $auth_token == null) {
-            header('Location: ' . $exiturl);
-        } else {
-            $url = 'https://ngolab.id/api/users';
-
-            // Inisiasi cURL
-            $ch = curl_init($url);
-
-            // Set opsi cURL untuk mengirim request POST dengan JSON
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            // Set header untuk memberitahu bahwa kita mengirimkan JSON
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Accept: application/json',
-                'Authorization: ' . $_COOKIE['auth_token']
-            ]);
-
-            // Eksekusi cURL dan ambil respons dari API
-            $response = curl_exec($ch);
-            // Decode response dari JSON ke array PHP
-            $result = json_decode($response, true);
-            curl_close($ch);
-
-            if ($result['success'] != true || $result['data']['role_id'] != 3) {
-                header('Location: ' . $exiturl);
-                exit;
-            }
-
-            return $result;
-        }
-    }
-
-    public static function validateLoginUnrole($auth_token, $exiturl)
-    {
-        if (isset($auth_token) == false || $auth_token == null) {
-            header('Location: ' . $exiturl);
-        } else {
-            $url = 'https://ngolab.id/api/users';
-
-            // Inisiasi cURL
-            $ch = curl_init($url);
-
-            // Set opsi cURL untuk mengirim request POST dengan JSON
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            // Set header untuk memberitahu bahwa kita mengirimkan JSON
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Accept: application/json',
-                'Authorization: ' . $_COOKIE['auth_token']
-            ]);
-
-            // Eksekusi cURL dan ambil respons dari API
-            $response = curl_exec($ch);
-            // Decode response dari JSON ke array PHP
-            $result = json_decode($response, true);
-            curl_close($ch);
-
-            if ($result['success'] != true || $result['data']['role_id'] != 404) {
-                header('Location: ' . $exiturl);
-                exit;
-            }
-
-            return $result;
-        }
-    }
 }
+?>

@@ -20,7 +20,7 @@ $user = Validation::validateLoginUnrole($_COOKIE['auth_token'] ?? null, '../logi
 
         /* DINDING GUDANG REALISTIS */
         body {
-            cursor:none;
+            cursor: none;
             background: linear-gradient(180deg, #4e3b2a 0%, #24150b 100%);
             background-size: cover;
             background-attachment: fixed;
@@ -324,6 +324,78 @@ $user = Validation::validateLoginUnrole($_COOKIE['auth_token'] ?? null, '../logi
                 opacity: 0;
             }
         }
+
+        /* Kontainer utama untuk logout dan loading bar */
+        #logoutBtn,
+        #cartIcon,
+        #loadingBar {
+            position: fixed;
+            bottom: 10px;
+            /* Memberikan jarak dari bawah */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+
+        /* Kontainer logout */
+        #logoutBtn {
+            display: flex;
+            align-items: center;
+            /* Menjaga ikon dan teks tetap sejajar secara vertikal */
+            justify-content: center;
+            /* Opsional: menyelaraskan ikon dan teks di tengah */
+            position: fixed;
+            bottom: 10px;
+            /* Jarak dari bawah */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+
+        /* Ikon Logout */
+        #icon-logout {
+            transition: transform 0.5s ease;
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+
+        }
+
+
+        /* Teks logout */
+        #logoutBtn span {
+            margin-left: 8px;
+            /* Memberikan jarak antara ikon dan teks */
+        }
+
+        /* Ikon Keranjang Belanja */
+        .cart-icon {
+            width: 30px;
+            height: 30px;
+            transition: opacity 1s ease-in-out;
+            /* Gunakan opacity untuk transisi */
+            opacity: 0;
+            /* Mulai dengan ikon tersembunyi */
+            visibility: hidden;
+            /* Menggunakan visibility sebagai pengganti display */
+        }
+
+        /* Animasi bar loading */
+        .loading-bar {
+            position: absolute;
+            width: 0;
+            height: 4px;
+            background-color: #28a745;
+            transition: width 2s ease;
+            z-index: -1;
+        }
+
+        /* Animasi muncul */
+        .cart-icon.show {
+            opacity: 1;
+            /* Menampilkan ikon */
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -343,10 +415,75 @@ $user = Validation::validateLoginUnrole($_COOKIE['auth_token'] ?? null, '../logi
     <div class="floor"></div>
     <div class="dirt-effect"></div>
 
+    <a href="/logic/logout.php" class="dropdown-item ai-icon" id="logoutBtn">
+        <!-- Ikon Keranjang Belanja Baru -->
+        <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+            width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l3 9h8l3-9h2M3 3l3 18h12l3-18M7 16h10M9 20h6" />
+        </svg>
+        <span class="ms-2">Logout</span>
+    </a>
+
+
+    <!-- Elemen ikon keranjang belanja -->
+    <svg id="cartIcon" class="cart-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l3 9h8l3-9h2M3 3l3 18h12l3-18M7 16h10M9 20h6" />
+    </svg>
+
+    <!-- Elemen bar loading -->
+    <div id="loadingBar" class="loading-bar"></div>
+
+
+
+
+
 
 
 
     <script>
+        // Menambahkan kelas .show untuk menampilkan ikon
+        document.getElementById("cartIcon").classList.add("show");
+
+        // Menghapus kelas .show untuk menyembunyikan ikon
+        document.getElementById("cartIcon").classList.remove("show");
+
+        document.getElementById('logoutBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah link langsung diarahkan
+
+            var iconLogout = document.getElementById('icon-logout');
+            var cartIcon = document.getElementById('cartIcon');
+            var loadingBar = document.getElementById('loadingBar');
+            var logoutText = document.querySelector('#logoutBtn span'); // Mengambil teks logout
+
+            // Mengubah teks menjadi "Tunggu, harap bersabar"
+            logoutText.textContent = 'Tunggu, harap bersabar';
+
+            // Menambahkan animasi hilang pada ikon logout
+            iconLogout.style.opacity = '0'; // Membuat ikon logout transparan
+            iconLogout.style.transform = 'scale(0)'; // Menghilangkan ukuran ikon logout
+
+            // Menampilkan ikon keranjang dan memulai animasi gerakan keranjang
+            setTimeout(function() {
+                cartIcon.style.display = 'block'; // Menampilkan ikon keranjang
+                cartIcon.style.animation = 'cartMove 2s ease-in-out forwards'; // Memulai animasi gerakan keranjang belanja
+            }, 500); // Delay agar animasi hilang pada ikon logout selesai dulu
+
+            // Menampilkan bar loading
+            loadingBar.style.width = '100%'; // Mengaktifkan bar loading
+            loadingBar.style.transition = 'width 2s ease'; // Menambahkan efek animasi untuk bar
+
+            // Setelah animasi selesai, mengarahkan pengguna ke halaman logout
+            setTimeout(function() {
+                window.location.href = '/logic/logout.php'; // Redirect setelah animasi
+            }, 2500); // Waktu sama dengan durasi animasi loading dan cart move
+        });
+
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => {
                 document.getElementById("message").classList.remove("opacity-0", "translate-y-4");

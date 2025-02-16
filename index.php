@@ -147,7 +147,7 @@ curl_close($ch);
 				</div>
 			</a>
 			<div class="nav-control">
-				<div class="hamburger">
+				<div class="hamburger" id="hamburger-btn">
 					<span class="line"></span><span class="line"></span><span class="line"></span>
 				</div>
 			</div>
@@ -770,13 +770,13 @@ curl_close($ch);
 							</div>
 						</div>
 						<ul class="navbar-nav header-right">
-							<li class="nav-item d-flex align-items-center">
+							<!-- <li class="nav-item d-flex align-items-center">
 								<div class="input-group search-area">
 									<input type="text" class="form-control" placeholder="Search here...">
 									<span class="input-group-text"><a href="javascript:void(0)"><i
 												class="flaticon-381-search-2"></i></a></span>
 								</div>
-							</li>
+							</li> -->
 							<li class="nav-item dropdown notification_dropdown">
 								<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
 									<svg width="28" height="28" viewbox="0 0 28 28" fill="none"
@@ -868,7 +868,7 @@ curl_close($ch);
 							</li>
 
 							<li class="nav-item dropdown notification_dropdown">
-								<a class="nav-link " href="javascript:void(0);" data-bs-toggle="dropdown">
+								<!-- <a class="nav-link " href="javascript:void(0);" data-bs-toggle="dropdown">
 									<svg width="28" height="28" viewbox="0 0 28 28" fill="none"
 										xmlns="http://www.w3.org/2000/svg">
 										<path
@@ -879,7 +879,7 @@ curl_close($ch);
 											fill="#717579"></path>
 									</svg>
 									<span class="badge light text-white bg-success rounded-circle">!</span>
-								</a>
+								</a> -->
 								<div class="dropdown-menu dropdown-menu-end">
 									<div id="DZ_W_TimeLine02"
 										class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
@@ -987,65 +987,75 @@ curl_close($ch);
 			Header end
 		***********************************-->
 
+
+
 		<!--**********************************
 			Sidebar start
 		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
 				<ul class="metismenu text-start" id="sidebar-menu">
-					<!-- Ikon Home -->
 					<li>
 						<a href="index.php">
 							<img src="/images/icons/home.png" alt="Home Icon" width="24" height="24">
-							<span>Home</span>
+							<span class="menu-text">Home</span>
 						</a>
 					</li>
-
-					<!-- Ikon Users-Cog -->
 					<li>
 						<a href="manageUserRole.php">
 							<img src="/images/icons/user-gear.png" alt="Users Cog Icon" width="24" height="24">
-							<span>Kelola User & Role</span>
+							<span class="menu-text">Kelola User & Role</span>
 						</a>
 					</li>
-
 					<li>
 						<a href="manageProductCategory.php">
 							<img src="/images/icons/folder-open.png" alt="Folder Icon" width="24" height="24">
-							<span>Kelola Kategori Produk</span>
+							<span class="menu-text">Kelola Kategori Produk</span>
 						</a>
 					</li>
-
 					<li>
 						<a href="manageProduct.php">
 							<img src="/images/icons/box-open.png" alt="Box Icon" width="24" height="24">
-							<span>Kelola Produk</span>
+							<span class="menu-text">Kelola Produk</span>
 						</a>
 					</li>
-
 					<li>
 						<a href="manageVoucher.php">
 							<img src="/images/icons/ticket.png" alt="Gift Icon" width="24" height="24">
-							<span>Kelola Voucher</span>
+							<span class="menu-text">Kelola Voucher</span>
 						</a>
 					</li>
-
 					<li>
 						<a href="manageTransaction.php">
 							<img src="/images/icons/receipt.png" alt="Transaction Icon" width="24" height="24">
-							<span>Kelola Transaksi</span>
+							<span class="menu-text">Kelola Transaksi</span>
 						</a>
 					</li>
-
 					<li>
 						<a href="manageOutlet.php">
 							<img src="/images/icons/shop.png" alt="Outlet Icon" width="24" height="24">
-							<span>Kelola Outlet</span>
+							<span class="menu-text">Kelola Outlet</span>
 						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
+
+		<style>
+			.menu-text {
+				display: none;
+			}
+
+			.menu-expanded .menu-text {
+				display: inline;
+			}
+		</style>
+
+		<script>
+			document.getElementById('hamburger-btn').addEventListener('click', function() {
+				document.getElementById('sidebar-menu').classList.toggle('menu-expanded');
+			});
+		</script>
 
 		<!--**********************************
 			Sidebar end
@@ -1098,24 +1108,27 @@ curl_close($ch);
 																Today</span>
 														</div>
 													</div>
+													<?php
+													$outletColors = ['#42FFFF', '#6E8E59', '#4B164C']; 
+													$index = 0;
+
+													?>
 													<div class="d-flex">
 														<?php foreach ($salesInDayPerOutlet['data'] as $sales): ?>
 															<div class="d-flex me-5">
 																<div class="mt-2">
-																	<svg width="13" height="13" viewbox="0 0 13 13"
-																		fill="none" xmlns="http://www.w3.org/2000/svg">
-																		<circle cx="6.5" cy="6.5" r="6.5" fill="#42FFFF">
-																		</circle>
+																	<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<circle cx="6.5" cy="6.5" r="6.5" fill="<?= $outletColors[$index % count($outletColors)] ?>"></circle>
 																	</svg>
 																</div>
 																<div class="ms-3">
 																	<h4 id="kortailQuantity" class="fs-24 font-w700">
 																		<?= number_format($sales['total_sales'], 0, ',', '.') ?>
 																	</h4>
-																	<span
-																		class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
+																	<span class="fs-16 font-w400 d-block"><?= $sales['outlet_name'] ?></span>
 																</div>
 															</div>
+															<?php $index++; ?>
 														<?php endforeach; ?>
 													</div>
 
@@ -1315,7 +1328,7 @@ curl_close($ch);
 	<script src="/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 	<script src="/js/plugins-init/chartist-init.js"></script>
 	<script>
-		document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function() {
 			async function fetchBestCategories() {
 				try {
 					// Panggil API dan parsing hasilnya sebagai JSON
@@ -1323,9 +1336,27 @@ curl_close($ch);
 					const result = await response.json();
 					const data = result.data;
 
-					// Ambil nama kategori dan jumlah total dari setiap kategori
-					const categories = data.map(item => item.category.name);
-					const quantities = data.map(item => parseInt(item.total_quantity));
+					// Validasi apakah `data` ada dan bukan array kosong
+					if (!data || !Array.isArray(data) || data.length === 0) {
+						console.error("Data kategori tidak ditemukan atau kosong.");
+						return;
+					}
+
+					// Ambil nama kategori dan jumlah total dengan validasi
+					const categories = [];
+					const quantities = [];
+
+					data.forEach(item => {
+						if (item.category && item.category.name) {
+							categories.push(item.category.name);
+							quantities.push(parseInt(item.total_quantity) || 0);
+						}
+					});
+
+					if (categories.length === 0 || quantities.length === 0) {
+						console.error("Tidak ada kategori valid yang ditemukan dalam data API.");
+						return;
+					}
 
 					// Warna untuk setiap kategori
 					const colors = ['#886CC0', '#26E023', '#61CFF1', '#FFDA7C', '#FF86B1'];
@@ -1359,36 +1390,51 @@ curl_close($ch);
 					};
 
 					// Render grafik di container dengan id #kategoriterlarischart
-					const chart = new ApexCharts(document.querySelector("#kategoriterlarischart"), options);
+					const chartContainer = document.querySelector("#kategoriterlarischart");
+					if (!chartContainer) {
+						console.error("Elemen #kategoriterlarischart tidak ditemukan!");
+						return;
+					}
+
+					const chart = new ApexCharts(chartContainer, options);
 					chart.render();
 
 					// Generate legend dinamis
 					const legendContainer = document.getElementById("legendContainer");
-					legendContainer.innerHTML = '';
+					if (!legendContainer) {
+						console.error("Elemen #legendContainer tidak ditemukan!");
+						return;
+					}
 
-					data.forEach((item, index) => {
+					legendContainer.innerHTML = ''; // Kosongkan legend sebelum mengisinya
+
+					categories.forEach((category, index) => {
+						// Buat elemen HTML untuk setiap kategori
 						const legendItem = document.createElement("div");
 						legendItem.classList.add("d-flex", "align-items-center", "justify-content-between", "mb-4");
 
 						legendItem.innerHTML = `
-						<span class="fs-18 font-w500">
-							<svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
-							</svg>
-							${item.category.name} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
-						</span>
-						<span class="fs-18 font-w600">${quantities[index]}</span>
-					`;
+                    <span class="fs-18 font-w500">
+                        <svg class="me-3" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect width="20" height="20" rx="6" fill="${colors[index % colors.length]}"></rect>
+                        </svg>
+                        ${category} (${((quantities[index] / quantities.reduce((a, b) => a + b, 0)) * 100).toFixed(2)}%)
+                    </span>
+                    <span class="fs-18 font-w600">${quantities[index]}</span>
+                `;
 
 						legendContainer.appendChild(legendItem);
 					});
+
 				} catch (error) {
-					console.error(error);
+					console.error("Gagal mengambil data dari API:", error);
 				}
 			}
 
+			// Panggil fungsi untuk mengambil data dan menampilkan grafik
 			fetchBestCategories();
 		});
+	</script>
 	</script>
 
 	<script>
@@ -1481,7 +1527,7 @@ curl_close($ch);
 				},
 				tooltip: {
 					y: {
-						formatter: function (val) {
+						formatter: function(val) {
 							return "Rp. " + val.toLocaleString();
 						}
 					}
@@ -1523,139 +1569,85 @@ curl_close($ch);
 	</script>
 
 	<script>
-		async function fetchAndDisplayData() {
-			try {
-				// Fetch data dari API
-				const response = await fetch('https://ngolab.id/api/transactions/sales/day');
-				const jsonData = await response.json();
-
-				// Ambil data terbaru dari array "data"
-				const latestData = jsonData.data[jsonData.data.length - 1];
-
-				// Update elemen HTML dengan data terbaru
-				document.getElementById('kortailQuantity').innerText = latestData.total_quantity;
-				document.getElementById('coWorkQuantity').innerText = latestData.total_quantity;
-				document.getElementById('expressQuantity').innerText = latestData.total_quantity;
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
-		}
-
-		// Panggil fungsi ketika halaman dimuat
-		window.onload = fetchAndDisplayData;
-	</script>
-
-	<script>
-		new Morris.Line({
-			// ID of the element in which to draw the chart.
-			element: 'myfirstchart',
-			// Chart data records -- each entry in this array corresponds to a point on
-			// the chart.
-			data: [{
-				year: '2008',
-				value: 20
-			},
-			{
-				year: '2009',
-				value: 10
-			},
-			{
-				year: '2010',
-				value: 5
-			},
-			{
-				year: '2011',
-				value: 5
-			},
-			{
-				year: '2012',
-				value: 20
-			}
-			],
-			// The name of the data record attribute that contains x-values.
-			xkey: 'year',
-			// A list of names of data record attributes that contain y-values.
-			ykeys: ['value'],
-			// Labels for the ykeys -- will be displayed when you hover over the
-			// chart.
-			labels: ['Value']
+		document.addEventListener("DOMContentLoaded", function() {
+			fetchData('https://ngolab.id/api/outlet/transactions/sales/day');
 		});
 
-		function cardsCenter() {
-			jQuery('.card-slider').owlCarousel({
-				loop: true,
-				margin: 0,
-				nav: true,
-				//center:true,
-				slideSpeed: 3000,
-				paginationSpeed: 3000,
-				dots: true,
-				navText: ['<i class="fas fa-arrow-left"></i>', '<i class="fas fa-arrow-right"></i>'],
-				responsive: {
-					0: {
-						items: 1
-					},
-					576: {
-						items: 1
-					},
-					800: {
-						items: 1
-					},
-					991: {
-						items: 1
-					},
-					1200: {
-						items: 1
-					},
-					1600: {
-						items: 1
-					}
-				}
-			})
-		}
-
-		jQuery(window).on('load', function () {
-			setTimeout(function () {
-				cardsCenter();
-			}, 1000);
-		});
-	</script>
-	<script>
 		// Fungsi untuk menampilkan chart Morris dengan data dari API
+		function renderMorrisChart(data, outletNames) {
+			setTimeout(() => {
+				let chartContainer = document.getElementById('jam_penjualan');
+
+				if (!chartContainer) {
+					console.error("Elemen #jam_penjualan tidak ditemukan.");
+					return;
+				}
+
+				chartContainer.innerHTML = ''; // Bersihkan sebelum menggambar ulang
+
+				new Morris.line({
+					element: 'jam_penjualan',
+					data: data,
+					xkey: 'outlet_name',
+					ykeys: ['total_sales', 'total_discount', 'total_quantity'],
+					labels: ['Total Sales', 'Total Discount', 'Total Quantity'],
+					barColors: ['#3498db', '#e74c3c', '#2ecc71'],
+					hideHover: 'auto',
+					resize: true
+				});
+			}, 500);
+		}
+	</script>
+
+	<script>
 		function renderMorrisChart(data, outlet_name) {
-			new Morris.Area({
+			// Cari nilai maksimum dalam dataset
+			let maxValue = 0;
+			data.forEach(entry => {
+				outlet_name.forEach(outlet => {
+					if (entry[outlet] > maxValue) {
+						maxValue = entry[outlet];
+					}
+				});
+			});
+
+			// Tambahkan margin atas (misalnya 20% lebih tinggi)
+			let ymaxValue = Math.ceil(maxValue * 1.2);
+
+			new Morris.Line({
 				element: 'jam_penjualan',
-				data: data, // Data dari fetch API dimasukkan di sini
-				lineColors: ['#123456', '#f5cf53', '#ff5733'], // Sesuaikan dengan warna yang diinginkan
+				data: data, // Data dari API yang sudah diurutkan
 				xkey: 'hour',
-				ykeys: outlet_name, // Sesuaikan dengan nama outlet
-				labels: outlet_name, // Sesuaikan dengan nama outlet
-				pointSize: 0,
-				lineWidth: 0,
+				ykeys: outlet_name, // Nama outlet
+				labels: outlet_name, // Nama outlet untuk legend
+				lineColors: ['#FFC107', '#0044CC', '#E63946'], // Warna garis per outlet
+				pointSize: 3, // Tampilkan titik data lebih jelas
+				lineWidth: 2, // Lebar garis agar lebih terlihat
 				resize: true,
-				fillOpacity: 0.9,
-				behaveLikeLine: true,
-				gridLineColor: 'transparent',
 				hideHover: 'auto',
-				dateFormat: function (x) {
-					return x + ":00"; // Ini juga memastikan tampilan saat hover sesuai format jam
+				gridTextColor: '#333',
+				parseTime: false, // Hindari parsing otomatis ke format tanggal
+				ymax: ymaxValue, // Tetapkan skala maksimum agar tidak mentok
+				dateFormat: function(x) {
+					return parseInt(x) + ":00"; // Pastikan format jam lebih rapi
 				}
 			});
 		}
 
-		// Ambil data dari API dan masukkan ke chart Morris
-		async function fetchData(url) {
+		// Fetch data dari API dan render ke Morris Chart
+		async function fetchAndRender(url) {
 			try {
-				const response = await fetch(url); // Ganti dengan URL API Anda
-				const result = await response.json();
+				const response = await fetch(url);
+				if (!response.ok) throw new Error("Gagal mengambil data dari API");
 
-				// Peta data dari respons API menjadi format Morris
+				const result = await response.json();
 				const rawData = result.data;
+
+				if (!rawData.transactions) throw new Error("Data transactions tidak ditemukan!");
+
 				const morrisData = [];
 
-				// Proses data per hour untuk mendapatkan data yang sesuai dengan format Morris
 				rawData.transactions.forEach(item => {
-					// Temukan atau buat entri untuk setiap hour
 					let hourEntry = morrisData.find(entry => entry.hour === item.hour);
 
 					if (!hourEntry) {
@@ -1665,35 +1657,40 @@ curl_close($ch);
 						morrisData.push(hourEntry);
 					}
 
-					// Tambahkan data outlet untuk setiap hour
-					for (let [outlet, count] of Object.entries(item)) {
-						if (outlet !== 'hour') {
-							hourEntry[outlet] = count;
-						}
-					}
+					// Tambahkan data per outlet
+					Object.keys(rawData.outlet_name).forEach(outlet => {
+						hourEntry[outlet] = item[outlet] || 0; // Jika transaksi kosong, set ke 0
+					});
 				});
 
-				// Panggil fungsi untuk render chart
-				renderMorrisChart(morrisData, rawData.outlet_name);
+				// Urutkan data berdasarkan jam dari 1 hingga 23
+				morrisData.sort((a, b) => parseInt(a.hour) - parseInt(b.hour));
+
+				console.log("Morris Data (Sorted):", JSON.stringify(morrisData, null, 2));
+				console.log("Outlet Names:", Object.keys(rawData.outlet_name));
+
+				// Panggil render chart dengan array outlet_name
+				renderMorrisChart(morrisData, Object.keys(rawData.outlet_name));
+
 			} catch (error) {
-				console.error("Error fetching data: ", error);
+				console.error("Error:", error);
 			}
 		}
 
 		// Panggil fetchData untuk mengambil dan menampilkan data
-		fetchData('https://ngolab.id/api/transactions/total/hour');
+		fetchAndRender('https://ngolab.id/api/transactions/total/hour');
 
 
-		document.getElementById('turnOnMonthly').addEventListener('change', async function () {
+		document.getElementById('turnOnMonthly').addEventListener('change', async function() {
 			let url;
 			if (this.checked) {
-				url = `https://ngolab.id/api/transactions/total/hour?monthly=true`;
+				url = `https://ngolab.id/api/transactions/total/hour`;
 			} else {
 				url = `https://ngolab.id/api/transactions/total/hour`
 			}
 			document.getElementById('jam_penjualan').innerHTML = '';
 
-			fetchData(url);
+			fetchAndRender(url);
 		});
 	</script>
 </body>

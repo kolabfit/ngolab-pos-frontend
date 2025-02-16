@@ -3,12 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Register</title>
-
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         .animated-bg {
             background: linear-gradient(270deg, #1a1a2e, #090e1c, #ff7700, #000000);
@@ -23,7 +19,6 @@
     </style>
 </head>
 <body class="animated-bg text-white min-h-screen flex flex-col">
-
     <!-- Navigation -->
     <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
@@ -40,7 +35,10 @@
         <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
             <h2 class="text-center text-3xl font-bold mb-6">Register</h2>
 
-            <form method="POST" action="https://ngolab.id/api/users/register">
+            <!-- Notification -->
+            <div id="notification" class="hidden p-4 mb-4 text-center rounded-md"></div>
+
+            <form id="registerForm">
                 <div class="mb-4">
                     <label for="name" class="block mb-1">Full Name</label>
                     <input id="name" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="name" required autofocus>
@@ -92,30 +90,11 @@
             const employeeId = document.getElementById('employee_id').value.trim();
 
             // Validasi Form
-            if (name.length < 3) {
-                showNotification('Nama harus minimal 3 karakter', 'bg-red-500');
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                showNotification('Format email tidak valid', 'bg-red-500');
-                return;
-            }
-
-            if (password.length < 8) {
-                showNotification('Password harus minimal 8 karakter', 'bg-red-500');
-                return;
-            }
-
-            if (password !== passwordConfirm) {
-                showNotification('Password dan konfirmasi harus sama', 'bg-red-500');
-                return;
-            }
-
-            if (position === "" || employeeId === "") {
-                showNotification('Position dan Employee ID harus diisi', 'bg-red-500');
-                return;
-            }
+            if (name.length < 3) return showNotification('Nama harus minimal 3 karakter', 'bg-red-500');
+            if (!validateEmail(email)) return showNotification('Format email tidak valid', 'bg-red-500');
+            if (password.length < 8) return showNotification('Password harus minimal 8 karakter', 'bg-red-500');
+            if (password !== passwordConfirm) return showNotification('Password dan konfirmasi harus sama', 'bg-red-500');
+            if (!position || !employeeId) return showNotification('Position dan Employee ID harus diisi', 'bg-red-500');
 
             try {
                 const response = await fetch('https://ngolab.id/api/users/register', {
@@ -125,7 +104,7 @@
                 });
 
                 const result = await response.json();
-                
+
                 if (response.ok) {
                     showNotification('Registrasi berhasil! Redirecting...', 'bg-green-500');
                     setTimeout(() => { window.location.href = '/logic/login.php'; }, 2000);

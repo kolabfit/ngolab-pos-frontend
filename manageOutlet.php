@@ -88,7 +88,7 @@ if ($outlets['success']) {
 				</div>
 			</a>
 			<div class="nav-control">
-				<div class="hamburger">
+				<div class="hamburger" id="hamburger-btn">
 					<span class="line"></span><span class="line"></span><span class="line"></span>
 				</div>
 			</div>
@@ -948,11 +948,68 @@ if ($outlets['success']) {
 		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
-				<ul class="metismenu" id="menu">
-					<!-- Will be generated -->
+				<ul class="metismenu text-start" id="sidebar-menu">
+					<li>
+						<a href="index.php">
+							<img src="/images/icons/home.png" alt="Home Icon" width="24" height="24">
+							<span class="menu-text">Home</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageUserRole.php">
+							<img src="/images/icons/user-gear.png" alt="Users Cog Icon" width="24" height="24">
+							<span class="menu-text">Kelola User & Role</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageProductCategory.php">
+							<img src="/images/icons/folder-open.png" alt="Folder Icon" width="24" height="24">
+							<span class="menu-text">Kelola Kategori Produk</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageProduct.php">
+							<img src="/images/icons/box-open.png" alt="Box Icon" width="24" height="24">
+							<span class="menu-text">Kelola Produk</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageVoucher.php">
+							<img src="/images/icons/ticket.png" alt="Gift Icon" width="24" height="24">
+							<span class="menu-text">Kelola Voucher</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageTransaction.php">
+							<img src="/images/icons/receipt.png" alt="Transaction Icon" width="24" height="24">
+							<span class="menu-text">Kelola Transaksi</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageOutlet.php">
+							<img src="/images/icons/shop.png" alt="Outlet Icon" width="24" height="24">
+							<span class="menu-text">Kelola Outlet</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
+
+		<style>
+			.menu-text {
+				display: none;
+			}
+
+			.menu-expanded .menu-text {
+				display: inline;
+			}
+		</style>
+
+		<script>
+			document.getElementById('hamburger-btn').addEventListener('click', function() {
+				document.getElementById('sidebar-menu').classList.toggle('menu-expanded');
+			});
+		</script>
 		<!--**********************************
 			Sidebar end
 		***********************************-->
@@ -984,6 +1041,7 @@ if ($outlets['success']) {
 												<th>Nama Outlet</th>
 												<th>Alamat</th>
 												<th>Telpon</th>
+												<th>Qris</th>
 												<th>Action</th>
 											</tr>
 										</thead>
@@ -1003,22 +1061,27 @@ if ($outlets['success']) {
 														<td><?= htmlspecialchars($outlet['address']) ?></td>
 														<td><?= htmlspecialchars($outlet['phone']) ?></td>
 														<td>
+															<img src="<?= htmlspecialchars($outlet['qris']) ?>" alt="QRIS <?= htmlspecialchars($outlet['name']) ?>" width="100">
+														</td>
+														<td>
 															<div class="d-flex">
-																<button data-id="<?php echo $outlet['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-																		class="fas fa-pencil-alt"></i>
+																<button data-id="<?php echo $outlet['id'] ?>" type="button" class="btn btn-primary shadow btn-xs sharp me-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+																	<i class="fas fa-pencil-alt"></i>
 																</button>
-																<a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-																		class="fa fa-trash"></i></a>
+																<a href="#" class="btn btn-danger shadow btn-xs sharp btn-delete" data-id="<?php echo $outlet['id']; ?>">
+																	<i class="fa fa-trash"></i>
+																</a>
 															</div>
 														</td>
 													</tr>
 												<?php endforeach; ?>
 											<?php else: ?>
 												<tr>
-													<td colspan="5">No outlets found.</td>
+													<td colspan="6">No outlets found.</td>
 												</tr>
 											<?php endif; ?>
 										</tbody>
+
 									</table>
 								</div>
 							</div>
@@ -1065,22 +1128,26 @@ if ($outlets['success']) {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Outlet</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form>
 						<div class="mb-3">
-							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
+							<label for="name" class="col-form-label">Nama Outlet:</label>
 							<input type="text" class="form-control" id="name" name="name">
 						</div>
 						<div class="mb-3">
-							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
+							<label for="address" class="col-form-label">Alamat Outlet:</label>
 							<input type="text" class="form-control" id="address" name="address">
 						</div>
 						<div class="mb-3">
-							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
+							<label for="phone" class="col-form-label">Telepon Outlet:</label>
 							<input type="text" class="form-control" id="phone" name="phone">
+						</div>
+						<div class="mb-3">
+							<label for="qrisImage" class="col-form-label">Upload QRIS:</label>
+							<input type="file" class="form-control" id="qrisImage" name="qrisImage">
 						</div>
 					</form>
 				</div>
@@ -1091,8 +1158,11 @@ if ($outlets['success']) {
 			</div>
 		</div>
 	</div>
+
+
 	<!-- Modul -->
 
+	<!-- Modal -->
 	<!-- Modal -->
 	<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -1102,18 +1172,22 @@ if ($outlets['success']) {
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form id="outletForm" enctype="multipart/form-data">
 						<div class="mb-3">
-							<label for="outlet_name" class="col-form-label">Nama Outlet:</label>
+							<label for="outletName" class="col-form-label">Nama Outlet:</label>
 							<input type="text" class="form-control" id="outletName" name="outletName" required>
 						</div>
 						<div class="mb-3">
-							<label for="outlet_address" class="col-form-label">Alamat Outlet:</label>
+							<label for="outletAddress" class="col-form-label">Alamat Outlet:</label>
 							<input type="text" class="form-control" id="outletAddress" name="outletAddress" required>
 						</div>
 						<div class="mb-3">
-							<label for="outlet_phone" class="col-form-label">Telepon Outlet:</label>
+							<label for="outletPhone" class="col-form-label">Telepon Outlet:</label>
 							<input type="text" class="form-control" id="outletPhone" name="outletPhone" required>
+						</div>
+						<div class="mb-3">
+							<label for="qrisImage" class="col-form-label">Upload QRIS:</label>
+							<input type="file" class="form-control" id="qrisImage" name="qrisImage" accept="image/*" required>
 						</div>
 					</form>
 				</div>
@@ -1124,6 +1198,8 @@ if ($outlets['success']) {
 			</div>
 		</div>
 	</div>
+
+
 	<!-- Modul -->
 
 	<!--**********************************
@@ -1156,12 +1232,8 @@ if ($outlets['success']) {
 		var exampleModal = document.getElementById('exampleModal');
 		var outlet_id = 0;
 
-		// Event ketika modal ditampilkan
 		exampleModal.addEventListener('show.bs.modal', function(event) {
-			// Tombol yang memicu modal
 			var button = event.relatedTarget;
-
-			// Ambil data-id dari tombol
 			outlet_id = button.getAttribute('data-id');
 
 			(async () => {
@@ -1175,66 +1247,177 @@ if ($outlets['success']) {
 					});
 					console.log('Response:', data);
 
+					document.getElementById('name').value = "";
 					document.getElementById('address').value = data.data.address;
 					document.getElementById('phone').value = data.data.phone;
+
+					// Menampilkan QRIS hanya jika modal-body ada
+					let modalBody = document.querySelector('.modal-body');
+					if (modalBody) {
+						let qrisContainer = document.getElementById('qrisContainer');
+						if (!qrisContainer) {
+							qrisContainer = document.createElement('div');
+							qrisContainer.id = 'qrisContainer';
+							qrisContainer.classList.add('text-center', 'mt-3');
+							modalBody.appendChild(qrisContainer);
+						}
+						qrisContainer.innerHTML = `<img src="${data.data.qris}" alt="QRIS" class="img-fluid" style="max-width: 200px;">`;
+					} else {
+						console.error('Error: .modal-body not found!');
+					}
 				} catch (error) {
 					console.error('Error:', error);
 				}
 			})();
 		});
-
 		// Event ketika button editbutton submit ditekan
 		document.getElementById('updateButton').addEventListener('click', function() {
 			(async () => {
-				let body = {
-					address: document.getElementById('address').value,
-					phone: document.getElementById('phone').value
+
+				const formData = new FormData();
+
+				const outletName = document.getElementById('name').value;
+
+				// cek apakah outletName berubah
+				if (outletName.trim() != "") {
+					formData.append('name', outletName);
 				}
 
-				if (document.getElementById('name').value !== "" && document.getElementById('name').value !== null) {
-					body.name = document.getElementById('name').value;
-				}
-				try {
-					const data = await callApi('/api/outlets/' + outlet_id, {
-						method: 'POST',
-						body: body,
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
+				const outletAddress = document.getElementById('address').value;
+				const outletPhone = document.getElementById('phone').value;
+				const qrisImage = document.getElementById('qrisImage');
 
-					location.reload();
-				} catch (error) {
-					console.error('Error:', error);
+
+				if (outletAddress) formData.append('address', outletAddress);
+				if (outletPhone) formData.append('phone', outletPhone);
+				if (qrisImage.files.length > 0) {
+					formData.append('qris', qrisImage.files[0]);
 				}
+
+				const response = await fetch('https://ngolab.id/api/outlets/' + outlet_id, {
+					method: 'POST',
+					body: formData,
+					headers: {
+						'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
+					}
+				});
+
+				const contentType = response.headers.get('content-type');
+
+				if (!response.ok) {
+					throw new Error(response);
+				}
+
+
+				const data = await response.json();
+				console.log('Response:', data);
+				location.reload();
+
+
 			})();
 		});
 
-		// Event ketika button editbutton submit ditekan
-		document.getElementById('createButton').addEventListener('click', function() {
-			(async () => {
-				try {
-					const data = await callApi('/api/outlets', {
-						method: 'POST',
-						body: {
-							name: document.getElementById('outletName').value,
-							address: document.getElementById('outletAddress').value,
-							phone: document.getElementById('outletPhone').value
-						},
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': document.cookie.split('; ').find(row => row.startsWith('auth_token=')).split('=')[1]
-						}
-					});
-					console.log('Response:', data);
+		// Event ketika button createButton ditekan
 
-					location.reload();
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			})();
+
+		// Pastikan DOM sudah dimuat sebelum menjalankan skrip
+
+		document.addEventListener("DOMContentLoaded", function() {
+			document.getElementById('createButton').addEventListener('click', function() {
+				(async () => {
+					try {
+						// Ambil elemen input dengan pengecekan keberadaan elemen
+						const outletName = document.getElementById('outletName');
+						const outletAddress = document.getElementById('outletAddress');
+						const outletPhone = document.getElementById('outletPhone');
+						const imageInput = document.getElementById('qrisImage');
+
+						if (!outletName || !outletAddress || !outletPhone || !imageInput) {
+							throw new Error('Beberapa elemen input tidak ditemukan');
+						}
+
+						const formData = new FormData();
+						formData.append('name', outletName.value);
+						formData.append('address', outletAddress.value);
+						formData.append('phone', outletPhone.value);
+
+						// Ambil file QRIS dengan pengecekan
+						if (imageInput.files.length > 0) {
+							formData.append('qris', imageInput.files[0]); // Gunakan File object
+						} else {
+							throw new Error('QRIS belum dipilih');
+						}
+
+						// Ambil token otorisasi dari cookie
+						const authToken = document.cookie
+							.split('; ')
+							.find(row => row.startsWith('auth_token='))
+							?.split('=')[1];
+
+						if (!authToken) {
+							throw new Error('Token otorisasi tidak ditemukan');
+						}
+
+						// Kirim request ke backend
+						const response = await fetch('https://ngolab.id/api/outlets', {
+							method: 'POST',
+							body: formData,
+							headers: {
+								'Authorization': authToken
+							},
+						});
+
+						// Tangani response
+						const data = await response.json();
+						if (!response.ok) {
+							throw new Error(data.message || 'Gagal menambahkan outlet');
+						}
+
+						alert('Outlet berhasil ditambahkan!');
+						location.reload(); // Refresh halaman setelah sukses
+					} catch (error) {
+						console.error('Error:', error);
+						alert(error.message);
+					}
+				})();
+			});
+		});
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll(".btn-delete").forEach(button => {
+				button.addEventListener("click", function(event) {
+					event.preventDefault();
+
+					const authToken = document.cookie
+							.split('; ')
+							.find(row => row.startsWith('auth_token='))
+							?.split('=')[1];
+
+						if (!authToken) {
+							throw new Error('Token otorisasi tidak ditemukan');
+						}
+
+					let outletId = this.getAttribute("data-id");
+					if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+						fetch(`https://ngolab.id/api/outlets/${outletId}`, {
+								method: "DELETE",
+								headers: {
+									"Content-Type": "application/json",
+									'Authorization': authToken // Ganti dengan token yang valid jika diperlukan
+								}
+							})
+							.then(response => response.json())
+							.then(data => {
+								if (data.success) {
+									alert("Data berhasil dihapus!");
+									location.reload();
+								} else {
+									alert("Gagal menghapus data! " + (data.message || ""));
+								}
+							})
+							.catch(error => console.error("Error:", error));
+					}
+				});
+			});
 		});
 	</script>
 </body>

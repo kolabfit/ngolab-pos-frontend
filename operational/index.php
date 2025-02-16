@@ -1,6 +1,6 @@
 <?php
 require_once('../logic/loginvalidation.php');
-$user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../logic/login.php');
+$user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../login.php');
 ?>
 
 <!DOCTYPE html>

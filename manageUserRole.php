@@ -971,11 +971,68 @@ $users = $data['data'] ?? [];
 		***********************************-->
 		<div class="dlabnav">
 			<div class="dlabnav-scroll">
-				<ul class="metismenu" id="menu">
-					<!-- Will be generated -->
+				<ul class="metismenu text-start" id="sidebar-menu">
+					<li>
+						<a href="index.php">
+							<img src="/images/icons/home.png" alt="Home Icon" width="24" height="24">
+							<span class="menu-text">Home</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageUserRole.php">
+							<img src="/images/icons/user-gear.png" alt="Users Cog Icon" width="24" height="24">
+							<span class="menu-text">Kelola User & Role</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageProductCategory.php">
+							<img src="/images/icons/folder-open.png" alt="Folder Icon" width="24" height="24">
+							<span class="menu-text">Kelola Kategori Produk</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageProduct.php">
+							<img src="/images/icons/box-open.png" alt="Box Icon" width="24" height="24">
+							<span class="menu-text">Kelola Produk</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageVoucher.php">
+							<img src="/images/icons/ticket.png" alt="Gift Icon" width="24" height="24">
+							<span class="menu-text">Kelola Voucher</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageTransaction.php">
+							<img src="/images/icons/receipt.png" alt="Transaction Icon" width="24" height="24">
+							<span class="menu-text">Kelola Transaksi</span>
+						</a>
+					</li>
+					<li>
+						<a href="manageOutlet.php">
+							<img src="/images/icons/shop.png" alt="Outlet Icon" width="24" height="24">
+							<span class="menu-text">Kelola Outlet</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
+
+		<style>
+			.menu-text {
+				display: none;
+			}
+
+			.menu-expanded .menu-text {
+				display: inline;
+			}
+		</style>
+
+		<script>
+			document.getElementById('hamburger-btn').addEventListener('click', function() {
+				document.getElementById('sidebar-menu').classList.toggle('menu-expanded');
+			});
+		</script>
 		<!--**********************************
 			Sidebar end
 		***********************************-->
