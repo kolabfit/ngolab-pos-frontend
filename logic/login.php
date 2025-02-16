@@ -100,7 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="login.php" class="text-2xl font-bold">My App</a>
+            <a href="login.php" class="text-2xl font-bold">
+                Ngolab POS
+            </a>
             <div>
                 <ul class="flex space-x-4">
                     <li><a href="login.php" class="px-4 py-2 transition border border-transparent hover:border-orange-500 hover:text-orange-500">Login</a></li>

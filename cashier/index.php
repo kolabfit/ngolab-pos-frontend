@@ -1,10 +1,19 @@
 <?php
 require_once('../logic/loginvalidation.php');
 require_once('../logic/slotvalidation.php');
+require_once('../logic/selfServiceMiddleware.php');
+
 Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../logic/login.php');
 Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null);
 
+// Panggil middleware untuk mencegah akses ke index.php jika slot Self Service
+SelfServiceMiddleware::restrictListTransaksiIndexForSelfService($_COOKIE['auth_token'] ?? null);
+
 $token = $_COOKIE['auth_token'];
+
+// Ambil nilai slot yang dipilih (misalnya disimpan di cookie 'selected_slot')
+$selected_slot = $_COOKIE['selected_slot'] ?? null;
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -68,28 +77,39 @@ $token = $_COOKIE['auth_token'];
 
     <!-- Sidebar & Main Content -->
     <div class="flex">
-
         <aside class="w-64 bg-white shadow-md h-screen sticky top-0 self-start">
             <nav class="p-6 space-y-4">
-                <!-- Menu Beranda -->
-                <a href="index.php"
-                    class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
-                    Beranda
-                </a>
+                <!-- Menu Beranda: hanya aktif jika bukan Self Service -->
+                <?php if ($selected_slot != "5"): ?>
+                    <a href="index.php"
+                        class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+                        Beranda
+                    </a>
+                <?php else: ?>
+                    <span class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+                        Beranda
+                    </span>
+                <?php endif; ?>
 
                 <!-- Menu Transaksi -->
                 <a href="transaksi.php"
                     class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
                     Transaksi
                 </a>
-
-                <!-- Menu List Transaksi -->
-                <a href="listtransaksi.php"
-                    class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
-                    List Transaksi
-                </a>
+                <!-- Menu List Transaksi (misalnya, aktif jika tidak Self Service) -->
+                <?php if ($selected_slot !== '5'): ?>
+                    <a href="listtransaksi.php"
+                        class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+                        List Transaksi
+                    </a>
+                <?php else: ?>
+                    <span class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+                        List Transaksi
+                    </span>
+                <?php endif; ?>
             </nav>
         </aside>
+
 
         <!-- Main Content -->
         <main class="flex-1 p-8">
@@ -423,7 +443,7 @@ $token = $_COOKIE['auth_token'];
                     data.data.forEach(outlet => {
                         const option = document.createElement('option');
                         option.value = outlet.id;
-                        option.textContent = `${outlet.name} - ${outlet.address}`;
+                        option.textContent = `${outlet.name}`;
                         outletSelect.appendChild(option);
                     });
                 } catch (error) {

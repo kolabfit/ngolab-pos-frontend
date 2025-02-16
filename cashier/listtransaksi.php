@@ -1,9 +1,19 @@
 <?php
 require_once('../logic/loginvalidation.php');
 require_once('../logic/slotvalidation.php');
+require_once('../logic/selfServiceMiddleware.php');
+// Jika ingin menggunakan middleware untuk Self Service, uncomment baris di bawah ini
+// require_once('../logic/selfServiceMiddleware.php');
 $user = Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../logic/login.php');
 Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
+
+// Panggil middleware untuk Self Service (jika slot adalah 5, maka redirect ke transaksi.php)
+SelfServiceMiddleware::restrictListTransaksiIndexForSelfService($_COOKIE['auth_token'] ?? null);
+
+// Ambil nilai slot yang dipilih (misalnya disimpan di cookie 'selected_slot')
+$selected_slot = $_COOKIE['selected_slot'] ?? null;
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -69,13 +79,27 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
         <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md h-screen sticky top-0 self-start">
             <nav class="p-6 space-y-4">
-                <a href="index.php"
-                    class="block py-2 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-100">Beranda</a>
+                <!-- Menu Beranda -->
+                <a href="index.php" class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+                    Beranda
+                </a>
+                <!-- Menu Transaksi -->
                 <a href="transaksi.php"
-                    class="block py-2 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-100">Transaksi</a>
-                <a href="listtransaksi.php"
-                    class="block py-2 px-4 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">List
-                    Transaksi</a>
+                    class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+                    Transaksi
+                </a>
+                <!-- Menu List Transaksi hanya muncul jika bukan Self Service (slot‑5) -->
+                <?php if ($selected_slot !== '5'): ?>
+                    <a href="listtransaksi.php"
+                        class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+                        List Transaksi
+                    </a>
+                <?php else: ?>
+                    <!-- Jika self service, tampilkan sebagai nonaktif -->
+                    <span class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+                        List Transaksi
+                    </span>
+                <?php endif; ?>
             </nav>
         </aside>
 
@@ -108,10 +132,11 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                                     onclick="selectStatus('pending')">Pending</li>
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                     onclick="selectStatus('process')">Process</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" onclick="selectStatus('success')">
-                                    Success</li>
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                    onclick="selectStatus('cancel')">Cancel</li>
+                                    onclick="selectStatus('success')">
+                                    Success</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" onclick="selectStatus('cancel')">
+                                    Cancel</li>
                             </ul>
                         </div>
                     </div>
@@ -131,27 +156,34 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                 </div>
 
                 <!-- Table -->
-                <div class="bg-white rounded-lg shadow overflow-x-auto">
-                    <table class="w-full" id="transactionsTable">
-                        <thead class="bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
-                            <tr class="border-b">
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Customer Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">No. Order</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Service Type</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Item Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">QTY</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Payment</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Total</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Outlet</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transactionsBody" class="divide-y">
-                            <!-- Data rows will be inserted here by JavaScript -->
-                        </tbody>
-                    </table>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <h1 class="text-2xl font-semibold mb-4">List Transaksi</h1>
+                    <p class="text-gray-500 mb-6">Transaksi yang terakhir tercatat oleh sistem</p>
+                    <div class="bg-white rounded-lg shadow overflow-x-auto">
+                        <table class="w-full" id="transactionsTable">
+                            <thead class="bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+                                <tr class="border-b">
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[60px]">No
+                                    </th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">
+                                        Name</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Date</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Details</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase w-[250px]">Item Name
+                                    </th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[60px]">QTY</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[120px]">Total</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[120px]">Payment</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Outlet</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsBody" class="divide-y">
+                                <!-- Data rows will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </main>
     </div>
@@ -172,6 +204,7 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                     data.data.forEach(outlet => {
                         outletMap[outlet.id] = outlet;
                     });
+                    console.log(outletMap);
 
                     renderOutletDropdown(data.data);
                 } else {
@@ -219,14 +252,13 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             }
         }
 
-
         function getStatusClass(status) {
             switch (status) {
                 case 'pending':
                     return 'bg-yellow-100 text-yellow-600';
                 case 'process':
                     return 'bg-blue-100 text-blue-600';
-                case 'done':
+                case 'success':
                     return 'bg-green-100 text-green-600';
                 case 'cancelled':
                     return 'bg-red-100 text-red-600';
@@ -250,63 +282,82 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             filterTransactions();
         }
 
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+
+            // Format tanggal
+            const formattedDate = date.toLocaleDateString('id-ID', {
+                year: 'numeric', month: '2-digit', day: '2-digit'
+            });
+
+            // Format waktu (jam:menit)
+            const formattedTime = date.toLocaleTimeString('id-ID', {
+                hour: '2-digit', minute: '2-digit', hour12: false
+            });
+
+            // Format detik
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+
+            return `${formattedDate}<br>${formattedTime}:${seconds}`;
+        }
 
         function renderTransactions(transactions) {
             const tbody = document.getElementById('transactionsBody');
             tbody.innerHTML = '';
+
             transactions.forEach((transaction, index) => {
-                const statusClass = getStatusClass(transaction.status);
                 const row = document.createElement('tr');
                 row.classList.add('hover:bg-gray-50');
 
-                // Format tanggal dan waktu
-                const dateTime = new Date(transaction.created_at);
-                const formattedDate = dateTime.toLocaleDateString('id-ID');
-                const formattedTime = dateTime.toLocaleTimeString('id-ID').replace(/\./g, ':');
+                const statusClass = getStatusClass(transaction.status);
 
                 // Cari informasi outlet dari details
                 const outletId = transaction.details[0]?.outlet_product?.outlet_id;
-                const outletInfo = outletId && outletMap[outletId] ? `${outletMap[outletId].name} - ${outletMap[outletId].address}` : 'N/A';
+                const outletInfo = outletId && outletMap[outletId] ? `${outletMap[outletId].name}` : 'N/A';
 
                 row.innerHTML = `
-                <td class="px-6 py-4 text-sm">${transaction.customer.name || 'N/A'}</td>
-                <td class="px-6 py-4 text-sm" data-date="${dateTime.toISOString()}">${formattedDate} ${formattedTime}</td>
-                <td class="px-6 py-4 text-sm">${index + 1}</td>
-                <td class="px-6 py-4 text-sm">${transaction.service_type === "dine_in" ? "Dine In" : "Take Away"}</td>
-                <td class="px-6 py-4 text-sm">
-                    <ul>
-                        ${transaction.details?.map(detail => `<li>${detail?.outlet_product?.product?.name || 'N/A'}</li>`).join('') || '<li>N/A</li>'}
-                    </ul>
-                </td>
-                <td class="px-6 py-4 text-sm">
-                    <ul>
-                        ${transaction.details?.map(detail => `<li>${detail?.quantity || 'N/A'}</li>`).join('') || '<li>N/A</li>'}
-                    </ul>
-                </td>
-                <td class="px-6 py-4 text-sm">
-                    <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">
-                        ${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                    </span>
-                </td>
-                <td class="px-6 py-4 text-sm">${transaction.payment_method || 'Cash'}</td>
-                <td class="px-6 py-4 text-sm">Rp ${transaction.final_price.toLocaleString()}</td>
-                <td class="px-6 py-4 text-sm">${outletInfo}</td>
-            `;
+            <td class="px-2 py-3 text-sm w-[60px] text-center">${transaction.id}</td>
+            <td class="px-2 py-3 text-sm w-[100px]">${transaction.customer?.name || 'N/A'}</td>
+            <td class="px-2 py-3 text-sm w-[100px]">${formatDateTime(transaction.created_at)}</td>
+            <td class="px-2 py-3 text-sm w-[100px]">
+                <div class="px-3 rounded-full text-xs font-semibold text-center mb-2 ${statusClass}">
+                    ${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                </div>
+                <div>${transaction.service_type === "dine_in" ? "Dine In" : "Take Away"}</div>
+            </td>
+            <td class="px-6 py-4 text-sm w-[200px]">
+                ${transaction.details.map(d => `<div>${d?.outlet_product?.product?.name || 'N/A'}</div>`).join('')}
+            </td>
+            <td class="px-2 py-3 text-sm w-[60px] text-left">
+                ${transaction.details.map(d => `<div>${d?.quantity || 'N/A'}</div>`).join('')}
+            </td>
+            <td class="px-2 py-3 text-sm w-[100px] text-left">
+                <div>Rp ${transaction.final_price.toLocaleString()}</div>
+            </td>
+            <td class="px-2 py-3 text-sm w-[100px]">
+                <div class="text-xs">
+                    ${transaction.payment_method || 'Cash'}<br>
+                    Status: ${transaction.payment_status}
+                </div>
+                ${transaction.payment_status === 'pending' ? `<button class="confirm-payment-btn bg-blue-500 text-white px-2 py-1 rounded mt-2 text-xs" onclick="confirmPayment('${transaction.id}')">Konfirmasi</button>` : ''}
+            </td>
+            <td class="px-2 py-3 text-sm w-[100px]">${outletInfo}</td>
+        `;
+
                 tbody.appendChild(row);
             });
         }
 
+
         function toggleDropdown() {
             const dropdownMenu = document.getElementById('outletDropdownMenu');
             dropdownMenu.classList.remove('hidden');
-
         }
 
         function toggleDropdownStatus() {
             const dropdownMenu = document.getElementById('dropdownMenu');
             dropdownMenu.classList.toggle('hidden');
         }
-
 
         function selectOutlet(outletId, outletName) {
             currentOutletId = outletId;
@@ -338,6 +389,44 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             });
         }
 
+        // Fungsi untuk mengkonfirmasi pembayaran pada listtransaksi.php
+        function confirmPayment(transactionId) {
+            if (confirm('Anda yakin ingin mengonfirmasi pembayaran untuk transaksi ' + transactionId + '?')) {
+                fetch("https://ngolab.id/api/transactions/pay", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": getCookie('auth_token')
+                    },
+                    body: JSON.stringify({ transaction_id: transactionId })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Gagal mengonfirmasi pembayaran: " + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert("Pembayaran berhasil dikonfirmasi.");
+                        // Reload transaksi untuk menampilkan status terbaru
+                        fetchTransactions();
+                    })
+                    .catch(error => {
+                        alert("Terjadi kesalahan: " + error.message);
+                    });
+            }
+        }
+
+        // Fungsi untuk mendapatkan nilai cookie
+        function getCookie(name) {
+            const cookieString = `; ${document.cookie}`;
+            const parts = cookieString.split(`; ${name}=`);
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
+            return null;
+        }
+
         window.onload = function () {
             const filterDateElement = document.getElementById('filterDate');
             const searchInputElement = document.getElementById('search');
@@ -365,7 +454,6 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             fetchTransactions();
         };
 
-
         window.onclick = function (event) {
             const dropdown = document.getElementById('outletDropdownMenu');
             if (!event.target.matches('#outletDropdownButton') && !dropdown.contains(event.target)) {
@@ -378,7 +466,6 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             const profileDropdown = document.getElementById('profileDropdown');
             const logoutButton = document.getElementById('logoutButton');
 
-            // Fungsi logout
             async function handleLogout() {
                 const authToken = getCookie('auth_token');
                 if (!authToken) {
@@ -394,7 +481,7 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `${getCookie('auth_token')}`
+                            'Authorization': getCookie('auth_token')
                         }
                     });
 
@@ -402,36 +489,21 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
                         throw new Error('Gagal logout. Silakan coba lagi.');
                     }
 
-                    // Hapus cookie auth_token setelah logout berhasil
                     document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-
                     alert('Logout berhasil.');
-                    window.location.href = '../logic/login.php'; // Arahkan pengguna kembali ke halaman login
+                    window.location.href = '../logic/login.php';
                 } catch (error) {
                     console.error('Terjadi kesalahan saat logout:', error);
                     alert('Terjadi kesalahan saat logout.');
                 }
             }
 
-            // Fungsi untuk mendapatkan nilai cookie
-            function getCookie(name) {
-                const cookieString = `; ${document.cookie}`;
-                const parts = cookieString.split(`; ${name}=`);
-                if (parts.length === 2) {
-                    return parts.pop().split(';').shift();
-                }
-                return null;
-            }
-
-            // Event listener untuk tombol logout
             logoutButton.addEventListener('click', handleLogout);
 
-            // Event listener untuk toggle dropdown
             profileButton.addEventListener('click', function () {
                 profileDropdown.classList.toggle('hidden');
             });
 
-            // Menutup dropdown jika klik di luar
             document.addEventListener('click', function (event) {
                 if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
                     profileDropdown.classList.add('hidden');
@@ -439,7 +511,6 @@ Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
             });
         });
     </script>
-
 </body>
 
 </html>
