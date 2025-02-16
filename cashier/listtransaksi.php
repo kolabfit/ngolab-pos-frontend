@@ -8,7 +8,7 @@ $user = Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../log
 Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
 
 // Panggil middleware untuk Self Service (jika slot adalah 5, maka redirect ke transaksi.php)
-SelfServiceMiddleware::restrictListTransaksiForSelfService($_COOKIE['auth_token'] ?? null);
+SelfServiceMiddleware::restrictListTransaksiIndexForSelfService($_COOKIE['auth_token'] ?? null);
 
 // Ambil nilai slot yang dipilih (misalnya disimpan di cookie 'selected_slot')
 $selected_slot = $_COOKIE['selected_slot'] ?? null;
