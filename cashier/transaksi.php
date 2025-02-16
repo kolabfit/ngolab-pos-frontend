@@ -90,7 +90,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
         <!-- Menu Beranda -->
         <?php if ($selected_slot != "5"): ?>
           <a href="index.php"
-            class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+            class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium text-white">
             Beranda
           </a>
         <?php else: ?>
