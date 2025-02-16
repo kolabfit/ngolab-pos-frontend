@@ -88,9 +88,16 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
     <aside class="w-64 bg-white shadow-md h-screen sticky top-0 self-start">
       <nav class="p-6 space-y-4">
         <!-- Menu Beranda -->
-        <a href="index.php" class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
-          Beranda
-        </a>
+        <?php if ($selected_slot != "5"): ?>
+          <a href="index.php"
+            class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+            Beranda
+          </a>
+        <?php else: ?>
+          <span class="hidden py-2 px-4 p-3 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+            Beranda
+          </span>
+        <?php endif; ?>
         <!-- Menu Transaksi -->
         <a href="transaksi.php"
           class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
@@ -103,7 +110,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
           </a>
         <?php else: ?>
           <!-- Jika self service, tampilkan sebagai nonaktif -->
-          <span class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+          <span class="hidden py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
             List Transaksi
           </span>
         <?php endif; ?>
@@ -277,9 +284,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
         </button>
       </div>
 
-      <div id="alert-3"
-        class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50"
-        role="alert">
+      <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50" role="alert">
         <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
           viewBox="0 0 20 20">
           <path

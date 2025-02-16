@@ -80,7 +80,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
         <aside class="w-64 bg-white shadow-md h-screen sticky top-0 self-start">
             <nav class="p-6 space-y-4">
                 <!-- Menu Beranda: hanya aktif jika bukan Self Service -->
-                <?php if ($selected_slot !== '5'): ?>
+                <?php if ($selected_slot != "5"): ?>
                     <a href="index.php"
                         class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
                         Beranda
