@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       })
       .then(response => {
-        if (!response.ok) throw new Error("Gagal membuat transaksi: " + response.statusText);
+        if (!response.ok) throw new Error("Gagal membuat transaksi: Silahkan input saldo awal " + response.statusText);
         return response.json();
       })
       .then(data => {
