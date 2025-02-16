@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,13 +12,23 @@
             background-size: 800% 800%;
             animation: gradientBG 10s ease infinite;
         }
+
         @keyframes gradientBG {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
         }
     </style>
 </head>
+
 <body class="animated-bg text-white min-h-screen flex flex-col">
     <!-- Navigation -->
     <nav class="bg-gray-900 py-4 shadow-md">
@@ -42,31 +53,37 @@
                 <div class="mb-4">
                     <label for="name" class="block mb-1">Full Name</label>
                     <input id="name" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="name" required autofocus>
+                    <small class="text-red-500 hidden" id="nameError"></small>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block mb-1">E-Mail Address</label>
                     <input id="email" type="email" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="email" required>
+                    <small class="text-red-500 hidden" id="emailError"></small>
                 </div>
 
                 <div class="mb-4">
                     <label for="password" class="block mb-1">Password</label>
                     <input id="password" type="password" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="password" required>
+                    <small class="text-red-500 hidden" id="passwordError"></small>
                 </div>
 
                 <div class="mb-4">
                     <label for="password-confirm" class="block mb-1">Confirm Password</label>
                     <input id="password-confirm" type="password" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="password_confirmation" required>
+                    <small class="text-red-500 hidden" id="confirmPasswordError"></small>
                 </div>
 
                 <div class="mb-4">
                     <label for="position" class="block mb-1">Position</label>
                     <input id="position" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="position" required>
+                    <small class="text-red-500 hidden" id="positionError"></small>
                 </div>
 
                 <div class="mb-4">
                     <label for="employee_id" class="block mb-1">Employee ID</label>
                     <input id="employee_id" type="text" class="w-full px-3 py-2 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" name="employee_id" required>
+                    <small class="text-red-500 hidden" id="employeeIdError"></small>
                 </div>
 
                 <div>
@@ -75,58 +92,131 @@
                     </button>
                 </div>
             </form>
-        </div>
-    </main>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('password-confirm').value;
-            const position = document.getElementById('position').value.trim();
-            const employeeId = document.getElementById('employee_id').value.trim();
+            <script>
+                document.getElementById('registerForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
 
-            // Validasi Form
-            if (name.length < 3) return showNotification('Nama harus minimal 3 karakter', 'bg-red-500');
-            if (!validateEmail(email)) return showNotification('Format email tidak valid', 'bg-red-500');
-            if (password.length < 8) return showNotification('Password harus minimal 8 karakter', 'bg-red-500');
-            if (password !== passwordConfirm) return showNotification('Password dan konfirmasi harus sama', 'bg-red-500');
-            if (!position || !employeeId) return showNotification('Position dan Employee ID harus diisi', 'bg-red-500');
+                    clearErrors();
 
-            try {
-                const response = await fetch('https://ngolab.id/api/users/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password, position, employee_id: employeeId })
+                    const name = document.getElementById('name').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
+                    const passwordConfirm = document.getElementById('password-confirm').value;
+                    const position = document.getElementById('position').value.trim();
+                    const employeeId = document.getElementById('employee_id').value.trim();
+
+                    let isValid = true;
+
+                    if (name.length < 3) {
+                        showError('nameError', 'Nama harus minimal 3 karakter');
+                        isValid = false;
+                    }
+
+                    if (!validateEmail(email)) {
+                        showError('emailError', 'Format email tidak valid');
+                        isValid = false;
+                    }
+
+                    if (password.length < 8) {
+                        showError('passwordError', 'Password minimal 8 karakter');
+                        isValid = false;
+                    }
+
+                    if (password !== passwordConfirm) {
+                        showError('confirmPasswordError', 'Password dan konfirmasi harus sama');
+                        isValid = false;
+                    }
+
+                    if (!isNaN(position)) {
+                        showError('positionError', 'Position tidak boleh hanya angka');
+                        isValid = false;
+                    }
+
+                    if (!/^\d{5,}$/.test(employeeId)) {
+                        showError('employeeIdError', 'Employee ID harus minimal 5 angka');
+                        isValid = false;
+                    }
+
+                    if (!isValid) return;
+
+                    try {
+                        const response = await fetch('https://ngolab.id/api/users/register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                password,
+                                position,
+                                employee_id: employeeId
+                            })
+                        });
+
+
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            showNotification('Registrasi berhasil! Redirecting...', 'bg-green-500');
+                            setTimeout(() => {
+                                window.location.href = '/logic/login.php';
+                            }, 2000);
+                        } else {
+                            if (result.employee_id) {
+                                showError('employeeIdError', 'Employee ID sudah ada, silakan buat yang baru.');
+                            }
+                            if (result.email) {
+                                showError('emailError', 'Email sudah digunakan, silakan pakai email lain.');
+                            }
+
+                            if (!result.employee_id && !result.email) {
+                                showNotification(result.message || 'Registrasi gagal', 'bg-red-500');
+                            }
+                        }
+
+
+                    } catch (error) {
+                        showNotification('Terjadi kesalahan, coba lagi', 'bg-red-500');
+                    }
                 });
 
-                const result = await response.json();
+                function showNotification(message, bgColor) {
+                    const notification = document.getElementById('notification');
+                    notification.textContent = message;
+                    notification.className = `p-3 text-center text-white rounded-md ${bgColor}`;
+                    notification.classList.remove('hidden');
 
-                if (response.ok) {
-                    showNotification('Registrasi berhasil! Redirecting...', 'bg-green-500');
-                    setTimeout(() => { window.location.href = '/logic/login.php'; }, 2000);
-                } else {
-                    showNotification(result.message || 'Registrasi gagal', 'bg-red-500');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 3000); // Notifikasi akan hilang setelah 3 detik
                 }
-            } catch (error) {
-                showNotification('Terjadi kesalahan, coba lagi', 'bg-red-500');
-            }
-        });
 
-        function showNotification(message, bgColor) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `p-4 mb-4 text-center rounded-md ${bgColor}`;
-            notification.classList.remove('hidden');
-        }
+                function showError(id, message) {
+                    const element = document.getElementById(id);
+                    element.textContent = message;
+                    element.classList.remove('hidden');
+                }
 
-        function validateEmail(email) {
-            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return re.test(email);
-        }
-    </script>
+                function clearErrors() {
+                    document.querySelectorAll('small.text-red-500').forEach(el => {
+                        el.textContent = '';
+                        el.classList.add('hidden');
+                    });
+                }
+
+                function validateEmail(email) {
+                    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    return re.test(email);
+                }
+
+                document.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('keyup', () => clearErrors());
+                });
+            </script>
+
 </body>
+
 </html>
