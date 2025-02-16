@@ -1,6 +1,6 @@
 <?php
 require_once('../logic/loginvalidation.php');
-$user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../login.php');
+$user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../logic/login.php');
 ?>
 
 <!DOCTYPE html>
@@ -118,49 +118,49 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `${getCookie('auth_token')}`
+              'Authorization': ${ getCookie('auth_token') }
             }
           });
 
-          if (!response.ok) {
-            throw new Error('Gagal logout. Silakan coba lagi.');
-          }
+    if (!response.ok) {
+      throw new Error('Gagal logout. Silakan coba lagi.');
+    }
 
-          // Hapus cookie auth_token setelah logout berhasil
-          document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+    // Hapus cookie auth_token setelah logout berhasil
+    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
 
-          alert('Logout berhasil.');
-          window.location.href = '../logic/login.php'; // Arahkan pengguna kembali ke halaman login
+    alert('Logout berhasil.');
+    window.location.href = '../logic/login.php'; // Arahkan pengguna kembali ke halaman login
         } catch (error) {
-          console.error('Terjadi kesalahan saat logout:', error);
-          alert('Terjadi kesalahan saat logout.');
-        }
+      console.error('Terjadi kesalahan saat logout:', error);
+      alert('Terjadi kesalahan saat logout.');
+    }
       }
 
-      // Fungsi untuk mendapatkan nilai cookie
-      function getCookie(name) {
-        const cookieString = `; ${document.cookie}`;
-        const parts = cookieString.split(`; ${name}=`);
-        if (parts.length === 2) {
-          return parts.pop().split(';').shift();
-        }
-        return null;
+    // Fungsi untuk mendapatkan nilai cookie
+    function getCookie(name) {
+      const cookieString = ; ${ document.cookie };
+      const parts = cookieString.split(; ${ name }=);
+      if (parts.length === 2) {
+        return parts.pop().split(';').shift();
       }
+      return null;
+    }
 
-      // Event listener untuk tombol logout
-      logoutButton.addEventListener('click', handleLogout);
+    // Event listener untuk tombol logout
+    logoutButton.addEventListener('click', handleLogout);
 
-      // Event listener untuk toggle dropdown
-      profileButton.addEventListener('click', function () {
-        profileDropdown.classList.toggle('hidden');
-      });
+    // Event listener untuk toggle dropdown
+    profileButton.addEventListener('click', function () {
+      profileDropdown.classList.toggle('hidden');
+    });
 
-      // Menutup dropdown jika klik di luar
-      document.addEventListener('click', function (event) {
-        if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
-          profileDropdown.classList.add('hidden');
-        }
-      });
+    // Menutup dropdown jika klik di luar
+    document.addEventListener('click', function (event) {
+      if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
+        profileDropdown.classList.add('hidden');
+      }
+    });
     });
 
     async function fetchOrders() {
@@ -168,7 +168,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
         const response = await fetch('https://ngolab.id/api/transactions');
 
         if (!response.ok) {
-          throw new Error(`Gagal mengambil data: ${response.status} ${response.statusText}`);
+          throw new Error(Gagal mengambil data: ${ response.status } ${ response.statusText });
         }
 
         const data = await response.json();
@@ -291,7 +291,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
 
           if (iIndex === 0) {
             const tdOrder = document.createElement('td');
-            tdOrder.className = `px-4 sm:px-6 py-6 ${isSingleItem ? 'align-middle' : 'align-top'} text-center`;
+            tdOrder.className = px - 4 sm: px - 6 py - 6 ${ isSingleItem ? 'align-middle' : 'align-top' } text - center;
             tdOrder.rowSpan = order.items.length;
             tdOrder.innerHTML = `
           <div class="rounded-lg p-2 sm:p-4 space-y-3 flex flex-col items-center">
@@ -322,7 +322,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
           }
 
           const tdPesanan = document.createElement('td');
-          tdPesanan.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'}`;
+          tdPesanan.className = px - 4 sm: px - 6 py - 4 ${ isSingleItem ? 'align-middle' : 'align-top' };
           tdPesanan.innerHTML = `
         <div class="shadow rounded-md px-4 py-2 ${categoryColors[item.category]} hover:shadow-md transition-shadow duration-200">
           ${item.name}
@@ -331,7 +331,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
           tr.appendChild(tdPesanan);
 
           const tdKeterangan = document.createElement('td');
-          tdKeterangan.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'} text-sm text-gray-700`;
+          tdKeterangan.className = px - 4 sm: px - 6 py - 4 ${ isSingleItem ? 'align-middle' : 'align-top' } text - sm text - gray - 700;
           tdKeterangan.innerHTML = item.notes ?
             `<div class="bg-white shadow rounded-md px-4 py-2 hover:shadow-md transition-shadow duration-200">
           ${item.notes}
@@ -339,7 +339,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
           tr.appendChild(tdKeterangan);
 
           const tdStatus = document.createElement('td');
-          tdStatus.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'}`;
+          tdStatus.className = px - 4 sm: px - 6 py - 4 ${ isSingleItem ? 'align-middle' : 'align-top' };
           const select = document.createElement('select');
           select.className = 'w-full px-3 py-2 border rounded-md';
 
