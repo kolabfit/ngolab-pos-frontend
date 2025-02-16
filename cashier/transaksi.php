@@ -1,10 +1,13 @@
 <?php
 require_once('../logic/loginvalidation.php');
 require_once('../logic/slotvalidation.php');
-$user=Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../logic/login.php');
-Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null,);
+$user = Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../logic/login.php');
+Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null, );
 
 $token = $_COOKIE['auth_token'];
+
+// Ambil nilai slot yang dipilih (misalnya disimpan di cookie 'selected_slot')
+$selected_slot = $_COOKIE['selected_slot'] ?? null;
 
 // Ambil data outlet dari API
 $outletApiUrl = 'https://ngolab.id/api/outlets';
@@ -84,14 +87,26 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md h-screen sticky top-0 self-start">
       <nav class="p-6 space-y-4">
-        <a href="index.php" class="block py-2 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-100">Beranda</a>
+        <!-- Menu Beranda -->
+        <a href="index.php" class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+          Beranda
+        </a>
+        <!-- Menu Transaksi -->
         <a href="transaksi.php"
-          class="block py-2 px-4 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
+          class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
           Transaksi
         </a>
-        <a href="listtransaksi.php" class="block py-2 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
-          List Transaksi
-        </a>
+        <!-- Menu List Transaksi hanya muncul jika bukan Self Service (slot‑5) -->
+        <?php if ($selected_slot !== '5'): ?>
+          <a href="listtransaksi.php" class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+            List Transaksi
+          </a>
+        <?php else: ?>
+          <!-- Jika self service, tampilkan sebagai nonaktif -->
+          <span class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+            List Transaksi
+          </span>
+        <?php endif; ?>
       </nav>
     </aside>
 
@@ -121,7 +136,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
             echo "<div class='p-3'>";
             echo "<h3 class='font-medium'>{$product['name']}</h3>";
             echo "<p class='text-gray-600'>Rp " . number_format($product['price'], 0, ',', '.') . "</p>";
-            echo "<button class='mt-2 w-full py-2 rounded-lg text-white bg-gradient-to-r from-orange-400 to-yellow-400 hover:opacity-90 transition font-medium add-to-order' data-outlet-product-id='{$outletProductId}' data-item='{$product['name']}' data-price='{$product['price']}'>Tambah Pesanan</button>";
+            echo "<button class='mt-2 w-full py-2 rounded-lg text-white bg-gradient-to-r from-orange-400 to-yellow-400 hover:opacity-90 transition font-medium add-to-order' data-outlet-product-id='{$outletProductId}' data-item='{$product['name']}' data-price='{$product['price']}'>Tambah</button>";
             echo "</div>";
             echo "</div>";
           }
@@ -166,7 +181,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
             </div>
             <div class="flex justify-between">
               <span>Discount</span>
-              <span id="total_discount">-Rp0</span>
+              <span id="total_discount">Rp0</span>
             </div>
             <div class="flex justify-between font-medium border-t pt-2">
               <span>Total Payment</span>
@@ -218,6 +233,80 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
       </div>
     </div>
   </div>
+
+  <!-- Modal Recap Pesanan -->
+  <div id="transactionRecapModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition duration-300">
+    <div class="bg-white rounded-lg w-[600px] p-6 shadow-lg transform transition duration-300">
+      <!-- Bagian Header Modal -->
+      <div class="flex justify-between items-center border-b pb-2 mb-4">
+        <h2 class="text-2xl font-semibold">Recap Pesanan</h2>
+        <button id="closeRecapModal" class="text-gray-500 hover:text-gray-700 text-xl focus:outline-none">
+          &times;
+        </button>
+      </div>
+
+      <!-- Konten Detail Transaksi -->
+      <div id="transactionRecapContent" class="overflow-y-auto max-h-[400px] text-sm text-gray-700 space-y-4">
+        <!-- 
+        KONTEN RECAP AKAN DIINJEKSIKAN DARI JAVASCRIPT 
+        (buildTransactionRecap()) 
+      -->
+      </div>
+
+      <!-- Tombol Lanjut ke Pembayaran -->
+      <div class="mt-6 flex justify-end">
+        <button id="proceedPaymentBtn"
+          class="px-6 py-3 rounded-lg bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-medium hover:opacity-90 transition">
+          Lanjut ke Pembayaran
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Payment Code -->
+  <div id="paymentCodeModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition duration-300">
+    <div class="bg-white rounded-lg w-[400px] p-6 shadow-lg transform transition duration-300">
+      <!-- Bagian Header Modal -->
+      <div class="flex justify-between items-center border-b pb-2 mb-4">
+        <h2 class="text-2xl font-semibold">Kode Pembayaran</h2>
+        <button id="closePaymentModal" class="text-gray-500 hover:text-gray-700 text-xl focus:outline-none">
+          &times;
+        </button>
+      </div>
+
+      <div id="alert-3"
+        class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50"
+        role="alert">
+        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div class="ms-3 text-sm font-medium">
+          Silahkan lakukan konfirmasi pembayaran menuju kasir sesuai dengan kode dibawah ini
+        </div>
+      </div>
+
+      <!-- Konten Kode Pembayaran atau QRIS -->
+      <div id="paymentCodeContent" class="overflow-y-auto max-h-[300px] text-sm text-gray-700 space-y-4">
+        <!-- Konten akan diinject oleh JavaScript (buildPaymentCodeModal) -->
+      </div>
+
+      <!-- Tombol Konfirmasi Sudah Dibayar -->
+      <div class="mt-6 flex justify-end">
+        <button id="confirmPaidBtn" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+          Konfirmasi Sudah Dibayar
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <script src="menu.js"></script>
 </body>

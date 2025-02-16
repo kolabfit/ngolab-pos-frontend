@@ -45,7 +45,7 @@ Validation::isLogin($_COOKIE['auth_token'] ?? null, '../index.php', '../cashier/
     <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <a href="login.php" class="text-2xl font-bold">
-                My App
+                Ngolab POS
             </a>
             <div>
                 <ul class="flex space-x-4">

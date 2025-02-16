@@ -5,6 +5,10 @@ Validation::validateLoginCashier($_COOKIE['auth_token'] ?? null, '../logic/login
 Slotvalidation::isnotfillslot($_COOKIE['auth_token'] ?? null);
 
 $token = $_COOKIE['auth_token'];
+
+// Ambil nilai slot yang dipilih (misalnya disimpan di cookie 'selected_slot')
+$selected_slot = $_COOKIE['selected_slot'] ?? null;
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -76,18 +80,23 @@ $token = $_COOKIE['auth_token'];
                     class="block py-2 px-4 p-3 mb-3 rounded-lg font-medium bg-gradient-to-r from-orange-400 to-yellow-400 text-white">
                     Beranda
                 </a>
-
                 <!-- Menu Transaksi -->
                 <a href="transaksi.php"
                     class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
                     Transaksi
                 </a>
-
-                <!-- Menu List Transaksi -->
-                <a href="listtransaksi.php"
-                    class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
-                    List Transaksi
-                </a>
+                <!-- Menu List Transaksi hanya muncul jika bukan Self Service (slot‑5) -->
+                <?php if ($selected_slot !== '5'): ?>
+                    <a href="listtransaksi.php"
+                        class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+                        List Transaksi
+                    </a>
+                <?php else: ?>
+                    <!-- Jika self service, tampilkan sebagai nonaktif -->
+                    <span class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-400 cursor-not-allowed">
+                        List Transaksi
+                    </span>
+                <?php endif; ?>
             </nav>
         </aside>
 
@@ -423,7 +432,7 @@ $token = $_COOKIE['auth_token'];
                     data.data.forEach(outlet => {
                         const option = document.createElement('option');
                         option.value = outlet.id;
-                        option.textContent = `${outlet.name} - ${outlet.address}`;
+                        option.textContent = `${outlet.name}`;
                         outletSelect.appendChild(option);
                     });
                 } catch (error) {

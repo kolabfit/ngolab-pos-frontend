@@ -50,6 +50,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .slot {
@@ -103,6 +104,10 @@
             <div id="slot-4" class="slot" onclick="pilihSlot(4)">
                 <div class="slot-text">Kasir 4</div>
             </div>
+            <!-- Slot baru untuk Self Service -->
+            <div id="slot-5" class="slot" onclick="pilihSlot(5)">
+                <div class="slot-text">Self Service</div>
+            </div>
         </div>
     </div>
 
@@ -137,7 +142,7 @@
                 result.data.forEach(slotData => {
                     const slotElement = document.getElementById(`slot-${slotData.number}`);
                     if (slotElement) {
-                        // Nonaktifkan slot
+                        // Nonaktifkan slot jika sudah diisi
                         slotElement.classList.add('disabled');
                         slotElement.onclick = null;
 
@@ -167,10 +172,13 @@
 
                 if (!response.ok) {
                     alert('Gagal mengisi slot. Silakan coba lagi.');
+                    return;
                 }
 
                 const result = await response.json();
-                alert(`Berhasil memilih slot kasir ${slotNumber}: ${result.message}`);
+                // Simpan slot yang dipilih dalam cookie agar bisa digunakan di middleware
+                document.cookie = `selected_slot=${slotNumber}; path=/`;
+                alert(`Berhasil memilih slot ${slotNumber}: ${result.message}`);
                 window.location.href = 'index.php';
             } catch (error) {
                 alert(`Terjadi kesalahan: ${error.message}`);
