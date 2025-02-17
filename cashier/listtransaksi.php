@@ -195,7 +195,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
 
         async function fetchOutlets() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/outlets');
+                const response = await fetch('https://ngolab.id/api/outlets');
                 const data = await response.json();
 
                 if (data.success) {
@@ -233,7 +233,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
         }
 
         async function fetchTransactions() {
-            const apiUrl = `http://127.0.0.1:8000/api/transactions${currentOutletId ? `?outlet_id=${currentOutletId}` : ''}`;
+            const apiUrl = `https://ngolab.id/api/transactions${currentOutletId ? `?outlet_id=${currentOutletId}` : ''}`;
             console.log(`Fetching data from: ${apiUrl}`);
 
             try {
@@ -392,7 +392,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
         // Fungsi untuk mengkonfirmasi pembayaran pada listtransaksi.php
         function confirmPayment(transactionId) {
             if (confirm('Anda yakin ingin mengonfirmasi pembayaran untuk transaksi ' + transactionId + '?')) {
-                fetch("http://127.0.0.1:8000/api/transactions/pay", {
+                fetch("https://ngolab.id/api/transactions/pay", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -477,7 +477,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                 if (!confirmation) return;
 
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/api/users/logout', {
+                    const response = await fetch('https://ngolab.id/api/users/logout', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',

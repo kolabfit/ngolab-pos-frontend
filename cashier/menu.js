@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })),
       voucher_code: voucherCode
     };
-    fetch("http://127.0.0.1:8000/api/transactions/discount", {
+    fetch("https://ngolab.id/api/transactions/discount", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ...(customerInstagramInput && customerInstagramInput.value.trim() ? { customer_instagram: customerInstagramInput.value.trim() } : {})
     };
 
-    fetch("http://127.0.0.1:8000/api/transactions", {
+    fetch("https://ngolab.id/api/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", function () {
       codeEl.textContent = `Kode Pembayaran: ${currentTransaction.id}`;
       paymentCodeContent.appendChild(codeEl);
     } else if (currentTransaction.payment_method === "qris") {
-      fetch("http://127.0.0.1:8000/api/outlets", {
+      fetch("https://ngolab.id/api/outlets", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -557,7 +557,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmation = confirm("Apakah Anda yakin ingin logout?");
     if (!confirmation) return;
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/logout", {
+      const response = await fetch("https://ngolab.id/api/users/logout", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
