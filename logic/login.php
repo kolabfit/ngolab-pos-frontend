@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     // URL API Laravel untuk login
-    $url = 'https://ngolab.id/api/users/login';
+    $url = 'http://127.0.0.1:8000/api/users/login';
 
     // Data yang akan dikirim ke API dalam format JSON
     $data = [

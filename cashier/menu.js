@@ -7,13 +7,70 @@ function getCookie(name) {
   return null;
 }
 
+// Fungsi showAlert menampilkan notifikasi di tengah atas halaman
+function showAlert(message, type = 'success', duration = 3000) {
+  let alertContainer = document.getElementById('alert-container');
+  if (!alertContainer) {
+    alertContainer = document.createElement('div');
+    alertContainer.id = 'alert-container';
+    alertContainer.className = "fixed top-5 left-1/2 transform -translate-x-1/2 z-50";
+    document.body.appendChild(alertContainer);
+  }
+
+  let bgColor, borderColor, textColor;
+  switch (type) {
+    case 'success':
+      bgColor = 'bg-green-100';
+      borderColor = 'border-green-400';
+      textColor = 'text-green-700';
+      break;
+    case 'error':
+      bgColor = 'bg-red-100';
+      borderColor = 'border-red-400';
+      textColor = 'text-red-700';
+      break;
+    case 'warning':
+      bgColor = 'bg-yellow-100';
+      borderColor = 'border-yellow-400';
+      textColor = 'text-yellow-700';
+      break;
+    case 'info':
+      bgColor = 'bg-blue-100';
+      borderColor = 'border-blue-400';
+      textColor = 'text-blue-700';
+      break;
+    default:
+      bgColor = 'bg-gray-100';
+      borderColor = 'border-gray-400';
+      textColor = 'text-gray-700';
+  }
+
+  const alertBox = document.createElement('div');
+  alertBox.className = `px-6 py-4 ${bgColor} ${borderColor} ${textColor} border rounded shadow-md mb-2`;
+  alertBox.textContent = message;
+  alertContainer.appendChild(alertBox);
+
+  setTimeout(() => {
+    alertBox.classList.add("opacity-0", "transition-opacity", "duration-500");
+    setTimeout(() => {
+      alertBox.remove();
+      if (!alertContainer.hasChildNodes()) {
+        alertContainer.remove();
+      }
+    }, 500);
+  }, duration);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   let orderItems = [];
   let subtotal = 0;
-  let discount = 0;
-  let selectedOrderType = "dine_in"; // Default order type
+  let discount = 0;         // Akan diisi dari API voucher (jika ada)
+  let finalPriceLocal = 0;  // Perhitungan lokal total pesanan setelah diskon
+  let selectedOrderType = "dine_in";
+  let currentTransaction = null;
+  let currentOutletId = null;
 
-  // Elemen-elemen DOM utama
+  // Elemen DOM utama
   const orderSummary = document.getElementById("order-items");
   const subtotalEl = document.getElementById("subtotal");
   const totalEl = document.getElementById("total");
@@ -24,12 +81,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Input data customer
   const customerNameInput = document.getElementById("customerName");
-  const customerPhoneInput = document.getElementById("customerPhone"); // Opsional
-  const customerEmailInput = document.getElementById("customerEmail"); // Opsional
-  const customerInstagramInput = document.getElementById("customerInstagram"); // Opsional
+  const customerPhoneInput = document.getElementById("customerPhone");
+  const customerEmailInput = document.getElementById("customerEmail");
+  const customerInstagramInput = document.getElementById("customerInstagram");
 
-  // Select untuk metode pembayaran
-  const paymentTypeSelect = document.getElementById("paymentType");
+  // Payment method (hidden input + dropdown)
+  const paymentTypeInput = document.getElementById("paymentType");
+  const paymentDropdownButton = document.getElementById("paymentDropdownButton");
+  const paymentDropdownMenu = document.getElementById("paymentDropdownMenu");
+  const selectedPayment = document.getElementById("selectedPayment");
 
   // Modal Edit Order
   const editOrderModal = document.getElementById("editOrderModal");
@@ -45,28 +105,50 @@ document.addEventListener("DOMContentLoaded", function () {
   const outletFilterButtons = document.querySelectorAll(".outlet-filter");
   const menuItems = document.querySelectorAll(".menu-item");
 
-  // Logout dan Profile
+  // Logout & Profile
   const profileButton = document.getElementById("profileButton");
   const profileDropdown = document.getElementById("profileDropdown");
   const logoutButton = document.getElementById("logoutButton");
 
-  // Modal Recap Pesanan (menampilkan detail transaksi)
+  // Modal Recap Pesanan (untuk menampilkan rangkuman pesanan lokal)
   const transactionRecapModal = document.getElementById("transactionRecapModal");
   const transactionRecapContent = document.getElementById("transactionRecapContent");
   const closeRecapModal = document.getElementById("closeRecapModal");
   const proceedPaymentBtn = document.getElementById("proceedPaymentBtn");
 
-  // Modal Payment Code (menampilkan kode pembayaran atau QRIS)
+  // Modal Payment Code (untuk menampilkan kode pembayaran/QRIS)
   const paymentCodeModal = document.getElementById("paymentCodeModal");
   const paymentCodeContent = document.getElementById("paymentCodeContent");
   const closePaymentModal = document.getElementById("closePaymentModal");
   const confirmPaidBtn = document.getElementById("confirmPaidBtn");
 
-  let currentEditIndex = null;
-  let currentTransaction = null;
-  let currentOutletId = null; // Outlet aktif (jika difilter)
+  // ===========================
+  // Payment Dropdown Setup
+  // ===========================
+  if (paymentDropdownButton) {
+    paymentDropdownButton.addEventListener("click", function (e) {
+      e.stopPropagation();
+      paymentDropdownMenu.classList.toggle("hidden");
+    });
+    document.querySelectorAll("#paymentDropdownMenu a").forEach(item => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        const value = this.getAttribute("data-value");
+        selectedPayment.textContent = this.textContent;
+        paymentTypeInput.value = value;
+        paymentDropdownMenu.classList.add("hidden");
+      });
+    });
+    window.addEventListener("click", function (e) {
+      if (!paymentDropdownButton.contains(e.target)) {
+        paymentDropdownMenu.classList.add("hidden");
+      }
+    });
+  }
 
-  // Fungsi untuk memfilter menu berdasarkan input pencarian
+  // ===========================
+  // Filtering Menu (Search)
+  // ===========================
   function filterMenuBySearch(query) {
     menuItems.forEach((item) => {
       const itemName = item.querySelector("h3").textContent.toLowerCase();
@@ -77,13 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
   searchInput.addEventListener("input", function () {
     const searchQuery = searchInput.value.trim();
     filterMenuBySearch(searchQuery);
   });
 
-  // Fungsi untuk memperbarui ringkasan pesanan
+  // ===========================
+  // Update Order Summary
+  // ===========================
   function updateOrderSummary() {
     orderSummary.innerHTML = "";
     subtotal = 0;
@@ -108,10 +191,25 @@ document.addEventListener("DOMContentLoaded", function () {
       orderSummary.appendChild(orderCard);
     });
     subtotalEl.textContent = `Rp${subtotal.toLocaleString()}`;
-    totalEl.textContent = `Rp${(subtotal - discount).toLocaleString()}`;
+
+    const totalAfterDiscountEl = document.getElementById("totalAfterDiscount");
+    if (discount > 0) {
+      finalPriceLocal = subtotal - discount;
+      totalEl.classList.add("hidden");
+      totalAfterDiscountEl.textContent = `Rp${finalPriceLocal.toLocaleString()}`;
+      totalAfterDiscountEl.classList.remove("hidden");
+    } else {
+      discount = 0;
+      finalPriceLocal = subtotal;
+      totalAfterDiscountEl.classList.add("hidden");
+      totalEl.textContent = `Rp${finalPriceLocal.toLocaleString()}`;
+      totalEl.classList.remove("hidden");
+    }
   }
 
-  // Event listener untuk tombol order type (Dine In, Takeaway, dsb.)
+  // ===========================
+  // Order Type Buttons
+  // ===========================
   orderTypeButtons.forEach((button) => {
     button.addEventListener("click", function () {
       selectedOrderType = this.getAttribute("data-type");
@@ -125,7 +223,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Fungsi untuk memfilter menu berdasarkan outlet
+  // ===========================
+  // Filter Menu by Outlet
+  // ===========================
   function filterMenuByOutlet(outletId) {
     menuItems.forEach((item) => {
       if (item.getAttribute("data-outlet") === outletId) {
@@ -135,8 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
-  // Event listener untuk tombol filter outlet
   outletFilterButtons.forEach((button) => {
     button.addEventListener("click", function () {
       currentOutletId = this.getAttribute("data-outlet");
@@ -150,19 +248,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Fungsi untuk menampilkan modal edit pesanan
+  // ===========================
+  // Modal Edit Order
+  // ===========================
+  let currentEditIndex = null;
   function showEditOrderModal(index) {
     const order = orderItems[index];
-    currentEditIndex = index;
     document.getElementById("editOrderImage").src = order.image;
     document.getElementById("editOrderName").textContent = order.item;
     document.getElementById("editOrderPrice").textContent = `Rp ${order.price.toLocaleString()}`;
     orderQuantityEl.textContent = order.quantity;
     orderNoteTextarea.value = order.note || "";
+    currentEditIndex = index;
     editOrderModal.classList.remove("hidden");
   }
-
-  // Event listener untuk edit dan hapus pada ringkasan pesanan
   orderSummary.addEventListener("click", function (e) {
     if (e.target.closest(".edit-order")) {
       const index = e.target.closest(".edit-order").getAttribute("data-index");
@@ -173,11 +272,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (confirm("Apakah Anda yakin ingin menghapus pesanan ini?")) {
         orderItems.splice(index, 1);
         updateOrderSummary();
+        showAlert("Pesanan berhasil dihapus.", "success", 2000);
       }
     }
   });
 
-  // Menambahkan pesanan dari menu
+  // ===========================
+  // Add Order from Menu
+  // ===========================
   document.querySelectorAll(".add-to-order").forEach((button) => {
     button.addEventListener("click", function () {
       const item = this.getAttribute("data-item");
@@ -191,36 +293,52 @@ document.addEventListener("DOMContentLoaded", function () {
         orderItems.push({ item, price, quantity: 1, image: imageSrc, note: "", id: id });
       }
       updateOrderSummary();
+      showAlert("Pesanan berhasil ditambahkan.", "success", 2000);
     });
   });
 
-  // Perubahan kuantitas pada modal edit pesanan
-  increaseQuantityBtn.addEventListener("click", function () {
-    let currentQuantity = parseInt(orderQuantityEl.textContent);
-    orderQuantityEl.textContent = ++currentQuantity;
-  });
-  decreaseQuantityBtn.addEventListener("click", function () {
-    let currentQuantity = parseInt(orderQuantityEl.textContent);
-    if (currentQuantity > 1) {
-      orderQuantityEl.textContent = --currentQuantity;
-    }
-  });
-  // Konfirmasi edit pesanan
-  confirmEditOrderBtn.addEventListener("click", function () {
-    if (currentEditIndex !== null) {
-      const updatedQuantity = parseInt(orderQuantityEl.textContent);
-      const updatedNote = orderNoteTextarea.value.trim();
-      orderItems[currentEditIndex].quantity = updatedQuantity;
-      orderItems[currentEditIndex].note = updatedNote;
-      updateOrderSummary();
+  // ===========================
+  // Quantity Adjustment in Edit Modal
+  // ===========================
+  if (increaseQuantityBtn) {
+    increaseQuantityBtn.addEventListener("click", function () {
+      let currentQuantity = parseInt(orderQuantityEl.textContent);
+      orderQuantityEl.textContent = ++currentQuantity;
+    });
+  }
+  if (decreaseQuantityBtn) {
+    decreaseQuantityBtn.addEventListener("click", function () {
+      let currentQuantity = parseInt(orderQuantityEl.textContent);
+      if (currentQuantity > 1) {
+        orderQuantityEl.textContent = --currentQuantity;
+      }
+    });
+  }
+  if (confirmEditOrderBtn) {
+    confirmEditOrderBtn.addEventListener("click", function () {
+      if (currentEditIndex !== null) {
+        const updatedQuantity = parseInt(orderQuantityEl.textContent);
+        const updatedNote = orderNoteTextarea.value.trim();
+        orderItems[currentEditIndex].quantity = updatedQuantity;
+        orderItems[currentEditIndex].note = updatedNote;
+        updateOrderSummary();
+        editOrderModal.classList.add("hidden");
+        showAlert("Pesanan berhasil diperbarui.", "success", 3000);
+        if (updatedNote !== "") {
+          showAlert("Catatan: " + updatedNote, "info", 3000);
+        }
+      }
+    });
+  }
+  if (closeEditModalBtn) {
+    closeEditModalBtn.addEventListener("click", function () {
       editOrderModal.classList.add("hidden");
-    }
-  });
-  closeEditModalBtn.addEventListener("click", function () {
-    editOrderModal.classList.add("hidden");
-  });
+    });
+  }
 
-  // Event listener untuk apply voucher
+  // ===========================
+  // Apply Voucher
+  // ===========================
   applyVoucherBtn.addEventListener("click", function (e) {
     e.preventDefault();
     const voucherCode = voucherInput.value.trim().toUpperCase();
@@ -235,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })),
       voucher_code: voucherCode
     };
-    fetch("https://ngolab.id/api/transactions/discount", {
+    fetch("http://127.0.0.1:8000/api/transactions/discount", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -248,8 +366,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then(data => {
-        document.getElementById('total_discount').textContent = `-Rp ${data.data.total_discount.toLocaleString()}`;
-        document.getElementById('totalAfterDiscount').textContent = `Rp ${data.data.final_price.toLocaleString()}`;
+        discount = data.data.total_discount;
+        finalPriceLocal = data.data.final_price;
+        document.getElementById('total_discount').textContent = `-Rp ${discount.toLocaleString()}`;
+        document.getElementById('totalAfterDiscount').textContent = `Rp ${finalPriceLocal.toLocaleString()}`;
         document.getElementById('totalAfterDiscount').classList.remove('hidden');
         document.getElementById('total').classList.add('hidden');
         updateOrderSummary();
@@ -260,51 +380,69 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  // --- FLOW TRANSAKSI ---
-
-  // 1. Saat user menekan Confirm Payment: Buat transaksi dengan payment_status pending
+  // ===========================
+  // TRANSACTION FLOW
+  // ===========================
+  // 1. Confirm Payment -> Tampilkan modal recap pesanan lokal (tanpa mengirim data ke API)
   confirmPaymentBtn.addEventListener("click", function (event) {
     event.preventDefault();
     if (orderItems.length === 0) {
       alert("Pesanan kosong.");
       return;
     }
-    const customerName = customerNameInput ? customerNameInput.value.trim() : "";
+    const customerName = customerNameInput.value.trim();
     if (!customerName) {
       alert("Nama customer wajib diisi.");
       return;
     }
-    const paymentMethod = paymentTypeSelect ? paymentTypeSelect.value.toLowerCase() : "";
+    const paymentMethod = paymentTypeInput.value.toLowerCase();
     if (!["tunai", "qris"].includes(paymentMethod)) {
       alert("Metode pembayaran tidak valid.");
       return;
     }
-    const orderType = selectedOrderType;
-    const outlet_products = orderItems.map(order => {
-      return {
+    buildLocalRecap();
+    transactionRecapModal.classList.remove("hidden");
+  });
+
+  // Fungsi untuk membangun recap pesanan lokal
+  function buildLocalRecap() {
+    let serviceTypeText = (selectedOrderType === 'dine_in') ? 'Dine In' : 'Take Away';
+    const paymentMethod = paymentTypeInput.value.toLowerCase();
+    let finalLocal = discount > 0 ? (subtotal - discount) : subtotal;
+    const recapHTML = `
+      <p><strong>Customer Name:</strong> ${customerNameInput.value.trim()}</p>
+      <p><strong>Service Type:</strong> ${serviceTypeText}</p>
+      <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+      <p><strong>Discount:</strong> Rp ${discount.toLocaleString()}</p>
+      <p><strong>Final Price (Local):</strong> Rp ${finalLocal.toLocaleString()}</p>
+      <hr />
+      <h3 class="text-lg font-semibold">Detail Pesanan:</h3>
+      <ul class="list-disc pl-5">
+        ${orderItems.map(item => `<li>${item.item} (Qty: ${item.quantity})${item.note ? ' - Catatan: ' + item.note : ''}</li>`).join("")}
+      </ul>
+    `;
+    transactionRecapContent.innerHTML = recapHTML;
+  }
+
+  // 2. Lanjut ke Pembayaran -> Kirim payload ke API dan tampilkan modal Payment Code
+  proceedPaymentBtn.addEventListener("click", function () {
+    const payload = {
+      outlet_products: orderItems.map(order => ({
         outlet_product_id: parseInt(order.id, 10),
         quantity: order.quantity,
         notes: String(order.note).trim()
-      };
-    });
-    const customerPhone = customerPhoneInput ? customerPhoneInput.value.trim() : "";
-    const customerEmail = customerEmailInput ? customerEmailInput.value.trim() : "";
-    const customerInstagram = customerInstagramInput ? customerInstagramInput.value.trim() : "";
-    const voucherCode = voucherInput.value.trim();
-    const payload = {
-      outlet_products,
-      customer_name: customerName,
-      payment_status: "pending", // transaksi baru dengan status pending
-      payment_method: paymentMethod,
-      service_type: orderType,
-      ...(voucherCode ? { voucher_code: voucherCode } : {}),
-      ...(customerPhone ? { customer_phone: customerPhone } : {}),
-      ...(customerEmail ? { customer_email: customerEmail } : {}),
-      ...(customerInstagram ? { customer_instagram: customerInstagram } : {})
+      })),
+      customer_name: customerNameInput.value.trim(),
+      payment_status: "pending",
+      payment_method: paymentTypeInput.value.toLowerCase(),
+      service_type: selectedOrderType,
+      ...(voucherInput.value.trim() ? { voucher_code: voucherInput.value.trim() } : {}),
+      ...(customerPhoneInput && customerPhoneInput.value.trim() ? { customer_phone: customerPhoneInput.value.trim() } : {}),
+      ...(customerEmailInput && customerEmailInput.value.trim() ? { customer_email: customerEmailInput.value.trim() } : {}),
+      ...(customerInstagramInput && customerInstagramInput.value.trim() ? { customer_instagram: customerInstagramInput.value.trim() } : {})
     };
 
-    // Cek saldo outlet product
-    fetch("https://ngolab.id/api/balances/outlet-product/check", {
+    fetch("http://127.0.0.1:8000/api/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -313,115 +451,43 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify(payload)
     })
       .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok " + response.statusText);
-        return response.json();
-      })
-      .then(() => {
-        // Buat transaksi via API
-        return fetch("https://ngolab.id/api/transactions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${getCookie('auth_token')}`
-          },
-          body: JSON.stringify(payload)
-        });
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Gagal membuat transaksi: Silahkan input saldo awal " + response.statusText);
+        if (!response.ok) throw new Error("Gagal membuat transaksi: " + response.statusText);
         return response.json();
       })
       .then(data => {
-        // Simpan data transaksi yang baru dibuat
         currentTransaction = data.data;
-        // Bangun modal recap transaksi dan tampilkan
-        buildTransactionRecap();
-        transactionRecapModal.classList.remove("hidden");
+        transactionRecapModal.classList.add("hidden");
+        buildPaymentCodeModal();
+        paymentCodeModal.classList.remove("hidden");
+        showAlert("Transaksi berhasil dibuat. Silahkan konfirmasi pembayaran di kasir.", "success", 3000);
       })
       .catch(error => {
         console.error("Error:", error);
         alert("Terjadi error saat membuat transaksi: " + error.message);
-        window.location.href = "index.php";
       });
   });
 
-  // Fungsi untuk membangun isi modal Recap Pesanan
-  function buildTransactionRecap() {
-    transactionRecapContent.innerHTML = "";
-    if (!currentTransaction) return;
-
-    // Format service type agar tampil sesuai keinginan
-    let serviceTypeText = currentTransaction.service_type;
-    if (serviceTypeText === 'dine_in') {
-      serviceTypeText = 'Dine In';
-    } else if (serviceTypeText === 'take_away') {
-      serviceTypeText = 'Take Away';
-    }
-
-    // Buat konten recap dengan informasi transaksi
-    const recapHTML = `
-      <p><strong>ID Transaksi:</strong> ${currentTransaction.id}</p>
-      <p><strong>Customer ID:</strong> ${currentTransaction.customer ? currentTransaction.customer.id : '-'}</p>
-      <p><strong>Customer Name:</strong> ${currentTransaction.customer ? currentTransaction.customer.name : currentTransaction.customer_name}</p>
-      <p><strong>Service Type:</strong> ${serviceTypeText}</p>
-      <p><strong>Payment Method:</strong> ${currentTransaction.payment_method}</p>
-      <p><strong>Total Discount:</strong> Rp${(currentTransaction.total_discount || 0).toLocaleString()}</p>
-      <p><strong>Total Price:</strong> Rp${(currentTransaction.total_price || 0).toLocaleString()}</p>
-      <p><strong>Final Price:</strong> Rp${(currentTransaction.final_price || 0).toLocaleString()}</p>
-      <hr />
-      <h3 class="text-lg font-semibold">Detail Pesanan:</h3>
-      <ul class="list-disc pl-5">
-        ${currentTransaction.details && currentTransaction.details.length
-        ? currentTransaction.details.map(detail => {
-          const productName = detail.outlet_product && detail.outlet_product.product ? detail.outlet_product.product.name : 'Item';
-          return `<li>${productName} (Qty: ${detail.quantity}) ${detail.notes ? '- Catatan: ' + detail.notes : ''}</li>`;
-        }).join("")
-        : "<li>Tidak ada detail pesanan.</li>"
-      }
-      </ul>
-    `;
-    transactionRecapContent.innerHTML = recapHTML;
-  }
-
-
-  // Ketika user menekan tombol "Lanjut ke Pembayaran" pada modal recap
-  proceedPaymentBtn.addEventListener("click", function () {
-    transactionRecapModal.classList.add("hidden");
-    buildPaymentCodeModal();
-    paymentCodeModal.classList.remove("hidden");
-  });
-
-  // Fungsi untuk membangun isi modal Payment Code
+  // Fungsi untuk menampilkan modal Payment Code
   function buildPaymentCodeModal() {
     paymentCodeContent.innerHTML = "";
     if (!currentTransaction) return;
-
-    const paymentMethod = currentTransaction.payment_method;
-    const finalPrice = currentTransaction.final_price || 0; // final_price dari transaksi
-
-    // Bagian pertama: informasi umum (final_price)
+    let finalPrice = currentTransaction.final_price || 0;
     const infoWrapper = document.createElement("div");
     infoWrapper.classList.add("p-4", "border", "rounded-lg", "shadow-sm", "space-y-2", "bg-gray-50");
 
-    // Tampilkan final_price
     const priceEl = document.createElement("p");
     priceEl.classList.add("text-lg", "font-medium", "text-gray-700");
     priceEl.textContent = `Total Tagihan: Rp${finalPrice.toLocaleString()}`;
     infoWrapper.appendChild(priceEl);
-
-    // Sisipkan infoWrapper ke paymentCodeContent
     paymentCodeContent.appendChild(infoWrapper);
 
-    // Bagian kedua: menampilkan kode pembayaran atau QRIS
-    if (paymentMethod === "tunai") {
-      // Tampilkan ID transaksi sebagai kode pembayaran
+    if (currentTransaction.payment_method === "tunai") {
       const codeEl = document.createElement("p");
       codeEl.classList.add("text-lg", "font-semibold", "text-blue-600", "mt-4");
       codeEl.textContent = `Kode Pembayaran: ${currentTransaction.id}`;
       paymentCodeContent.appendChild(codeEl);
-    } else if (paymentMethod === "qris") {
-      // Fetch data outlet untuk mendapatkan gambar QRIS
-      fetch("https://ngolab.id/api/outlets", {
+    } else if (currentTransaction.payment_method === "qris") {
+      fetch("http://127.0.0.1:8000/api/outlets", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -429,27 +495,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
         .then(response => {
-          if (!response.ok) {
-            throw new Error("Gagal mengambil data outlet: " + response.statusText);
-          }
+          if (!response.ok) throw new Error("Gagal mengambil data outlet: " + response.statusText);
           return response.json();
         })
         .then(data => {
           const outlets = data.data || [];
-          // Cari outlet yang sesuai dengan currentOutletId
           let outlet = outlets.find(o => String(o.id) === currentOutletId);
           if (!outlet && outlets.length > 0) {
             outlet = outlets[0];
           }
           if (outlet && outlet.qris) {
-            const qrEl = document.createElement("img");
-            qrEl.src = outlet.qris;
-            qrEl.alt = "QRIS Code";
-            qrEl.classList.add("w-40", "mt-4", "rounded-md", "border", "block", "mx-auto");
             const codeEl = document.createElement("p");
             codeEl.classList.add("text-lg", "font-semibold", "text-blue-600", "mt-4");
             codeEl.textContent = `Kode Pembayaran: ${currentTransaction.id}`;
             paymentCodeContent.appendChild(codeEl);
+
+            const qrEl = document.createElement("img");
+            qrEl.src = outlet.qris;
+            qrEl.alt = "QRIS Code";
+            qrEl.classList.add("w-40", "mt-4", "rounded-md", "border", "block", "mx-auto");
             paymentCodeContent.appendChild(qrEl);
           } else {
             const msgEl = document.createElement("p");
@@ -466,15 +530,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
-  // Ubah event listener untuk tombol "Konfirmasi Sudah Dibayar"
-  document.getElementById("confirmPaidBtn").addEventListener("click", function () {
-    // Hanya menutup modal Payment Code
-    document.getElementById("paymentCodeModal").classList.add("hidden");
+  // Tombol "Konfirmasi Sudah Dibayar" hanya menutup modal Payment Code
+  confirmPaidBtn.addEventListener("click", function () {
+    // Tutup modal Payment Code
+    paymentCodeModal.classList.add("hidden");
+    // Kosongkan orderItems sehingga order summary tidak muncul lagi
+    orderItems = [];
+    updateOrderSummary();
   });
 
-
-  // Tombol untuk menutup modal Recap Pesanan dan Payment Code
+  // Tutup modal recap dan modal payment code
   closeRecapModal.addEventListener("click", function () {
     transactionRecapModal.classList.add("hidden");
   });
@@ -482,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
     paymentCodeModal.classList.add("hidden");
   });
 
-  // Fungsi logout
+  // Fungsi Logout
   async function handleLogout() {
     const authToken = getCookie("auth_token");
     if (!authToken) {
@@ -492,15 +557,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmation = confirm("Apakah Anda yakin ingin logout?");
     if (!confirmation) return;
     try {
-      const response = await fetch("https://ngolab.id/api/users/logout", {
+      const response = await fetch("http://127.0.0.1:8000/api/users/logout", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${getCookie("auth_token")}`,
-        },
+          Authorization: `${getCookie('auth_token')}`
+        }
       });
       if (!response.ok) throw new Error("Gagal logout. Silakan coba lagi.");
-      document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
       alert("Logout berhasil.");
       window.location.href = "../logic/login.php";
     } catch (error) {
@@ -510,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   logoutButton.addEventListener("click", handleLogout);
 
-  // Toggle dropdown profile
+  // Toggle Profile Dropdown
   profileButton.addEventListener("click", function (event) {
     event.stopPropagation();
     profileDropdown.classList.toggle("hidden");

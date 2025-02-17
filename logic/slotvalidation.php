@@ -5,7 +5,7 @@ class Slotvalidation
     public static function isfillslot(
         $auth_token
     ) {
-        $url = 'https://ngolab.id/api/cashier-slots/check';
+        $url = 'http://127.0.0.1:8000/api/cashier-slots/check';
 
         // Inisiasi cURL
         $ch = curl_init($url);
@@ -36,7 +36,7 @@ class Slotvalidation
     public static function isnotfillslot(
         $auth_token
     ) {
-        $url = 'https://ngolab.id/api/cashier-slots/check';
+        $url = 'http://127.0.0.1:8000/api/cashier-slots/check';
 
         // Inisiasi cURL
         $ch = curl_init($url);

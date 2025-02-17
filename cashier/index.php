@@ -234,7 +234,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
 
     <!-- PHP untuk Fetch Data API -->
     <?php
-    $apiUrl = 'https://ngolab.id/api/transactions';
+    $apiUrl = 'http://127.0.0.1:8000/api/transactions';
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -289,7 +289,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
             // Fungsi untuk memuat saldo hari ini berdasarkan outlet
             async function loadTodayBalances() {
                 try {
-                    const response = await fetch(`https://ngolab.id/api/balances/today?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`http://127.0.0.1:8000/api/balances/today?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -319,7 +319,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
             // Fungsi untuk memuat total transaksi hari ini berdasarkan outlet
             async function loadTodayTransactions() {
                 try {
-                    const response = await fetch(`https://ngolab.id/api/outlet/transactions/sales/day?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`http://127.0.0.1:8000/api/outlet/transactions/sales/day?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -347,7 +347,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
             // Fungsi untuk memuat list transaksi berdasarkan outlet
             async function loadTransactionList() {
                 try {
-                    const response = await fetch(`https://ngolab.id/api/transactions?outlet_id=${selectedOutletId}`, {
+                    const response = await fetch(`http://127.0.0.1:8000/api/transactions?outlet_id=${selectedOutletId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -427,7 +427,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
             // Fungsi untuk memuat daftar outlet
             async function loadOutlets() {
                 try {
-                    const response = await fetch('https://ngolab.id/api/outlets', {
+                    const response = await fetch('http://127.0.0.1:8000/api/outlets', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -503,7 +503,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                 }
 
                 try {
-                    const response = await fetch('https://ngolab.id/api/balances/open', {
+                    const response = await fetch('http://127.0.0.1:8000/api/balances/open', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -594,7 +594,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                 }
 
                 try {
-                    const response = await fetch('https://ngolab.id/api/balances/close', {
+                    const response = await fetch('http://127.0.0.1:8000/api/balances/close', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -663,7 +663,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                 }
 
                 try {
-                    const response = await fetch('https://ngolab.id/api/users', {
+                    const response = await fetch('http://127.0.0.1:8000/api/users', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -704,7 +704,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                 if (!confirmation) return;
 
                 try {
-                    const response = await fetch('https://ngolab.id/api/users/logout', {
+                    const response = await fetch('http://127.0.0.1:8000/api/users/logout', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -820,7 +820,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
             async function loadTransactions() {
                 try {
                     console.log('Loading transactions...'); // Log awal
-                    const response = await fetch('https://ngolab.id/api/transactions', {
+                    const response = await fetch('http://127.0.0.1:8000/api/transactions', {
                         headers: {
                             'Authorization': `${getCookie('auth_token')}`
                         }

@@ -125,7 +125,7 @@
         // Fungsi untuk memuat status slot dari API
         async function loadSlots() {
             try {
-                const response = await fetch('https://ngolab.id/api/cashier-slots', {
+                const response = await fetch('http://127.0.0.1:8000/api/cashier-slots', {
                     method: 'GET',
                     headers: {
                         'Authorization': `${getCookie('auth_token')}`
@@ -161,7 +161,7 @@
         // Fungsi untuk memilih slot
         async function pilihSlot(slotNumber) {
             try {
-                const response = await fetch('https://ngolab.id/api/cashier-slots/fill', {
+                const response = await fetch('http://127.0.0.1:8000/api/cashier-slots/fill', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

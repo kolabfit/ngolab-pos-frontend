@@ -9,7 +9,7 @@ class Validation
             exit;
         }
 
-        $url = 'https://ngolab.id/api/users';
+        $url = 'http://127.0.0.1:8000/api/users';
 
         // cURL initialization
         $ch = curl_init($url);
@@ -59,7 +59,7 @@ class Validation
     {
         if (isset($auth_token) && !empty($auth_token)) {
             try {
-                $url = 'https://ngolab.id/api/users';
+                $url = 'http://127.0.0.1:8000/api/users';
                 $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -99,7 +99,7 @@ class Validation
     // Fetching logged-in user's data
     public static function getLoginUser($auth_token)
     {
-        $url = 'https://ngolab.id/api/users';
+        $url = 'http://127.0.0.1:8000/api/users';
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -118,7 +118,7 @@ class Validation
     // Logout the user
     public static function logout($auth_token)
     {
-        $url = 'https://ngolab.id/api/users/logout';
+        $url = 'http://127.0.0.1:8000/api/users/logout';
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
