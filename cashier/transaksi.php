@@ -205,11 +205,14 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
             </div>
           </div>
 
+          <!-- Keterangan Metode Pembayaran -->
+          <label class="block text-gray-800 font-medium mb-2">Metode Pembayaran</label>
+
           <!-- Dropdown Payment Button -->
-          <div class="relative inline-block text-left mb-3">
+          <div class="relative inline-block text-left mb-3 w-full">
             <button id="paymentDropdownButton" type="button"
               class="inline-flex justify-between items-center w-full px-4 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 border border-transparent rounded-md shadow-sm text-white font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-              <span id="selectedPayment">Cash</span>
+              <span id="selectedPayment" class="flex-1 text-center">Cash</span>
               <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -217,7 +220,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
             </button>
             <!-- Dropdown Menu -->
             <div id="paymentDropdownMenu"
-              class="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden">
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden">
               <div class="py-1">
                 <a href="#" data-value="tunai" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cash</a>
                 <a href="#" data-value="qris" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">QRIS</a>

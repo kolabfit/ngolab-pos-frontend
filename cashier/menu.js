@@ -384,6 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // TRANSACTION FLOW
   // ===========================
   // 1. Confirm Payment -> Tampilkan modal recap pesanan lokal (tanpa mengirim data ke API)
+  // Saat tombol Confirm Payment ditekan, nonaktifkan tombol tersebut
   confirmPaymentBtn.addEventListener("click", function (event) {
     event.preventDefault();
     if (orderItems.length === 0) {
@@ -400,6 +401,9 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Metode pembayaran tidak valid.");
       return;
     }
+    // Nonaktifkan tombol confirm payment agar tidak ditekan berulang kali
+    confirmPaymentBtn.disabled = true;
+
     buildLocalRecap();
     transactionRecapModal.classList.remove("hidden");
   });
@@ -425,6 +429,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 2. Lanjut ke Pembayaran -> Kirim payload ke API dan tampilkan modal Payment Code
+  // Saat tombol "Lanjut ke Pembayaran" ditekan, kirim payload ke API dan tampilkan modal Payment Code
   proceedPaymentBtn.addEventListener("click", function () {
     const payload = {
       outlet_products: orderItems.map(order => ({
@@ -464,6 +469,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => {
         console.error("Error:", error);
         alert("Terjadi error saat membuat transaksi: " + error.message);
+        // Jika terjadi error, aktifkan kembali tombol confirm payment
+        confirmPaymentBtn.disabled = false;
       });
   });
 
@@ -531,18 +538,31 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Tombol "Konfirmasi Sudah Dibayar" hanya menutup modal Payment Code
+  // Saat tombol "Konfirmasi Sudah Dibayar" ditekan, tutup modal Payment Code dan aktifkan kembali tombol Confirm Payment
+  // Tombol "Konfirmasi Sudah Dibayar" hanya menutup modal Payment Code dan mengaktifkan kembali tombol Confirm Payment
   confirmPaidBtn.addEventListener("click", function () {
-    // Tutup modal Payment Code
     paymentCodeModal.classList.add("hidden");
-    // Kosongkan orderItems sehingga order summary tidak muncul lagi
+    // Kosongkan orderItems jika diperlukan
     orderItems = [];
     updateOrderSummary();
+    confirmPaymentBtn.disabled = false;
   });
 
-  // Tutup modal recap dan modal payment code
+  // Tutup modal recap pesanan dan aktifkan kembali tombol Confirm Payment
   closeRecapModal.addEventListener("click", function () {
     transactionRecapModal.classList.add("hidden");
+    // Aktifkan kembali tombol Confirm Payment
+    confirmPaymentBtn.disabled = false;
   });
+
+  // Untuk Modal Payment Code, hilangkan tombol close (sembunyikan tombol)
+  // Misalnya, jika elemen dengan ID "closePaymentModal" ada, kita sembunyikannya
+  if (closePaymentModal) {
+    closePaymentModal.style.display = "none";
+    // atau, jika tidak ingin menghapusnya secara visual, hapus event listener-nya:
+    // closePaymentModal.removeEventListener("click", closePaymentModalHandler);
+  }
+
   closePaymentModal.addEventListener("click", function () {
     paymentCodeModal.classList.add("hidden");
   });
