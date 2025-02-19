@@ -1033,108 +1033,109 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 													</div>
 												</th>
 												<th>Nama</th>
-												<th>Discount</th>
-												<th>Expiration</th>
+												<th>Kode</th>
+												<th>Diskon</th>
+												<th>Kedaluarsa</th>
 												<th>Kategori</th>
 												<th>Outlet</th>
 											</tr>
 										</thead>
 										<tbody>
-										<?php
-										// Fungsi untuk mengambil data dari API
-										function getData($url)
-										{
-											$ch = curl_init();
-											curl_setopt($ch, CURLOPT_URL, $url);
-											curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-											$response = curl_exec($ch);
-											curl_close($ch);
-											return json_decode($response, true);
-										}
-										
-										// Ambil data dari API
-										$vouchersResponse = getData("https://ngolab.id/api/vouchers");
-										$categoriesResponse = getData("https://ngolab.id/api/products/categories");
-										$outletsResponse = getData("https://ngolab.id/api/outlets");
-										
-										// Memastikan data 'vouchers' ada
-										$vouchers = $vouchersResponse['data'] ?? [];
-										$categories = $categoriesResponse['data'] ?? [];
-										$outlets = $outletsResponse['data'] ?? [];
-										
-										// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
-										$categoryMap = [];
-										foreach ($categories as $category) {
-											$categoryMap[$category['id']] = $category['name'];
-										}
-										
-										$outletMap = [];
-										foreach ($outlets as $outlet) {
-											$outletMap[$outlet['id']] = $outlet['name'];
-										}
-										?>
-										
-										<!-- Tampilkan data voucher dalam tabel -->
-										<?php foreach ($vouchers as $voucher) : ?>
-											<tr id="row-<?= $voucher['id']; ?>">
-												<td>
-													<div class='form-check custom-checkbox ms-2'>
-														<input type='checkbox' class='form-check-input' id='customCheckBox<?= $voucher['id']; ?>'>
-														<label class='form-check-label' for='customCheckBox<?= $voucher['id']; ?>'></label>
-													</div>
-												</td>
-												<td><?= htmlspecialchars($voucher['name']); ?></td>
-												<td><?= htmlspecialchars($voucher['discount']); ?>%</td>
-												<td><?= htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))); ?></td>
-												<td><?= htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A'); ?></td>
-												<td><?= htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A'); ?></td>
-											</tr>
-										<?php endforeach; ?>
-										
-										<!-- JavaScript untuk Hapus Data -->
-										<script>
-											document.addEventListener("DOMContentLoaded", function () {
-												const deleteButtons = document.querySelectorAll(".btn-delete");
+											<?php
+											// Fungsi untuk mengambil data dari API
+											function getData($url)
+											{
+												$ch = curl_init();
+												curl_setopt($ch, CURLOPT_URL, $url);
+												curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+												$response = curl_exec($ch);
+												curl_close($ch);
+												return json_decode($response, true);
+											}
 
-												deleteButtons.forEach(button => {
-													button.addEventListener("click", function (event) {
-														event.preventDefault();
+											// Ambil data dari API
+											$vouchersResponse = getData("https://ngolab.id/api/vouchers");
+											$categoriesResponse = getData("https://ngolab.id/api/products/categories");
+											$outletsResponse = getData("https://ngolab.id/api/outlets");
 
-														let voucherId = this.getAttribute("data-id");
-														let row = document.getElementById("row-" + voucherId);
+											// Memastikan data 'vouchers' ada
+											$vouchers = $vouchersResponse['data'] ?? [];
+											$categories = $categoriesResponse['data'] ?? [];
+											$outlets = $outletsResponse['data'] ?? [];
 
-														if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-															fetch(`https://ngolab.id/api/vouchers/${voucherId}`, {
-																method: "DELETE",
-																headers: {
-																	"Content-Type": "application/json"
-																}
-															})
-															.then(response => {
-																if (!response.ok) {
-																	throw new Error(`HTTP error! Status: ${response.status}`);
-																}
-																return response.json();
-															})
-															.then(data => {
-																if (data.success) {
-																	row.remove(); // Hapus baris dari tabel
-																	alert("Data berhasil dihapus!");
-																} else {
-																	alert("Gagal menghapus data: " + (data.message || "Tidak diketahui"));
-																}
-															})
-															.catch(error => {
-																console.error("Error:", error);
-																alert("Terjadi kesalahan saat menghapus data!");
-															});
-														}
+											// Buat array untuk kategori dan outlet dengan ID sebagai kunci agar mudah dicari
+											$categoryMap = [];
+											foreach ($categories as $category) {
+												$categoryMap[$category['id']] = $category['name'];
+											}
+
+											$outletMap = [];
+											foreach ($outlets as $outlet) {
+												$outletMap[$outlet['id']] = $outlet['name'];
+											}
+											?>
+
+											<!-- Tampilkan data voucher dalam tabel -->
+											<?php foreach ($vouchers as $voucher) : ?>
+												<tr id="row-<?= $voucher['id']; ?>">
+													<td>
+														<div class='form-check custom-checkbox ms-2'>
+															<input type='checkbox' class='form-check-input' id='customCheckBox<?= $voucher['id']; ?>'>
+															<label class='form-check-label' for='customCheckBox<?= $voucher['id']; ?>'></label>
+														</div>
+													</td>
+													<td><?= htmlspecialchars($voucher['name']); ?></td>
+													<td><?= htmlspecialchars($voucher['code']); ?></td> <!-- Menampilkan kode voucher -->
+													<td><?= htmlspecialchars($voucher['discount']); ?>%</td>
+													<td><?= htmlspecialchars(date('Y-m-d', strtotime($voucher['expired_at']))); ?></td>
+													<td><?= htmlspecialchars($categoryMap[$voucher['category_id']] ?? 'N/A'); ?></td>
+													<td><?= htmlspecialchars($outletMap[$voucher['outlet_id']] ?? 'N/A'); ?></td>
+												</tr>
+											<?php endforeach; ?>
+
+											<!-- JavaScript untuk Hapus Data -->
+											<script>
+												document.addEventListener("DOMContentLoaded", function() {
+													const deleteButtons = document.querySelectorAll(".btn-delete");
+
+													deleteButtons.forEach(button => {
+														button.addEventListener("click", function(event) {
+															event.preventDefault();
+
+															let voucherId = this.getAttribute("data-id");
+															let row = document.getElementById("row-" + voucherId);
+
+															if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+																fetch(`https://ngolab.id/api/vouchers/${voucherId}`, {
+																		method: "DELETE",
+																		headers: {
+																			"Content-Type": "application/json"
+																		}
+																	})
+																	.then(response => {
+																		if (!response.ok) {
+																			throw new Error(`HTTP error! Status: ${response.status}`);
+																		}
+																		return response.json();
+																	})
+																	.then(data => {
+																		if (data.success) {
+																			row.remove(); // Hapus baris dari tabel
+																			alert("Data berhasil dihapus!");
+																		} else {
+																			alert("Gagal menghapus data: " + (data.message || "Tidak diketahui"));
+																		}
+																	})
+																	.catch(error => {
+																		console.error("Error:", error);
+																		alert("Terjadi kesalahan saat menghapus data!");
+																	});
+															}
+														});
 													});
 												});
-											});
+											</script>
 
-										</script>
-										
 										</tbody>
 									</table>
 								</div>
@@ -1173,90 +1174,89 @@ foreach ($outletsResponse['data'] ?? [] as $outlet) {
 		<?php
 
 
-require_once('./logic/loginvalidation.php');
-Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
+		require_once('./logic/loginvalidation.php');
+		Validation::validateLoginAdmin($_COOKIE['auth_token'], '/logic/login.php');
 
-// URL API Voucher
-$apiUrlVoucher = 'https://ngolab.id/api/vouchers';
+		// URL API Voucher
+		$apiUrlVoucher = 'https://ngolab.id/api/vouchers';
 
-// Aktifkan error reporting untuk debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+		// Aktifkan error reporting untuk debugging
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
 
-// Cek apakah form dikirim
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
-    $voucherName = trim($_POST['voucherName'] ?? '');
-    $voucherDiscount = floatval($_POST['voucherDiscount'] ?? 0);
-    $voucherExpiration = trim($_POST['voucherExpiration'] ?? '');
-    $voucherCategory = trim($_POST['voucherCategory'] ?? '');
-    $voucherOutletProduct = trim($_POST['voucherOutletProduct'] ?? '');
-    $voucherOutlet = trim($_POST['voucherOutlet'] ?? '');
+		// Cek apakah form dikirim
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			// Ambil data dari form
+			$voucherName = trim($_POST['voucherName'] ?? '');
+			$voucherDiscount = floatval($_POST['voucherDiscount'] ?? 0);
+			$voucherExpiration = trim($_POST['voucherExpiration'] ?? '');
+			$voucherCategory = trim($_POST['voucherCategory'] ?? '');
+			$voucherOutletProduct = trim($_POST['voucherOutletProduct'] ?? '');
+			$voucherOutlet = trim($_POST['voucherOutlet'] ?? '');
 
-    // Validasi input
-    if (empty($voucherName) || $voucherDiscount <= 0 || empty($voucherExpiration)) {
-        die("<script>alert('Semua parameter wajib harus diisi dengan benar.'); window.history.back();</script>");
-    }
+			// Validasi input
+			if (empty($voucherName) || $voucherDiscount <= 0 || empty($voucherExpiration)) {
+				die("<script>alert('Semua parameter wajib harus diisi dengan benar.'); window.history.back();</script>");
+			}
 
-    // Konversi tanggal ke Unix Timestamp
-    $voucherExpirationDate = strtotime($voucherExpiration);
-    if ($voucherExpirationDate === false) {
-        die("<script>alert('Format tanggal tidak valid.'); window.history.back();</script>");
-    }
+			// Konversi tanggal ke Unix Timestamp
+			$voucherExpirationDate = strtotime($voucherExpiration);
+			if ($voucherExpirationDate === false) {
+				die("<script>alert('Format tanggal tidak valid.'); window.history.back();</script>");
+			}
 
-    // Validasi logika parameter outlet dan outlet_product
-    if (empty($voucherOutletProduct) && empty($voucherOutlet)) {
-        die("<script>alert('Harus menyertakan outlet_id jika outlet_product_id tidak ada.'); window.history.back();</script>");
-    }
+			// Validasi logika parameter outlet dan outlet_product
+			if (empty($voucherOutletProduct) && empty($voucherOutlet)) {
+				die("<script>alert('Harus menyertakan outlet_id jika outlet_product_id tidak ada.'); window.history.back();</script>");
+			}
 
-    // Ambil token dari cookie
-    if (!isset($_COOKIE['auth_token'])) {
-        die("<script>alert('Token otorisasi tidak ditemukan. Harap login kembali.'); window.history.back();</script>");
-    }
-    $authToken = $_COOKIE['auth_token'];
+			// Ambil token dari cookie
+			if (!isset($_COOKIE['auth_token'])) {
+				die("<script>alert('Token otorisasi tidak ditemukan. Harap login kembali.'); window.history.back();</script>");
+			}
+			$authToken = $_COOKIE['auth_token'];
 
-    // Data yang akan dikirim ke API
-    $postData = json_encode([
-        'name' => $voucherName,
-        'discount' => $voucherDiscount,
-        'expire_unix_timestamp' => $voucherExpirationDate,
-        'category_id' => $voucherCategory ?: null,
-        'outlet_product_id' => $voucherOutletProduct ?: null,
-        'outlet_id' => $voucherOutlet ?: null,
-    ]);
+			// Data yang akan dikirim ke API
+			$postData = json_encode([
+				'name' => $voucherName,
+				'discount' => $voucherDiscount,
+				'expire_unix_timestamp' => $voucherExpirationDate,
+				'category_id' => $voucherCategory ?: null,
+				'outlet_product_id' => $voucherOutletProduct ?: null,
+				'outlet_id' => $voucherOutlet ?: null,
+			]);
 
-    // Inisialisasi cURL
-    $curlVoucher = curl_init($apiUrlVoucher);
-    curl_setopt($curlVoucher, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curlVoucher, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: ' . $authToken,
-    ]);
-    curl_setopt($curlVoucher, CURLOPT_POST, true);
-    curl_setopt($curlVoucher, CURLOPT_POSTFIELDS, $postData);
+			// Inisialisasi cURL
+			$curlVoucher = curl_init($apiUrlVoucher);
+			curl_setopt($curlVoucher, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curlVoucher, CURLOPT_HTTPHEADER, [
+				'Content-Type: application/json',
+				'Authorization: ' . $authToken,
+			]);
+			curl_setopt($curlVoucher, CURLOPT_POST, true);
+			curl_setopt($curlVoucher, CURLOPT_POSTFIELDS, $postData);
 
-    // Eksekusi cURL dan ambil responsenya
-    $responseVoucher = curl_exec($curlVoucher);
-    $httpCode = curl_getinfo($curlVoucher, CURLINFO_HTTP_CODE);
-    
-    // Cek kesalahan cURL
-    if ($responseVoucher === false) {
-        die("<script>alert('cURL Error: " . curl_error($curlVoucher) . "'); window.history.back();</script>");
-    }
-    curl_close($curlVoucher);
+			// Eksekusi cURL dan ambil responsenya
+			$responseVoucher = curl_exec($curlVoucher);
+			$httpCode = curl_getinfo($curlVoucher, CURLINFO_HTTP_CODE);
 
-}
+			// Cek kesalahan cURL
+			if ($responseVoucher === false) {
+				die("<script>alert('cURL Error: " . curl_error($curlVoucher) . "'); window.history.back();</script>");
+			}
+			curl_close($curlVoucher);
+		}
 
 
-?>
-
+		?>
 
 
 
 
-		
-<!-- Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -1306,7 +1306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							<!-- Modal Footer -->
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary" id="createButton">Tambah</button>
+								<button type="button" class="btn btn-primary" id="createButton">Tambah</button>
 							</div>
 						</form>
 					</div>
@@ -1314,131 +1314,133 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			</div>
 		</div>
 
-<script>
-    async function fetchData(url) {
-        try {
-            const response = await fetch(url);
-            const result = await response.json();
-            return result.data || [];
-        } catch (error) {
-            console.error("Gagal mengambil data dari API:", error);
-            return [];
-        }
-    }
-
-    async function loadDropdowns() {
-        const categories = await fetchData("https://ngolab.id/api/products/categories");
-        const outlets = await fetchData("https://ngolab.id/api/outlets");
-        
-        const categorySelect = document.getElementById("voucherCategory");
-        categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
-        categories.forEach(category => {
-            let option = document.createElement("option");
-            option.value = category.id;
-            option.textContent = category.name;
-            categorySelect.appendChild(option);
-        });
-        
-        const outletSelect = document.getElementById("voucherOutlet");
-        outletSelect.innerHTML = '<option value="">Pilih Outlet</option>';
-        outlets.forEach(outlet => {
-            let option = document.createElement("option");
-            option.value = outlet.id;
-            option.textContent = outlet.name;
-            outletSelect.appendChild(option);
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", loadDropdowns);
-
-    document.getElementById("createButton").addEventListener("click", async function() {
-        const voucherName = document.getElementById("voucherName").value;
-        const voucherDiscount = parseFloat(document.getElementById("voucherDiscount").value);
-        const voucherExpiration = document.getElementById("voucherExpiration").value;
-        const voucherCategory = document.getElementById("voucherCategory").value;
-        const voucherOutlet = document.getElementById("voucherOutlet").value;
-        
-        if (!voucherName || voucherDiscount <= 0 || !voucherExpiration) {
-            alert("Semua parameter wajib harus diisi dengan benar.");
-            return;
-        }
-        
-        const voucherExpirationDate = new Date(voucherExpiration).getTime() / 1000;
-        
-        const authToken = document.cookie.split('; ').find(row => row.startsWith('auth_token='))?.split('=')[1];
-        if (!authToken) {
-            alert("Token otorisasi tidak ditemukan. Harap login kembali.");
-            return;
-        }
-        
-        const postData = {
-            name: voucherName,
-            discount: voucherDiscount,
-            expire_unix_timestamp: voucherExpirationDate,
-            category_id: voucherCategory || null,
-            outlet_id: voucherOutlet || null,
-        };
-        
-        try {
-			const response = await fetch("https://ngolab.id/api/vouchers", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"Authorization": authToken,
-				},
-				body: JSON.stringify(postData),
-			});
-
-			const responseData = await response.json();
-			console.log("Response API:", responseData); // Debugging untuk melihat isi respons
-
-			if (response.status === 401) {
-				alert("Error API: HTTP 401 - Unauthorized. Pastikan token valid.");
-			} else if (response.ok || response.status === 201 || responseData.success) {
-				// Cek status HTTP 201 (Created) atau response.ok selain dari `success`
-				window.location.replace("manageVoucher.php");
-			} else {
-				window.location.replace("manageVoucher.php"); // Redirect tetap dilakukan
+		<script>
+			async function fetchData(url) {
+				try {
+					const response = await fetch(url);
+					const result = await response.json();
+					return result.data || [];
+				} catch (error) {
+					console.error("Gagal mengambil data dari API:", error);
+					return [];
+				}
 			}
-		} catch (error) {
-			console.error("Fetch error:", error); // Log kesalahan untuk debugging
-			alert("Terjadi kesalahan dalam menghubungi API.");
-		}
 
-	});
-</script>
-</script>
+			async function loadDropdowns() {
+				const categories = await fetchData("https://ngolab.id/api/products/categories");
+				const outlets = await fetchData("https://ngolab.id/api/outlets");
 
-	<!--**********************************
+				const categorySelect = document.getElementById("voucherCategory");
+				categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
+				categories.forEach(category => {
+					let option = document.createElement("option");
+					option.value = category.id;
+					option.textContent = category.name;
+					categorySelect.appendChild(option);
+				});
+
+				const outletSelect = document.getElementById("voucherOutlet");
+				outletSelect.innerHTML = '<option value="">Pilih Outlet</option>';
+				outlets.forEach(outlet => {
+					let option = document.createElement("option");
+					option.value = outlet.id;
+					option.textContent = outlet.name;
+					outletSelect.appendChild(option);
+				});
+			}
+
+			document.addEventListener("DOMContentLoaded", loadDropdowns);
+
+			document.getElementById("createButton").addEventListener("click", async function() {
+				const voucherName = document.getElementById("voucherName").value;
+				const voucherDiscount = parseFloat(document.getElementById("voucherDiscount").value);
+				const voucherExpiration = document.getElementById("voucherExpiration").value;
+				const voucherCategory = document.getElementById("voucherCategory").value;
+				const voucherOutlet = document.getElementById("voucherOutlet").value;
+
+				if (!voucherName || voucherDiscount <= 0 || !voucherExpiration) {
+					alert("Semua parameter wajib harus diisi dengan benar.");
+					return;
+				}
+
+				const voucherExpirationDate = new Date(voucherExpiration).getTime() / 1000;
+
+				const authToken = document.cookie.split('; ').find(row => row.startsWith('auth_token='))?.split('=')[1];
+				if (!authToken) {
+					alert("Token otorisasi tidak ditemukan. Harap login kembali.");
+					return;
+				}
+
+				const postData = {
+					name: voucherName,
+					discount: voucherDiscount,
+					expire_unix_timestamp: voucherExpirationDate,
+					...(voucherCategory ? {
+						category_id: voucherCategory
+					} : {}),
+					outlet_id: voucherOutlet || null,
+				};
+
+				try {
+					const response = await fetch("https://ngolab.id/api/vouchers", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": authToken,
+						},
+						body: JSON.stringify(postData),
+					});
+
+					const responseData = await response.json();
+					console.log("Response API:", responseData); // Debugging untuk melihat isi respons
+
+					// if (response.status === 401) {
+					// 	alert("Error API: HTTP 401 - Unauthorized. Pastikan token valid.");
+					// } else if (response.ok || response.status === 201 || responseData.success) {
+					// 	// Cek status HTTP 201 (Created) atau response.ok selain dari `success`
+					// 	window.location.replace("manageVoucher.php");
+					// } else {
+					// 	window.location.replace("manageVoucher.php"); // Redirect tetap dilakukan
+					// }
+				} catch (error) {
+					console.error("Fetch error:", error); // Log kesalahan untuk debugging
+					alert("Terjadi kesalahan dalam menghubungi API.");
+				}
+
+			});
+		</script>
+		</script>
+
+		<!--**********************************
 		Main wrapper end
 	***********************************-->
 
-	<!--**********************************
+		<!--**********************************
 		Scripts
 	***********************************-->
-	<!-- Required vendors -->
-	<script src="/js/navigation-gen.js"></script>
-	<script src="/vendor/global/global.min.js"></script>
-	<script src="/vendor/chart.js/Chart.bundle.min.js"></script>
-	<!-- Apex Chart -->
-	<script src="/vendor/apexchart/apexchart.js"></script>
+		<!-- Required vendors -->
+		<script src="/js/navigation-gen.js"></script>
+		<script src="/vendor/global/global.min.js"></script>
+		<script src="/vendor/chart.js/Chart.bundle.min.js"></script>
+		<!-- Apex Chart -->
+		<script src="/vendor/apexchart/apexchart.js"></script>
 
-	<!-- Datatable -->
-	<script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="/js/plugins-init/datatables.init.js"></script>
+		<!-- Datatable -->
+		<script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+		<script src="/js/plugins-init/datatables.init.js"></script>
 
-	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+		<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
-	<script src="/js/custom.min.js"></script>
-	<script src="/js/dlabnav-init.js"></script>
-	<script src="/js/demo.js"></script>
-	<script src="/js/styleSwitcher.js"></script>
+		<script src="/js/custom.min.js"></script>
+		<script src="/js/dlabnav-init.js"></script>
+		<script src="/js/demo.js"></script>
+		<script src="/js/styleSwitcher.js"></script>
 
-	<script>
-		
-	</script>
+		<script>
 
-	<!-- <script type="module">
+		</script>
+
+		<!-- <script type="module">
     import { callApi } from '/js/logic/api.js';
 
     document.getElementById('createButton').addEventListener('click', function () {
@@ -1533,7 +1535,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script> -->
 
-	</script>
+		</script>
 
 
 

@@ -94,7 +94,7 @@ if ($response === false) {
 				</div>
 			</a>
 			<div class="nav-control">
-				<div class="hamburger">
+				<div class="hamburger" id="hamburger-btn">
 					<span class="line"></span><span class="line"></span><span class="line"></span>
 				</div>
 			</div>
@@ -1264,7 +1264,7 @@ if ($response === false) {
 			callApi
 		} from '/js/logic/api.js';
 
-		document.getElementById('createButton').addEventListener('click', function () {
+		document.getElementById('createButton').addEventListener('click', function() {
 			(async () => {
 				try {
 					// Get the file and other form data
@@ -1316,7 +1316,7 @@ if ($response === false) {
 		var product_id = 0;
 
 		// Event ketika modal ditampilkan
-		exampleModal.addEventListener('show.bs.modal', function (event) {
+		exampleModal.addEventListener('show.bs.modal', function(event) {
 			// Tombol yang memicu modal
 			var button = event.relatedTarget;
 
@@ -1344,7 +1344,7 @@ if ($response === false) {
 			})();
 		});
 
-		document.getElementById('updateButton').addEventListener('click', function () {
+		document.getElementById('updateButton').addEventListener('click', function() {
 			(async () => {
 				try {
 					// Get the file and other form data
@@ -1392,61 +1392,58 @@ if ($response === false) {
 				}
 			})();
 		});
-
 	</script>
 
 	<script>
-		function initializeDeleteButtons() {
-			const deleteButtons = document.querySelectorAll('.btn-delete');
-
-			deleteButtons.forEach((button) => {
-				button.addEventListener('click', async (event) => {
-					try {
-						// Ambil ID produk dari atribut data-id tombol
-						const productId = button.getAttribute('data-id');
-
-						// Tampilkan modal konfirmasi
-						const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-						deleteModal.show();
-
-						// Tangkap tombol hapus di dalam modal
-						const deleteButton = document.getElementById('deleteButton');
-						deleteButton.onclick = async () => {
-							deleteModal.hide();
-
-							// Kirim permintaan DELETE ke API
-							const response = await fetch(`https://ngolab.id/api/products/${productId}`, {
-								method: 'DELETE',
-								headers: {
-									'Authorization': document.cookie
-										.split('; ')
-										.find((row) => row.startsWith('auth_token='))
-										.split('=')[1], // Ambil token dari cookies
-								},
-							});
-
-							if (!response.ok) {
-								const errorData = await response.json();
-								console.error('Error:', errorData);
-								alert(`Gagal menghapus produk: ${errorData.message}`);
-								return;
-							}
-
-							// Reload halaman untuk memperbarui data
-							location.reload();
-						};
-
-					} catch (error) {
-						console.error('Terjadi kesalahan saat menghapus produk:', error);
-						alert('Terjadi kesalahan. Silakan coba lagi.');
-					}
-				});
-			});
-		}
-
-		// Panggil fungsi untuk menginisialisasi tombol delete setelah halaman dimuat
 		document.addEventListener('DOMContentLoaded', () => {
-			initializeDeleteButtons();
+			let deleteProductId = null;
+			const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+			const deleteButton = document.getElementById('deleteButton');
+
+			// Delegasi event untuk tombol delete (agar tetap bekerja saat pagination berubah)
+			document.body.addEventListener('click', (event) => {
+				if (event.target.closest('.btn-delete')) {
+					const button = event.target.closest('.btn-delete');
+					deleteProductId = button.getAttribute('data-id');
+					deleteModal.show();
+				}
+			});
+
+			// Event listener untuk tombol hapus dalam modal
+			deleteButton.addEventListener('click', async () => {
+				if (!deleteProductId) return;
+				deleteModal.hide();
+
+				try {
+					// Ambil token autentikasi dari cookie
+					const authToken = document.cookie.split('; ').find(row => row.startsWith('auth_token='));
+					if (!authToken) {
+						alert('Token tidak ditemukan. Silakan login ulang.');
+						return;
+					}
+					const tokenValue = authToken.split('=')[1];
+
+					// Kirim permintaan DELETE ke API
+					const response = await fetch(`https://ngolab.id/api/products/${deleteProductId}`, {
+						method: 'DELETE',
+						headers: {
+							'Authorization': `${tokenValue}`
+						}
+					});
+
+					if (!response.ok) {
+						const errorData = await response.json();
+						alert(`Gagal menghapus produk: ${errorData.message}`);
+						return;
+					}
+
+					// Hapus produk dari DOM tanpa reload
+					const productRow = document.querySelector(`[data-id="${deleteProductId}"]`).closest('tr');
+					if (productRow) productRow.remove();
+				} catch (error) {
+					alert('Terjadi kesalahan. Silakan coba lagi.');
+				}
+			});
 		});
 	</script>
 	</script>";
