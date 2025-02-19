@@ -518,5 +518,3 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
     setInterval(fetchOrders, 10000);
   </script>
 </body>
-
-</html>

@@ -89,8 +89,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
       <nav class="p-6 space-y-4">
         <!-- Menu Beranda -->
         <?php if ($selected_slot != "5"): ?>
-          <a href="index.php"
-            class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
+          <a href="index.php" class="block py-2 px-4 mb-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100">
             Beranda
           </a>
         <?php else: ?>
@@ -172,15 +171,24 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
       <div class="p-4 border-t">
         <form id="voucherForm">
           <!-- Field untuk input nama customer -->
-          <input type="text" id="customerName" name="customerName" class="border rounded-lg w-full p-2 mb-2"
-            placeholder="Masukkan Nama Customer" />
+          <div class="mb-3">
+            <label for="customerName" class="block text-gray-800 font-medium mb-2">
+              Wajib mengisi Nama Customer <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="customerName" name="customerName" placeholder="Masukkan nama customer..."
+              class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent shadow-sm" />
+          </div>
+
           <!-- Field untuk input voucher code -->
-          <input type="text" id="voucher" name="voucher" class="border rounded-lg w-full p-2 mb-2"
+          <input type="text" id="voucher" name="voucher"
+            class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent shadow-sm mb-3"
             placeholder="Enter voucher code" />
+
           <button id="apply-voucher"
-            class="w-full py-2 rounded-lg bg-gradient-to-r from-orange-400 to-yellow-400 hover:opacity-90 text-white mb-4">
+            class="w-full py-2 rounded-lg bg-gradient-to-r from-orange-400 to-yellow-400 hover:opacity-90 text-white mb-4 transition">
             Konfirmasi
           </button>
+
           <div class="space-y-2 mb-4 border rounded-lg p-4 text-sm">
             <div class="flex justify-between">
               <span>Subtotal</span>
@@ -196,16 +204,39 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
               <span id="totalAfterDiscount" class="hidden">Rp0</span>
             </div>
           </div>
-          <select id="paymentType">
-            <option value="tunai">Cash</option>
-            <option value="qris">QRIS</option>
-          </select>
+
+          <!-- Keterangan Metode Pembayaran -->
+          <label class="block text-gray-800 font-medium mb-2">Metode Pembayaran</label>
+
+          <!-- Dropdown Payment Button -->
+          <div class="relative inline-block text-left mb-3 w-full">
+            <button id="paymentDropdownButton" type="button"
+              class="inline-flex justify-between items-center w-full px-4 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 border border-transparent rounded-md shadow-sm text-white font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+              <span id="selectedPayment" class="flex-1 text-center">Cash</span>
+              <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div id="paymentDropdownMenu"
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden">
+              <div class="py-1">
+                <a href="#" data-value="tunai" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cash</a>
+                <a href="#" data-value="qris" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">QRIS</a>
+              </div>
+            </div>
+          </div>
+          <!-- Input tersembunyi untuk menyimpan nilai pilihan pembayaran -->
+          <input type="hidden" id="paymentType" name="paymentType" value="tunai">
+
           <button id="confirm-payment"
             class="w-full py-3 rounded-lg text-white font-medium bg-gradient-to-r from-orange-400 to-yellow-400 hover:opacity-90 transition">
             Confirm Payment
           </button>
         </form>
       </div>
+
     </div>
   </div>
 
@@ -313,7 +344,7 @@ $outletProducts = json_decode($productResponse, true)['data'] ?? [];
 
 
 
-  <script src="menu.js"></script>
+  <script src="menu.js" defer></script>
 </body>
 
 </html>

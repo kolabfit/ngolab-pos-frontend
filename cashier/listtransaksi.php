@@ -168,7 +168,7 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
                                     <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">
                                         Name</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Date</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Details</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[100px]">Kitchen Status</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase w-[250px]">Item Name
                                     </th>
                                     <th class="px-2 py-3 text-left text-xs font-medium uppercase w-[60px]">QTY</th>
