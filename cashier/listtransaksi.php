@@ -377,9 +377,9 @@ $selected_slot = $_COOKIE['selected_slot'] ?? null;
 
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
-                const customerName = cells[0]?.textContent?.toLowerCase() || '';
-                const dateText = cells[1]?.getAttribute('data-date') || '';
-                const status = cells[6]?.textContent?.trim().toLowerCase() || '';
+                const customerName = cells[1]?.textContent?.toLowerCase() || '';
+                const dateText = cells[2]?.getAttribute('data-date') || '';
+                const status = cells[3]?.textContent?.trim().toLowerCase() || '';
 
                 const matchesSearch = !searchValue || customerName.includes(searchValue);
                 const matchesDate = !filterDateValue || dateText.startsWith(filterDateValue);
