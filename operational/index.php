@@ -1,6 +1,5 @@
 <?php
 require_once('../logic/loginvalidation.php');
-$user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../logic/login.php');
 $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '../login.php');
 ?>
 
@@ -21,7 +20,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
       <!-- Brand & Search -->
       <div class="flex items-center space-x-8">
         <!-- <img src="/media/All_Logo_KoLab.png" alt="Ko+Lab Logo" class="h-12" /> -->
-        <img src="media/All_Logo_KoLab.png" alt="logo kolab" class="h-12">
+        <img src="/cashier/media/All_Logo_KoLab.png" alt="logo kolab" class="h-12">
       </div>
 
       <!-- Profile section -->
@@ -59,6 +58,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
           <col class="w-1/6" />
           <col class="w-1/6" />
           <col class="w-1/4" />
+          <col class="w-1/6" /> <!-- Tambahan kolom untuk Quantity -->
           <col class="w-1/4" />
           <col class="w-1/6" />
         </colgroup>
@@ -67,6 +67,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
             <th class="px-6 py-3 text-sm font-medium text-gray-500 text-center">Order</th>
             <th class="px-6 py-3 text-sm font-medium text-gray-500 text-center">Type</th>
             <th class="px-6 py-3 text-sm font-medium text-gray-500 text-left">Pesanan</th>
+            <th class="px-6 py-3 text-sm font-medium text-gray-500 text-center">Quantity</th> <!-- Tambahan kolom Quantity -->
             <th class="px-6 py-3 text-sm font-medium text-gray-500 text-left">Keterangan</th>
             <th class="px-6 py-3 text-sm font-medium text-gray-500 text-left">Status</th>
           </tr>
@@ -79,13 +80,15 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
     </div>
   </div>
 
+
   <script>
     let orders = [];
     const statusOptions = ['Pending', 'Process', 'Success', 'Cancel'];
     const categoryColors = {
-      1: 'bg-orange-100 text-orange-800',
-      2: 'bg-blue-100 text-blue-800',
-      3: 'bg-green-100 text-green-800',
+      pending: 'bg-yellow-100 text-yellow-800',
+      process: 'bg-blue-100 text-blue-800',
+      success: 'bg-green-100 text-green-800',
+      cancel: 'bg-red-100 text-red-800',
     };
 
     const typeColors = {
@@ -98,7 +101,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
       'takeaway': 'Takeaway'
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const profileButton = document.getElementById('profileButton');
       const profileDropdown = document.getElementById('profileDropdown');
       const logoutButton = document.getElementById('logoutButton');
@@ -119,7 +122,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': ${getCookie('auth_token')}
+              'Authorization': `${getCookie('auth_token')}`
             }
           });
 
@@ -140,8 +143,8 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
 
       // Fungsi untuk mendapatkan nilai cookie
       function getCookie(name) {
-        const cookieString = ; ${document.cookie};
-        const parts = cookieString.split(; ${name}=);
+        const cookieString = `; ${document.cookie}`;
+        const parts = cookieString.split(`; ${name}=`);
         if (parts.length === 2) {
           return parts.pop().split(';').shift();
         }
@@ -152,12 +155,12 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
       logoutButton.addEventListener('click', handleLogout);
 
       // Event listener untuk toggle dropdown
-      profileButton.addEventListener('click', function () {
+      profileButton.addEventListener('click', function() {
         profileDropdown.classList.toggle('hidden');
       });
 
       // Menutup dropdown jika klik di luar
-      document.addEventListener('click', function (event) {
+      document.addEventListener('click', function(event) {
         if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
           profileDropdown.classList.add('hidden');
         }
@@ -169,7 +172,7 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
         const response = await fetch('https://ngolab.id/api/transactions');
 
         if (!response.ok) {
-          throw new Error(Gagal mengambil data: ${response.status} ${response.statusText});
+          throw new Error(`Gagal mengambil data: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -189,9 +192,10 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
           items: transaction.details.map(detail => ({
             name: detail.outlet_product.product.name,
             notes: detail.notes || '-',
-            status: detail.status, // Set status per item
-            id: detail.id, // Set unique ID per item
-            category: detail.outlet_product.product.category_id // Add category per item
+            status: detail.status,
+            id: detail.id,
+            category: detail.outlet_product.product.category_id,
+            quantity: detail.quantity // Menambahkan quantity dari API
           }))
         }));
 
@@ -246,12 +250,12 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
 
         const textResponse = await response.text();
         const data = JSON.parse(textResponse);
-
         if (response.ok) {
           console.log('Berhasil update status:', data);
+          // Refresh data after successful update without affecting header color
+          fetchOrders();
         } else {
           console.error('Gagal update status:', data);
-          alert('Gagal memperbarui status: ' + (data.message || 'Terjadi kesalahan.'));
         }
       } catch (error) {
         console.error('Terjadi kesalahan:', error);
@@ -263,110 +267,250 @@ $user = Validation::validateLoginOperational($_COOKIE['auth_token'] ?? null, '..
       const container = document.getElementById('ordersContainer');
       container.innerHTML = '';
 
-      orders.forEach((order, oIndex) => {
-        const card = document.createElement('div');
-        card.className = 'bg-white rounded-lg shadow-xl';
+      orders.forEach((order) => {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow-xl mb-4';
 
-        const table = document.createElement('table');
-        table.className = 'w-full table-fixed border-collapse rounded-lg';
+      const table = document.createElement('table');
+      table.className = 'w-full table-fixed border-collapse rounded-lg';
 
-        table.innerHTML = `
+      table.innerHTML = `
       <colgroup>
-        <col class="w-1/6" />
-        <col class="w-1/6" />
-        <col class="w-1/4" />
-        <col class="w-1/4" />
-        <col class="w-1/6" />
+      <col class="w-1/6" />
+      <col class="w-1/6" />
+      <col class="w-1/4" />
+      <col class="w-1/6" />
+      <col class="w-1/4" />
+      <col class="w-1/6" />
       </colgroup>
-    `;
+      `;
 
-        const tbody = document.createElement('tbody');
-        const allDone = order.items.every(i => i.status === 'success');
-        const isSingleItem = order.items.length === 1;
+      const tbody = document.createElement('tbody');
+      // Use order.headerStatus as returned from the database
+      let headerStatus = order.headerStatus;
+      console.log(headerStatus);
+      let statusClass = '';
+      let statusLabel = '';
+      switch (headerStatus) {
+      case 'success':
+        statusClass = 'bg-green-100 text-green-800';
+        statusLabel = 'All Done <span class="text-green-600">✔</span>';
+        break;
+      case 'cancel':
+        statusClass = 'bg-red-100 text-red-800';
+        statusLabel = 'Declined <span class="text-red-600">✖</span>';
+        break;
+      case 'process':
+        statusClass = 'bg-blue-100 text-blue-800';
+        statusLabel = 'In Progress <span class="text-blue-600">●</span>';
+        break;
+      case 'pending':
+      default:
+        statusClass = 'bg-yellow-100 text-yellow-800';
+        statusLabel = 'On Hold <span class="text-yellow-600">⏳</span>';
+        break;
+      }
 
-        order.items.forEach((item, iIndex) => {
-          const tr = document.createElement('tr');
-          if (iIndex < order.items.length - 1) {
-            tr.className = 'border-b border-gray-200';
-          }
+      const isSingleItem = order.items.length === 1;
 
-          if (iIndex === 0) {
-            const tdOrder = document.createElement('td');
-            tdOrder.className = px-4 sm:px-6 py-6 ${isSingleItem ? 'align-middle' : 'align-top'} text-center;
-            tdOrder.rowSpan = order.items.length;
-            tdOrder.innerHTML = `
-          <div class="rounded-lg p-2 sm:p-4 space-y-3 flex flex-col items-center">
-            <div class="text-lg font-medium text-gray-900">Order #${item.id}</div>
-            <div class="text-2xl font-bold text-gray-900">${order.time}</div>
-            <div class="w-full">
-              <span class="inline-block w-full px-3 py-2 rounded-full text-sm font-medium
-                ${allDone ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                ${allDone ? 'All Done' : 'In Progress'}
-              </span>
-            </div>
-            <div class="text-sm text-gray-500">${order.date}</div>
-          </div>
+      order.items.forEach((item, iIndex) => {
+      const tr = document.createElement('tr');
+      if (iIndex < order.items.length - 1) {
+        tr.className = 'border-b border-gray-200';
+      }
+
+      if (iIndex === 0) {
+        const tdOrder = document.createElement('td');
+        tdOrder.className = `px-4 sm:px-6 py-6 ${isSingleItem ? 'align-middle' : 'align-top'} text-center`;
+        tdOrder.rowSpan = order.items.length;
+        tdOrder.innerHTML = `
+        <div class="rounded-lg p-2 sm:p-4 space-y-3 flex flex-col items-center">
+        <div class="text-lg font-medium text-gray-900">Order #${item.id}</div>
+        <div class="text-2xl font-bold text-gray-900">${order.time}</div>
+        <div class="w-full">
+          <span class="inline-block w-full px-3 py-2 rounded-full text-sm font-medium ${statusClass}">
+          ${statusLabel}
+          </span>
+        </div>
+        <div class="text-sm text-gray-500">${order.date}</div>
+        </div>
         `;
-            tr.appendChild(tdOrder);
+        tr.appendChild(tdOrder);
 
-            const tdType = document.createElement('td');
-            tdType.className = 'px-4 sm:px-6 py-4 align-middle text-center';
-            tdType.rowSpan = order.items.length;
-            tdType.innerHTML = ` 
-          <div class="flex items-center justify-center h-full">
-            <span class="w-full sm:w-auto px-4 py-2 rounded-md text-sm font-medium ${typeColors[order.type]}">
-              ${typeLabels[order.type]}
-            </span>
-          </div>
+        const tdType = document.createElement('td');
+        tdType.className = 'px-4 sm:px-6 py-4 align-middle text-center';
+        tdType.rowSpan = order.items.length;
+        tdType.innerHTML = `
+        <div class="flex items-center justify-center h-full">
+        <span class="w-full sm:w-auto px-4 py-2 rounded-md text-sm font-medium ${typeColors[order.type]}">
+          ${typeLabels[order.type]}
+        </span>
+        </div>
         `;
-            tr.appendChild(tdType);
-          }
+        tr.appendChild(tdType);
+      }
 
-          const tdPesanan = document.createElement('td');
-          tdPesanan.className = px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'};
-          tdPesanan.innerHTML = `
+      const tdPesanan = document.createElement('td');
+      tdPesanan.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'}`;
+      tdPesanan.innerHTML = `
         <div class="shadow rounded-md px-4 py-2 ${categoryColors[item.category]} hover:shadow-md transition-shadow duration-200">
-          ${item.name}
+        ${item.name}
         </div>
       `;
-          tr.appendChild(tdPesanan);
+      tr.appendChild(tdPesanan);
 
-          const tdKeterangan = document.createElement('td');
-          tdKeterangan.className = px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'} text-sm text-gray-700;
-          tdKeterangan.innerHTML = item.notes ?
-            `<div class="bg-white shadow rounded-md px-4 py-2 hover:shadow-md transition-shadow duration-200">
-          ${item.notes}
-        </div>` : '-';
-          tr.appendChild(tdKeterangan);
+      const tdQuantity = document.createElement('td');
+      tdQuantity.className = 'px-4 sm:px-6 py-4 align-middle text-center';
+      tdQuantity.textContent = item.quantity;
+      tr.appendChild(tdQuantity);
 
-          const tdStatus = document.createElement('td');
-          tdStatus.className = px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'};
-          const select = document.createElement('select');
-          select.className = 'w-full px-3 py-2 border rounded-md';
+      const tdKeterangan = document.createElement('td');
+      tdKeterangan.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'} text-sm text-gray-700`;
+      tdKeterangan.innerHTML = `
+        <div class="bg-white shadow rounded-md px-4 py-2 hover:shadow-md transition-shadow duration-200">
+        ${item.notes}
+        </div>
+      `;
+      tr.appendChild(tdKeterangan);
 
-          ['pending', 'process', 'success', 'cancel'].forEach(status => {
-            const option = document.createElement('option');
-            option.value = status;
-            option.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-            if (item.status === status) {
-              option.selected = true;
-            }
-            select.appendChild(option);
-          });
+      const tdStatus = document.createElement('td');
+      tdStatus.className = `px-4 sm:px-6 py-4 ${isSingleItem ? 'align-middle' : 'align-top'}`;
+      const select = document.createElement('select');
+      select.className = 'w-full px-3 py-2 border border-yellow-600 rounded-md bg-white shadow-sm focus:outline-none focus:ring focus:border-yellow-500';
 
-          select.addEventListener('change', (event) => {
-            updateStatus(item.id, event.target.value);
-          });
+      ['pending', 'process', 'success', 'cancel'].forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        if (item.status === status) {
+        option.selected = true;
+        }
+        select.appendChild(option);
+      });
 
-          tdStatus.appendChild(select);
-          tr.appendChild(tdStatus);
-          tbody.appendChild(tr);
+      // Update individual item status asynchronously via API.
+      select.addEventListener('change', async (event) => {
+        await updateStatus(item.id, event.target.value);
+      });
+
+      tdStatus.appendChild(select);
+      tr.appendChild(tdStatus);
+      tbody.appendChild(tr);
+      });
+
+      // Long dropdown row: updating overall order status based on the value in the database.
+      if (order.items.length > 0) {
+      const trDropdown = document.createElement('tr');
+      const tdDropdown = document.createElement('td');
+      tdDropdown.className = 'px-4 sm:px-6 py-4 align-middle bg-white';
+      tdDropdown.colSpan = 6;
+
+      const selectAll = document.createElement('select');
+      selectAll.className = 'w-full px-3 py-2 border border-yellow-600 rounded-md bg-white shadow-sm focus:outline-none focus:ring focus:border-yellow-500';
+
+      ['pending', 'process', 'success', 'cancel'].forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        // Set default option according to the database value.
+        if (headerStatus === status) {
+        option.selected = true;
+        }
+        selectAll.appendChild(option);
+      });
+
+      selectAll.addEventListener('change', async (event) => {
+        try {
+        const token = getCookie('auth_token');
+        if (!token) {
+          alert('Token tidak ditemukan');
+          return;
+        }
+        const newStatus = event.target.value;
+        const response = await fetch('https://ngolab.id/api/transactions/status', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': token
+          },
+          body: JSON.stringify({
+          transaction_id: order.transaction_id,
+          status: newStatus
+          })
         });
 
-        table.appendChild(tbody);
-        card.appendChild(table);
-        container.appendChild(card);
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error('Gagal memperbarui status transaksi: ' + errorText);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          // Update headerStatus locally and re-render orders to change the header span's color.
+          order.headerStatus = newStatus;
+          renderOrders();
+        } else {
+          alert('Gagal memperbarui status transaksi: ' + (data.message || 'Terjadi kesalahan.'));
+        }
+        } catch (error) {
+        console.error('Terjadi kesalahan:', error);
+        alert('Terjadi kesalahan saat memperbarui status transaksi:\n' + error.message);
+        }
       });
+
+      tdDropdown.appendChild(selectAll);
+      trDropdown.appendChild(tdDropdown);
+      tbody.appendChild(trDropdown);
+      }
+
+      table.appendChild(tbody);
+      card.appendChild(table);
+      container.appendChild(card);
+      });
+    }
+
+
+    async function fetchOrders() {
+      try {
+      const response = await fetch('https://ngolab.id/api/transactions');
+
+      if (!response.ok) {
+        throw new Error(`Gagal mengambil data: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error('Respon API tidak berhasil.');
+      }
+
+      // Directly use the database value for headerStatus instead of a fallback.
+      orders = data.data.map(transaction => ({
+        time: new Date(transaction.created_at).toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit'
+        }),
+        date: new Date(transaction.created_at).toLocaleDateString('id-ID'),
+        type: 'dine-in',
+        transaction_id: transaction.id,
+        headerStatus: transaction.status,  // Use database value
+        items: transaction.details.map(detail => ({
+        name: detail.outlet_product.product.name,
+        notes: detail.notes || '-',
+        status: detail.status,
+        id: detail.id,
+        category: detail.outlet_product.product.category_id,
+        quantity: detail.quantity
+        }))
+      }));
+
+      renderOrders();
+      } catch (error) {
+      console.error('Terjadi kesalahan saat mengambil pesanan:', error);
+      alert('Gagal memuat pesanan. Silakan coba lagi.');
+      }
     }
 
     fetchOrders();
